@@ -1,0 +1,179 @@
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!--@subject {{trans "Header"}} @-->
+<!--@vars {
+"var logo_height":"Email Logo Image Height",
+"var logo_width":"Email Logo Image Width",
+"var template_styles|raw":"Template CSS"
+} @-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <style type="text/css">
+        {{var template_styles|raw}}
+
+        {{css file="css/email.css"}}
+
+      /*table.main{
+        width: 720px !important;
+      }
+
+      .menu-ul{
+        list-style: none;
+        display: inline-block;
+
+      }
+
+
+      .menu-ul  li{
+          display: inline-block;
+          font-size: 18px;
+          margin-left:25px;  }
+
+      .menu-ul  a{
+            color: #000;
+            text-decoration: none;
+          }
+
+
+      table.wrapper{
+          border-top:solid 5px #bc0002;
+      }
+
+      td.header{
+        border-bottom: solid 1px #c0c0c0;
+            padding: 15px 0px 15px !important;
+      }
+
+      td.header .logo{
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+
+      .footer{
+         border-top: solid 1px #c0c0c0;
+         padding: 15px 0px 15px !important;
+         text-align: center;
+      }
+
+      .footer p{
+        color: #919191;
+        font-size: 12px;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+      .footer p a{
+        display: inline-block;
+        margin-left: 11px;
+        margin-right: 11px;
+        text-decoration: none;
+      }
+
+      .email-top-link{
+        font-size: 12px;
+        color: #919191;
+        text-align: left;
+        margin-bottom: 3px;
+      }
+       .email-top-link a{
+        color: #919191 !important;
+        text-decoration: underline !important;
+       }
+
+       table.main{
+  width: 755px !important;
+}
+
+.menu-ul  li{
+    display: inline-block;
+    font-size: 14px !important;
+    margin-left:15px !important;
+    margin-bottom: 0 !important;
+     }
+
+
+td.header{
+  border-bottom: solid 1px #c0c0c0;
+      padding: 15px 0px 15px;
+      text-align: center !important;
+}
+
+.menu-ul{
+margin-bottom: 0 !important;
+
+} */       
+
+      </style>
+</head>
+<body>
+{{inlinecss file="css/email-inline.css"}}
+<!-- Begin wrapper table -->
+<table class="wrapper" width="100%">
+    <tr>
+        <td class="wrapper-inner" align="center">
+            <table class="main" align="center">
+                <tr>
+                    <td class="header" width="100%">
+
+                         <table width="100%">
+                            <tr>
+                                <td>
+                                               <tr>
+                                        <td style="padding-bottom: 15px;">
+                                              <a class="logo" href="{{store url=""}}">
+                                                <img
+                                                    {{if logo_width}}
+                                                        width="{{var logo_width}}"
+                                                    {{else}}
+                                                        width="180"
+                                                    {{/if}}
+
+                                                    {{if logo_height}}
+                                                        height="{{var logo_height}}"
+                                                    {{else}}
+                                                        height="52"
+                                                    {{/if}}
+
+                                                    src="{{var logo_url}}"
+                                                    alt="{{var logo_alt}}"
+                                                    border="0"
+                                                />
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                             <tr>
+                    <td>
+                         <ul class="menu-ul">
+                                <li><a href="http://thinkfurniture.magentoprojects.net/lederwaren.html">Lederwaren</a></li>
+                                <li><a href="http://thinkfurniture.magentoprojects.net/heimtextillien.html">Heimtextillien</a></li>
+                                <li><a href="http://thinkfurniture.magentoprojects.net/wohnaccessoires.html">Wohnaccessoires</a></li>
+                                <li><a href="http://thinkfurniture.magentoprojects.net/inspiration.html">Inspiration</a></li>
+                            </ul>
+                    </td>
+                </tr>
+                                </td>
+                            </tr>
+                         </table>
+
+
+
+
+
+
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="main-content" colspan="">
+                    <!-- Begin Content -->

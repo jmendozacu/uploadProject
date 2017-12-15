@@ -1,0 +1,223 @@
+// /**
+//  * Copyright © 2016 Magento. All rights reserved.
+//  * See COPYING.txt for license details.
+//  */
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+
+    //  Newsletter subscription
+    .block.newsletter {
+        margin-bottom: @indent__xl;
+        width:100%;
+        float: left;
+        background:#fafafa;
+        padding: 40px;
+        padding-top: 48px;
+        box-sizing: border-box;
+
+
+        .form.subscribe {
+            display: table;
+            width: 100%;
+        }
+
+        .fieldset {
+            display: table-cell;
+            margin: 0;
+            padding: 0;
+            vertical-align: top;
+        }
+
+        .field {
+            margin: 0;
+
+            .control {
+                display: block;
+
+                &:before {
+                    position: absolute;
+                }
+            }
+        }
+
+        input {
+            /*padding-left: 35px; */
+            border: solid 2px #eaeaea;
+            -webkit-border-top-left-radius: 2px;
+            -webkit-border-bottom-left-radius: 2px;
+            -moz-border-radius-topleft: 2px;
+            -moz-border-radius-bottomleft: 2px;
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
+            height: 40px;
+
+        }
+
+        .title {
+           /* display: none;  */
+           display: inline-block;
+           width:450px;
+           position:relative;
+           padding-left:113px;
+
+           strong{
+                font-size: 20px;
+                color: #424242;
+                font-weight: normal;
+                padding-bottom: 0;
+                float: left;
+                width: 100%;
+                margin-bottom: 9px;
+                margin-top:0px;
+           }
+           p{
+             font-size: 12px;
+             color: #7a7a7a;
+           }
+
+
+          &:before{
+             font-family: @icons__font-name;
+             content: @icon-msg-heart;
+             color: #e30e1d;
+             font-size: 74px;
+            position: absolute;
+            left: 0;
+            top: -20px;
+          }
+
+
+        }
+
+        .label {
+           &:extend(.abs-visually-hidden all);
+        }
+
+        .actions {
+            display: table-cell;
+            vertical-align: top;
+            width: 1%;
+        }
+
+        .action.subscribe {
+              border-radius: 0px;
+          -webkit-border-top-right-radius: 2px;
+        -webkit-border-bottom-right-radius: 2px;
+        -moz-border-radius-topright: 2px;
+        -moz-border-radius-bottomright: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+            margin-left: -1px;
+
+         background: @theme_red;
+        color: #fff;
+        font-size: 13px;
+        border: none;
+        padding: 2px 19px 4px 18px;
+        font-size: 13px;
+        text-transform: uppercase;
+        font-weight: normal;
+        height: 40px;
+        line-height: 40px;  
+
+        &:hover{
+          background: @theme_red_light;
+        }
+
+        }
+    }
+}
+
+
+@media only screen   and (min-width: 768px)  and (max-width: 1125px) {
+
+  .block.newsletter{ padding: 20px;    }
+  .block.newsletter .title{ width: 273px; padding-left: 80px !important;    }
+  .block.newsletter .title strong{     font-size: 17px; margin-bottom: 5px;    }
+  .block.newsletter .content{ width: 48% !important;   }
+
+
+}
+
+
+
+@media only screen   and (min-width: 666px)  and (max-width: 767px) {
+
+  .block.newsletter .title p {
+    float: left;
+    width: 100%;
+    padding-left: 60px;
+    box-sizing: border-box;
+ }     
+
+
+
+}
+
+//
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+
+.block.newsletter{
+  background: #fafafa;
+  padding: 30px;
+  padding-top: 34px;
+
+  .title:before{ font-size: 40px; top: -5px;    }
+
+    .title{
+        width: 100%;
+        position: relative;
+        padding-left: 0px;
+        box-sizing: border-box;
+        float: left;
+
+        strong{
+              margin-left: 60px;
+            width: auto;
+          }
+
+      }
+
+
+}
+
+}
+
+//
+//  Desktop
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .block.newsletter {
+       /* width: 32%;  */
+
+       .content{
+        width: 39%;
+         display: inline-block;
+         vertical-align: top;
+         float: right;
+       }
+
+        .field {
+            margin-right: 0px;
+
+            .control {
+                width: 100%;
+            }
+        }
+
+        .action.subscribe {
+
+        }
+    }
+}
+
+
+

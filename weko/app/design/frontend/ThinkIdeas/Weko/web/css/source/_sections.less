@@ -1,0 +1,117 @@
+// /**
+//  * Copyright © 2016 Magento. All rights reserved.
+//  * See COPYING.txt for license details.
+//  */
+
+
+@tab-control__font-size:16px;
+@tab-control__font-weight: normal;
+
+@tab-control__padding-top: @indent__xs;
+@tab-control__padding-right: 0;
+@tab-control__padding-bottom: 3px; 
+@tab-control__padding-left:0;
+@tab-control__border-color: @theme_red;
+
+@tab-control__margin-right: 45px;
+
+@tab-control__border-width: 0px;
+
+@tab-control__background-color: #fff;
+@tab-control__color: #9f9f9f;
+@tab-control__hover__color: #000;
+@tab-control__active__color: #000;
+
+@tab-control__hover__background-color: false;
+
+
+@tab-control__active__background-color: lighten(@tab-control__background-color, 15%);
+
+
+@tab-content__background-color: @tab-control__active__background-color;
+@tab-content__border-top-status: false;
+
+@tab-control__height: 42px;
+
+
+@accordion-control__font-size: 14px;
+
+
+@accordion-control__font-weight: normal;
+
+@accordion-control__line-height: @accordion-control__height;
+
+@accordion-control__border-top: 1px solid #b2b2b2;
+@accordion-control__border-right: @tab-control__border-width solid  #b2b2b2;
+@accordion-control__border-bottom: 1px solid #b2b2b2;
+@accordion-control__border-left: @tab-control__border-width solid  #b2b2b2;
+
+@accordion-control__background-color: #efefef;
+
+@accordion-control__color: #000;
+
+@accordion-control__text-decoration: none;
+@accordion-control__height:60px;
+
+@accordion-control__active__background-color:  #efefef;
+@accordion-control__active__color: #000;
+@accordion-control__active__text-decoration: none;
+
+@accordion-content__margin: 0 0 10px;
+@accordion-content__border: @tab-control__border-width solid transparent;
+
+@tab-content__padding-bottom: 0;     
+
+
+
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+    .product.data.items {
+        .lib-data-accordion();
+        margin-bottom: 0;
+    }
+}
+
+//
+//  Desktop
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .product.data.items {
+        .lib-data-tabs(
+            @_tab-content-border-top-status: true
+        );
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .product.data.items {
+        .lib-data-accordion();
+        .data.item {
+            display: block;
+        }
+    }
+
+
+.product.data.items > .item.content {
+    background: #ffffff;
+    border: 0px solid transparent;
+    margin: 0 0 10px;
+    padding: 20px 20px 0px 20px;
+}
+
+.product.info.detailed{
+  margin-bottom: 0;
+}
+
+}
+
+

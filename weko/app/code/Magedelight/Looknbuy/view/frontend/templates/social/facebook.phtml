@@ -1,0 +1,49 @@
+<?php
+/**
+ * Magedelight
+ * Copyright (C) 2016 Magedelight <info@magedelight.com>
+ *
+ * NOTICE OF LICENSE
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+ *
+ * @category Magedelight
+ * @package Magedelight_Looknbuy
+ * @copyright Copyright (c) 2016 Mage Delight (http://www.magedelight.com/)
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Magedelight <info@magedelight.com>
+ */
+?>
+
+<?php 
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$this->scopeConfig = $objectManager->create('\Magento\Framework\App\Config\ScopeConfigInterface');
+$this->_urlinterface = $objectManager->create('\Magento\Framework\UrlInterface');
+$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+$appid = $this->scopeConfig->getValue('looknbuy/facebook/app_id', $storeScope);
+?>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.6&appId=<?php echo $appid; ?>";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<?php $currentUrl = $this->_urlinterface->getCurrentUrl(); ?>
+<?php $fbUrl = "https://www.facebook.com/sharer/sharer.php?u=". $currentUrl . "&amp;src=sdkpreparse"; ?>
+
+<div class="fb-share-button" data-href="<?php echo $currentUrl; ?>" data-layout="button" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="<?php echo $fbUrl; ?>">Share</a></div>

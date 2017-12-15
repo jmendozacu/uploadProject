@@ -1,0 +1,54 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/* @var $block \Magento\Wishlist\Block\Link */
+?>
+<li class="link wishlist" data-bind="scope: 'wishlist'">
+    <a <?php /* @escapeNotVerified */ echo $block->getLinkAttributes() ?>><?php echo $block->escapeHtml($block->getLabel()) ?></a>
+
+    <style>
+        .wishlist-items {display: none;}
+    </style>
+    <div class="wishlist-items">
+        <!-- ko if: wishlist().counter -->
+        <?php echo $block->getChildHtml('wishlist.header'); ?>
+        <!-- /ko -->
+
+        <!-- ko ifnot: wishlist().counter -->
+            <div class="wishlist__empty text-center">
+                <i class="i-wishlist-empty"></i>
+                <p>Du hast keine Wünsche? Das gibt's doch nicht.</p>
+                <span class="wishlist__empty__cta">Jetzt die Liste füllen</span>
+            </div>
+        <!-- /ko -->
+    </div>
+</li>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "wishlist": {
+                        "component": "Magento_Wishlist/js/view/wishlist"
+                    }
+                }
+            }
+        }
+    }
+
+</script>
+
+<script>
+    require(['jquery'], function ($) {
+        $(document).ready(function() {
+            $("li.wishlist").hover(function () {
+                $(".wishlist-items").toggle();
+            })
+        })
+    });
+</script>

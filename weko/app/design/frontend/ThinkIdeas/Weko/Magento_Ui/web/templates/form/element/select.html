@@ -1,0 +1,58 @@
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!-- ko if: inputName == 'prefix' -->
+<div class="choice field gender">
+    <input class="checkbox Herr" id="Herr" type="checkbox" checked="checked" name="gender" value="1" data-name="Herr" aria-required="true">
+    <label class="label" for="Herr">Herr</label>
+
+    <input class="checkbox Frau" id="Frau" type="checkbox" name="gender" value="2" data-name="Frau" aria-required="true" required="required">
+    <label class="label" for="Frau">Frau</label>
+</div>
+<select class="select weko-prefix" data-bind="
+    attr: {
+        name: inputName,
+        id: uid,
+        disabled: disabled,
+        'aria-describedby': noticeId,
+        placeholder: placeholder
+    },
+    hasFocus: focused,
+    optgroup: options,
+    visible: false,
+    value: value,
+    optionsCaption: caption,
+    optionsValue: 'value',
+    optionsText: 'label',
+    optionsAfterRender: function(option, item) {
+        if (item && item.disabled) {
+            ko.applyBindingsToNode(option, {attr: {disabled: true}}, item);
+        }
+    }"
+/>
+<!-- /ko -->
+<!-- ko ifnot: inputName == 'prefix' -->
+<select class="select" data-bind="
+    attr: {
+        name: inputName,
+        id: uid,
+        disabled: disabled,
+        'aria-describedby': noticeId,
+        placeholder: placeholder
+    },
+    hasFocus: focused,
+    optgroup: options,
+    value: value,
+    optionsCaption: caption,
+    optionsValue: 'value',
+    optionsText: 'label',
+    optionsAfterRender: function(option, item) {
+        if (item && item.disabled) {
+            ko.applyBindingsToNode(option, {attr: {disabled: true}}, item);
+        }
+    }"
+/>
+<!-- /ko -->

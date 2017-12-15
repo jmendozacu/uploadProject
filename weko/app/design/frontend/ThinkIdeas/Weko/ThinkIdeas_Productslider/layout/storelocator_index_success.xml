@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 thinkIdeas (http://www.thinkIdeas.co/) All rights reserved.
+ */
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="ThinkIdeas\Productslider\Block\Slider" name="productslider.storelocator.index.bottom" after="-">
+                <action method="setSliderLocation">
+                    <argument name="location" xsi:type="string">homepage-content-bottom</argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

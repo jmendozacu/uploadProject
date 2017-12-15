@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+ <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <thinkideas_reviews_section>
+            <general_review_setting>
+                <email_review_days>1</email_review_days>
+                <order_review_link_expiration_period>2</order_review_link_expiration_period>
+            </general_review_setting>
+        </thinkideas_reviews_section>
+    </default>
+</config>

@@ -1,0 +1,51 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<div class="field gender<?php if ($block->isRequired()) echo ' required' ?>">
+    <label class="label" for="<?php /* @escapeNotVerified */ echo $block->getFieldId('gender')?>"><span><?php /* @escapeNotVerified */ echo __('Gender') ?></span></label>
+    <div class="control">
+    <?php //echo"<pre/>"; print_r("test");exit; ?>
+        <?php $options = $block->getGenderOptions(); ?>
+        <?php $value = $block->getGender();?>
+        <?php foreach($options as $key => $option): ?>
+           <?php if ($option->getValue() == 1 || $option->getValue() == 2): ?>
+           <input class="checkbox required <?php echo $option->getLabel()?>" id="<?php echo $option->getLabel()?>" type="checkbox" required="required" name="<?php /* @escapeNotVerified */ echo $block->getFieldName('gender') . '[' . $key . ']'; ?>" value="<?php /* @escapeNotVerified */ echo $option->getValue() ?>" <?php if ($option->getValue() == $value) echo ' checked="checked"' ?> data-name="<?php echo $option->getLabel();?>">
+            <label class="label" for="<?php echo $option->getLabel()?>">
+                <?php /* @escapeNotVerified */ echo __($option->getLabel()) ?></span>
+            </label>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
+</div>
+<script>
+require([
+    "jquery"
+], function($){
+
+    $('.gender input').click(function(){
+        var gender = $(this).attr('data-name');
+        console.log(gender);
+
+        if (gender == 'Female') 
+        {
+            $('.gender .Male').removeAttr('checked');
+            $('.gender .Male').removeClass('required');
+            $('.gender .Female').addClass('required');
+        }
+        else
+        {
+            $('.gender .Female').removeAttr('checked');
+            $('.gender .Female').removeClass('required');
+            $('.gender .Male').addClass('required');
+        }
+        
+    });
+
+});
+</script>

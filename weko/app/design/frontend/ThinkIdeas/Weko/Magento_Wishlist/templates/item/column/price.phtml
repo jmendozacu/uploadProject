@@ -1,0 +1,87 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/* @var \Magento\Wishlist\Model\Item $item */
+
+$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$this->scopeConfig = $objectManager->create('\Magento\Framework\App\Config\ScopeConfigInterface');
+
+$item = $block->getItem();
+$product = $item->getProduct();
+?>
+
+<?php foreach ($block->getChildNames() as $childName): ?>
+    <?php /* @escapeNotVerified */ echo $block->getLayout()->renderElement($childName, false); ?>
+<?php endforeach;?>
+<?php 
+$_product = $objectManager->create('Magento\Catalog\Model\Product')->load($product->getId());
+$priceHelper = $objectManager->create('Magento\Framework\Pricing\Helper\Data');
+$attribute_code = 'delivery_time';
+$deliveryWeek =  $_product->getResource()->getAttribute($attribute_code)->getFrontend()->getValue($_product);
+$week = filter_var($deliveryWeek, FILTER_SANITIZE_NUMBER_INT);
+?>
+<?php 
+if (!$_product->getIsSalable() || $week == '6' || $week =='8' ):?>
+<?php 
+    $finalPrice = $_product->getFinalPrice();
+    $normalPrice = $_product->getPrice();
+?>
+    <!--<?php if ($_product->getSpecialPrice()):?>
+        <div class="price-box price-final_price" data-role="priceBox" data-product-id="2">
+            <span class="special-price">
+                <span class="price-container price-final_price tax weee">
+                    <span class="price-label">Sonderangebot</span>
+                    <span id="product-price-2" data-price-amount="99" data-price-type="finalPrice" class="price-wrapper ">
+                        <span class="price"><?php /* @escapeNotVerified */ echo $priceHelper->currency($finalPrice, true, false);?></span>
+                    </span>
+                </span>
+            </span>
+            <span class="old-price">
+                <span class="price-container price-final_price tax weee">
+                            <span class="price-label">Normalpreis</span>
+                    <span id="old-price-2" data-price-amount="199" data-price-type="oldPrice" class="price-wrapper ">
+                        <span class="price"><?php /* @escapeNotVerified */ echo $priceHelper->currency($normalPrice, true, false);?></span>
+                    </span>
+                </span>
+            </span>
+        </div>
+    <?php else:?>
+        <div class="price-box price-final_price" data-role="priceBox" data-product-id="1">
+            <span class="price-container price-final_price tax weee">
+                <span id="product-price-1" data-price-amount="11" data-price-type="finalPrice" class="price-wrapper ">
+                    <span class="price"><?php /* @escapeNotVerified */ echo $priceHelper->currency($normalPrice, true, false);?></span>
+                </span>
+            </span>
+
+        </div>
+    <?php endif;?>-->
+<?php endif;?>
+
+<?php if ($_product->getIsSalable() && $week != '6' && $week != '8' ): ?>
+    <?php if (!$_product->getReserveAndCollect()):?>
+            <div class="product actions product-item-actions">
+                <div class="stock available"><span><?php /* @escapeNotVerified */ echo __('Auf Lager ') ?></span></div>
+                <?php if($_product->getDeliveryTimeInDays()): ?>
+                    <div class="stock-count"><?php echo " - " .$_product->getDeliveryTimeInDays();?><span> <?php /* @escapeNotVerified */ echo __('&nbsp Tage Lieferzeit') ?></span></div>
+                <?php endif;?>
+                </div>
+    <?php else:?>
+            <div class="product actions product-item-actions">
+                <div class="stock available typerc-stock-status"><span><?php /* @escapeNotVerified */ echo __('Nur Abholung möglich ') ?></span></div>
+            </div>
+    <?php endif;?>
+<?php else:?>
+    <div class="product actions product-item-actions">
+        <div class="stock unavailable"><span><?php /* @escapeNotVerified */ echo __('Nicht auf Lager ') ?></span></div>
+          <?php if($week){ ?>
+            <div class="stock-count"><?php echo " - " .$week;?><span> <?php /* @escapeNotVerified */ echo __('&nbsp Wochen Lieferzeit') ?></span></div>
+            
+        <?php } ?>
+    </div>
+<?php endif; ?>

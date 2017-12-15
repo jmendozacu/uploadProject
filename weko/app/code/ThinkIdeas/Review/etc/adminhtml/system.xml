@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    
+
+    <system>
+        <!-- Add new Tab -->
+        <tab id="thinkideas_module" translate="label" sortOrder="1">
+            <label>ThinkIdeas</label>
+        </tab>
+        <section id="thinkideas_reviews_section" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Reviews</label>
+            <tab>thinkideas_module</tab>
+            <!-- resource tag name which we have to defined in the acl.xml -->
+            <resource>ThinkIdeas_Review::config_review</resource>
+            <group id="general_review_setting" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Review Options</label>
+                <field id="email_review_days" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Send Email days</label>
+                     <comment><![CDATA[
+                        Please enter a number 1 or greater in this field.
+                    ]]></comment>
+                    <validate>required-entry validate-digits validate-digits-range digits-range-1-</validate>
+                </field>
+                <field id="order_review_link_expiration_period" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Order Review Link Expiration Period (hours)</label>
+                    <comment>Please enter a number 1 or greater in this field.</comment>
+                    <validate>required-entry validate-digits validate-digits-range digits-range-1-</validate>
+                    <backend_model>ThinkIdeas\Review\Model\Config\Backend\OrderReview\Link\Expirationperiod</backend_model>
+                </field>
+
+                <field id="product_review_email_template" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="2" translate="label" type="select">
+                    <label>Product Review Email Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="*/*/enabled">1</field>
+                    </depends>
+                </field>
+
+                <field id="product_review_confirmation_email_template" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="2" translate="label" type="select">
+                    <label>Product Review Confirmation Email Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="*/*/enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

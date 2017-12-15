@@ -1,0 +1,33 @@
+<?php
+$item = $block->getProductData();
+?>
+<h3><b><?php echo __("Versand & Lieferung"); ?></b></h3>    
+<?php if ($item->getIsSalable()): ?>
+        <div class="product actions product-item-actions">
+            <div class="stock available"><span><?php /* @escapeNotVerified */ echo __('Auf Lager') ?></span></div>
+            <?php 
+              if (substr_count($item->getDeliveryTimeInDays(), '-') < 1)
+              {
+                $deliverytime = " - " . $item->getDeliveryTimeInDays(); 
+              }
+              else
+              {
+                $deliverytime = $item->getDeliveryTimeInDays();
+              }
+            ?>
+            <?php if($item->getDeliveryTimeInDays()): ?>
+                <div class="stock-count"><?php echo $deliverytime . " ";?><span> <?php /* @escapeNotVerified */ echo __('Tage Lieferzeit / Versand als Paket') ?></span></div>
+            <?php endif;?>
+            </div>
+
+<?php else:?>
+         <div class="product actions product-item-actions">
+        <div class="stock unavailable"><span><?php /* @escapeNotVerified */ echo __('Nicht auf Lager') ?></span></div>
+          <?php if($item->getData('delivery_time_in_week')){ ?>
+            <div class="stock-count"><?php echo " -" .$item->getData('delivery_time_in_week');?><span> <?php /* @escapeNotVerified */ echo __('Wochen Lieferzeit') ?></span></div>
+        <?php } ?>
+         </div>
+<?php endif; ?>
+<br>
+<?php 
+echo __($item->getDeliveryShipping());

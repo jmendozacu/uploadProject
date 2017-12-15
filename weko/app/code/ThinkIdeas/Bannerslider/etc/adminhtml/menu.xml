@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2016 thinkIdeas. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="ThinkIdeas_Bannerslider::main" title="Banner Slider" module="ThinkIdeas_Bannerslider" sortOrder="999" dependsOnModule="ThinkIdeas_Bannerslider" parent="Magento_Backend::content" resource="ThinkIdeas_Bannerslider::main"/>
+        <add id="ThinkIdeas_Bannerslider::slides" title="Slides" module="ThinkIdeas_Bannerslider" sortOrder="1" parent="ThinkIdeas_Bannerslider::main" action="aw_bannerslider_admin/slide/index" resource="ThinkIdeas_Bannerslider::slides"/>
+        <add id="ThinkIdeas_Bannerslider::banners" title="Banners" module="ThinkIdeas_Bannerslider" sortOrder="2" parent="ThinkIdeas_Bannerslider::main" action="aw_bannerslider_admin/banner/index" resource="ThinkIdeas_Bannerslider::banners"/>
+        <add id="ThinkIdeas_Bannerslider::statistics" title="Statistics" module="ThinkIdeas_Bannerslider" sortOrder="3" parent="ThinkIdeas_Bannerslider::main" action="aw_bannerslider_admin/statistic/index" resource="ThinkIdeas_Bannerslider::statistics"/>
+    </menu>
+</config>

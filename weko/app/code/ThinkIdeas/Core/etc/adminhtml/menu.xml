@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 thinkideas (http://www.jakesharp.co/) All rights reserved.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend/etc/menu.xsd">
+    <menu>
+        <add id="ThinkIdeas_Core::admin" title="thinkideas" module="ThinkIdeas_Core" sortOrder="30" resource="ThinkIdeas_Core::admin" />
+    </menu>
+</config>

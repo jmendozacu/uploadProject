@@ -1,0 +1,33 @@
+<?php
+$_product = $block->getProduct();
+$getMultiselectValues = $_product->getResource()->getAttribute('detail_page_icons')->getFrontend()->getValue($_product);
+$iconsValues = explode(",", $getMultiselectValues);
+$iconsIds = explode(",", $_product->getData('detail_page_icons'));
+$finalDisplay = array();
+foreach ($iconsValues as $key => $value){
+    $finalDisplay[$iconsIds[$key]] = $value;
+}
+?>
+<?php if($finalDisplay):?>
+<div class="article-section-wrapper">
+    <?php if(array_key_exists(50,$finalDisplay) && $finalDisplay[50]!=''): ?>
+        <h3><span class="usp__label"><?php echo $finalDisplay[50];?></span></h3>
+    <?php endif;?>
+
+    <?php if(array_key_exists(51,$finalDisplay)): ?>
+        <h3><span class="usp__label1"><?php echo $finalDisplay[51];?></span></h3>
+    <?php endif;?>
+
+    <?php if(array_key_exists(52,$finalDisplay)): ?>
+        <h3><span class="usp__label2"><?php echo $finalDisplay[52];?></span></h3>
+    <?php endif;?>
+
+    <?php if(array_key_exists(53,$finalDisplay)): ?>
+        <h3><span class="usp__label3"><?php echo $finalDisplay[53];?></span></h3>
+    <?php endif;?>
+
+    <?php if(array_key_exists(54,$finalDisplay)): ?>
+        <h3><span class="usp__label4"><?php echo $finalDisplay[54];?></span></h3>
+    <?php endif;?>
+</div>
+<?php endif;?>

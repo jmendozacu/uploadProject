@@ -1,0 +1,17 @@
+<?php
+$userName = $block->getCurrentUser();
+
+?>
+<div class="reg-suc">
+	<div class="title">Wilkommen bei Weko <span><?php echo __($userName); ?></span></div>
+	<div class="message"><p>wir freuen uns Dich zu sehen. Nun kannst du Produkte auf den Wunschzettel setzen, deine Bestellungen verfolgen und noch vieles mehr.</p>
+        <p>Fang am besten gleich an. Wir wunschen dir viel Spass dabei.</p>
+    </div>
+	<div class="blk_btn"><a href ="<?php echo $block->getHomepageUrl();?>"> PRODUKTE ENTDECKEN</a></div>
+	<div class="welcomeimg"><img src="<?php echo $this->getViewFileUrl('ThinkIdeas_Customerattribute::images/thankyou.jpg'); ?>"></div>
+</div>
+
+
+
+
+

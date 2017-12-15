@@ -1,0 +1,26 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 12 Sep, 2016, 10:03:11 AM
+    Author     : jignesh
+*/
+.testi-list{
+    width:100%;
+}
+.testi-list-li{
+    float:left;
+    height:100px;
+    margin:0 10px 10px 0;
+    width:40%;
+}
+.testi-list-li:nth-child(even){
+    margin-right:0;
+}
+.custom-gallery .limiter
+{
+    display: block;
+
+}

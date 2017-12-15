@@ -1,0 +1,132 @@
+<?php
+/**
+ * Magedelight
+ * Copyright (C) 2016 Magedelight <info@magedelight.com>
+ *
+ * NOTICE OF LICENSE
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+ *
+ * @category Magedelight
+ * @package Magedelight_Looknbuy
+ * @copyright Copyright (c) 2016 Mage Delight (http://www.magedelight.com/)
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Magedelight <info@magedelight.com>
+ */
+?>
+<script type="text/javascript">
+    optionTemplate = '<div id="<?php echo $this->getFieldId() ?>content__{{index}}"  class="fieldset-wrapper"><div id="<?php echo $this->getFieldId() ?>_{{index}}"  class="fieldset-wrapper-content"> ' +
+            '<fieldset class="fieldset">' +
+            '<fieldset class="fieldset-alt" id="<?php /* @escapeNotVerified */ echo $this->getFieldId() ?>__field_{{index}}">' +
+            '<div class="field field-option-title" > ' +
+            '<label class="label" for="<?php echo $this->getFieldName() ?>[{{index}}][name]"><?php echo __('Bundle Name') ?> </label>' +
+            '<div class="control">' +
+            '<input style="float:none;" class="input-text" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][name]" id="<?php echo $this->getFieldId() ?>_{{index}}_name" value="{{name}}">' +
+            '</div>' +
+            '</div>' +
+            '<div class="field field-option-input-type" >' +
+            '<label class="label"  for="<?php echo $this->getFieldName() ?>[{{index}}][qty]"><?php echo __('Base Product Qty') ?> </label>' +
+            '<div class="control">' +
+            '<input class="qty validate-greater-than-zero" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][qty]" id="<?php echo $this->getFieldId() ?>_{{index}}_qty" value="{{qty}}"/>' +
+            '</div>' +
+            '<?php //echo $block->escapeJsQuote($this->getOptionDeleteButtonHtml())   ?>' +
+            '</div>' +
+            '<div class="field field-option-req">' +
+            '<button id="<?php echo $this->getFieldId() ?>_{{index}}_delete" title="Delete Bundle" onclick="pbOption.remove(event)" type="button" class="action-delete"  data-ui-id="product-bundlediscount-md-bundlediscount-options-box-option-delete-button" ><span>Delete Bundle</span></button>' +
+            '</div>' +
+            '</fieldset>' +
+            '<fieldset class="fieldset-alt">' +
+            '<div class="field field-option-input-type">' +
+            '<label class="label" for="<?php echo $this->getFieldName() ?>[{{index}}][date_from]"><?php echo __('Enable From') ?> </label>' +
+            '<div class="control">' +
+            '<input class="input-text validate-date-range date-range-<?php echo $this->getFieldId() ?>_{{index}}_date-from" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][date_from]" id="<?php echo $this->getFieldId() ?>_{{index}}_date_from" value="{{date_from}}">' +
+            '<script>require(["jquery","mage/calendar"],function($){$("#<?php echo $this->getFieldId() ?>_{{index}}_date_from").calendar({buttonText:"<?php echo __('Select Date') ?>",});});<\/script>' +
+            '</div>' +
+            '</div>' +
+            '<div class="field field-option-input-type"> ' +
+            '<label class="label" style="float:none;padding-left:10px;" for="<?php echo $this->getFieldName() ?>[{{index}}][date_to]"><?php echo __('Enable To') ?> </label>' +
+            '<div class="control">' +
+            '<input class="input-text validate-date-range date-range-<?php echo $this->getFieldId() ?>_{{index}}_date-to" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][date_to]" id="<?php echo $this->getFieldId() ?>_{{index}}_date_to" value="{{date_to}}">' +
+            '<script type="text\/javascript">require(["jquery","mage/calendar"],function($){$("#<?php echo $this->getFieldId() ?>_{{index}}_date_to").calendar({buttonText:"<?php echo __('Select Date') ?>",});});<\/script>' +
+            '</div>' +
+            '</div>' +
+            '</fieldset>' +
+            '<fieldset class="fieldset-alt">' +
+            '<div class="field field-option-input-type"> ' +
+            '<label class="label" for="<?php echo $this->getFieldName() ?>[{{index}}][discount_type]"><?php echo __('Discount Type') ?> <span class="required">*</span></label>' +
+            '<div class="control">' +
+            '<select name="<?php echo $this->getFieldName() ?>[{{index}}][discount_type]" id="<?php echo $this->getFieldId() ?>_{{index}}_discount_type" class="select"><option value="0"><?php echo __('Fixed') ?></option><option value="1"><?php echo __('Percentage') ?></option></select>' +
+            '</div>' +
+            '</div>' +
+            '<div class="field field-option-input-type"> ' +
+            '<label class="label" for="<?php echo $this->getFieldName() ?>[{{index}}][discount_price]"><?php echo __('Discount Price') ?> <span class="required">*</span></label>' +
+            '<div class="control">' +
+            '<input class="required-entry input-text validate-greater-than-zero" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][discount_price]" id="<?php echo $this->getFieldId() ?>_{{index}}_discount_price" value="{{discount_price}}" />' +
+            '</div>' +
+            '</div>' +
+            '<div class="field field-option-input-type"> ' +
+            '<label class="label" for="<?php echo $this->getFieldName() ?>[{{index}}][exclude_base_product]"><?php echo __('Ignore Base Product From Discount') ?> <span class="required">*</span></label>' +
+            '<div class="control">' +
+            '<select name="<?php echo $this->getFieldName() ?>[{{index}}][exclude_base_product]" id="<?php echo $this->getFieldId() ?>_{{index}}_exclude_base_product" class="select"><option value="0"><?php echo __('No') ?></option><option value="1"><?php echo __('Yes') ?></option></select>' +
+            '</div>' +
+            '</div>' +
+            '</fieldset>' +
+            '<fieldset class="fieldset">' +
+            '<table class="data-table" cellpadding="0" cellspacing="0">' +
+            '<thead>' +
+            '<tr>' +
+            '<th class="opt-type"><?php echo __('Status') ?> <span class="required">*</span></label></th>' +
+            '<th class="opt-order"><?php echo __('Sort Order') ?> <span class="required">*</span></label></th>' +
+            '<th class="opt-type"><?php echo __('Customer Groups') ?> <span class="required">*</span></label></th>' +
+            '<th class="opt-type"><?php echo __('Store View') ?> <span class="required">*</span></label></th>' +
+            '<th>&nbsp;</th>' +
+            '</tr>' +
+            '</thead>' +
+            '<tbody>' +
+            '<tr>' +
+            '<input type="hidden" id="<?php echo $this->getFieldId() ?>_id_{{index}}" name="<?php echo $this->getFieldName() ?>[{{index}}][bundle_id]" value="{{bundle_id}}">' +
+            '<input type="hidden" name="<?php echo $this->getFieldName() ?>[{{index}}][delete]" value="" class="delete">' +
+            '<td><select style="width:160px;" title="" class="select" id="<?php echo $this->getFieldId() ?>_{{index}}_status" name="<?php echo $this->getFieldName() ?>[{{index}}][status]"><option value="1"><?php echo __('Enabled') ?></option><option value="0"><?php echo __('Disabled') ?></option></select></td>' +
+            '<td><input style="width:160px;" class="required-entry input-text validate-zero-or-greater" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][sort_order]" value="{{sort_order}}"></td>' +
+            '<td><select class=" required-entry select multiselect" id="<?php echo $this->getFieldId() ?>_{{index}}_customer_groups" name="<?php echo $this->getFieldName() ?>[{{index}}][customer_groups][]" size="6" multiple="multiple"><?php echo $this->getCustomerGroupsOptions() ?></select></td>' +
+            '<td><select class=" required-entry select multiselect" id="<?php echo $this->getFieldId() ?>_{{index}}_store_ids" name="<?php echo $this->getFieldName() ?>[{{index}}][store_ids][]" size="6" multiple="multiple"><?php echo $this->getStoreViewOptions() ?></select></td>' +
+            '<td>&nbsp;<?php //echo $block->escapeJsQuote($this->getAddSelectionButtonHtml())   ?><button id="bundlediscount_option_{{index}}_add_button" title="Add Product" type="button" class="action-default primary add" onclick="pbSelection.showSearch(event)"  data-ui-id="product-bundlediscount-md-bundlediscount-options-box-add-selection-button" ><span>Add Product</span></button></td>' +
+            '</tr>' +
+            '</tbody>' +
+            '</table>' +
+            '<div id="<?php echo $this->getFieldId() ?>_search_{{index}}">' +
+            '</div>' +
+            '</fieldset>' +
+            '</fieldset>' +
+            '</div>' +
+            '</div>';
+</script>
+
+<script type="text/javascript">
+    var pbOption = new Productbundle.Option(optionTemplate, '<?php echo $this->getFieldId() ?>', 'productbundle_container_top');
+
+</script>
+<?php echo $this->getSelectionHtml() ?>
+<script type="text/javascript">
+    var optionIndex = 0;
+<?php 
+foreach ($block->getBundles() as $_bundle): ?>
+        optionIndex = pbOption.add(<?php echo $_bundle->toJson() ?>);
+    <?php if ($_bundle->getSelections()): ?>
+        <?php foreach ($_bundle->getSelections() as $_selection): ?>
+                pbSelection.addRow(optionIndex, <?php echo $_selection->toJson() ?>);
+        <?php endforeach; ?>
+    <?php endif; ?>
+<?php endforeach; ?>
+</script>

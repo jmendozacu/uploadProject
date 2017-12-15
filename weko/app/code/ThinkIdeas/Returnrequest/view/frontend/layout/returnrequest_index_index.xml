@@ -1,0 +1,15 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  layout="2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+
+    <head>
+        <title>Returen Request</title>
+    </head> 
+    <update handle="customer_account"/>
+    <body>        
+        <referenceContainer name="page.messages">
+            <block class="Magento\Framework\View\Element\Messages" name="messages" as="messages"/>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="ThinkIdeas\Returnrequest\Block\Index\Index" name="returnrequest_index_index" template="ThinkIdeas_Returnrequest::returnrequest_index_index.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

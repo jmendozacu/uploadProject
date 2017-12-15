@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="3columns" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="top.links">
+            <block class="Magento\Wishlist\Block\Link" name="wish-list-link" after="my-account-link">
+                <block class="ThinkIdeas\Additional\Block\Login" name="wishlist_header" as="wishlist.header" template="ThinkIdeas_Additional::wishlist_items.phtml"/>
+            </block>
+            <referenceBlock name="catalog.compare.sidebar" remove="true"/>
+            <referenceContainer name="sidebar.additional" remove="true" />
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2016 thinkIdeas. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+
+        <referenceContainer name="content">
+            <block class="Magedelight\Looknbuy\Block\View" name="bannerhotspot_home_content_top" as="bannerhotspot_home_content_top" template="Magedelight_Looknbuy::homepagebanner.phtml" before="productslider.home.index.top" />
+        </referenceContainer>
+    </body>
+</page>

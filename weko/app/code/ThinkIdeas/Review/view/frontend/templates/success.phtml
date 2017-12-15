@@ -1,0 +1,53 @@
+<?php 
+$orderItems = $block->getOrderItemsReview();
+?>
+<div class="review-slider-main">
+	<div class="success-top">
+	    <div class="i-success"><span class="icon-round-sign"></span></div>
+	    <h4>Vielen Dank fur deine Bewertung!</h4>
+	    <p>Wir freuen uns auf Deinen nächsten Einkauf.</p>
+	</div>
+	<div class="rating-summary">
+		<div class="rating-result" title="<?php /* @escapeNotVerified */ echo $block->getRatingSum() ?>%">
+	    <meta itemprop="worstRating" content = "1"/>
+	    <meta itemprop="bestRating" content = "100"/>
+	    	<?php if ($block->getRatingSum()): ?>
+	    	<span style="width:<?php /* @escapeNotVerified */ echo $block->getRatingSum() ?>%">
+	        	<span itemprop="ratingValue"><?php /* @escapeNotVerified */ echo $block->getRatingSum() ?>%</span>
+	    	</span>
+			<?php endif; ?>
+		</div>
+	</div>
+	<br>
+<!--     <p class="suc-decp">Curabitur. blandit tempus porttitor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam quis risus eget urna mollis ornare vel eu leo. </p> -->
+
+	<?php $review = $block->getReviewDetails(); ?>
+	<?php if(count($review->getData()) > 0): ?>
+		<div class="review-detail">
+				<div class="review-description">
+						<?php echo __($review->getData()[0]['detail'])?>
+				</div>
+		</div>
+	<?php endif; ?>
+	<div class="buttons_content">
+	<div class="back-to-shop">
+		<?php 
+			$_objectManager = \Magento\Framework\App\ObjectManager::getInstance(); //instance of\Magento\Framework\App\ObjectManager
+
+			$storeManager = $_objectManager->get('Magento\Store\Model\StoreManagerInterface'); 
+			$currentStore = $storeManager->getStore();
+		?>
+		<a class="action primary" href="<?php echo $currentStore->getBaseUrl();?>">
+			<?php echo __("Zurück zum Shop");?>
+		</a>
+	</div>
+
+	<?php if(count($orderItems) > 1):?>
+		<form action="<?php /* @escapeNotVerified */ echo $block->getAction() ?>" method="post" id="review-back-form">
+			<div class="back-to-order-review">
+					<button><?php echo __("Weiter bewerten"); ?></button>
+			</div>
+		</form>
+	<?php endif;?>
+	</div>
+</div>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="ThinkIdeas_Categorysliders::css/owlcarousel.css" />
+        <css src="ThinkIdeas_Categorysliders::css/owltransitions.css" />
+        <css src="ThinkIdeas_Categorysliders::css/owltheme.css" />
+    </head>
+    <body>
+        <referenceContainer name="main">
+            <container name="block.container.categorysliders" htmlTag="div" htmlId="slider.container" htmlClass="block-home-container" after="content.bottom">
+                <block class="ThinkIdeas\Categorysliders\Block\Slider\Index" template="ThinkIdeas_Categorysliders::slider/slider.phtml"/>
+            </container>
+        </referenceContainer>
+        
+    </body>
+</page>

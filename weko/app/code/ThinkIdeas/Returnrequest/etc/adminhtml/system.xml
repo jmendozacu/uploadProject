@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="returnrequest" translate="label" sortOrder="1">
+            <label>Return Request</label>
+        </tab>
+        <section id="return_info" showInDefault="1" showInStore="1" showInWebsite="1" translate="label" type="text">
+            <label>Return Request</label>
+            <tab>returnrequest</tab>
+            <resource>ThinkIdeas_Returnrequest::return_info</resource>
+            <group id="general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="1" type="text">
+                <label>Return Request Email Settings</label>   
+                <field id="enabled" showInDefault="1" showInStore="1" showInWebsite="1" translate="label" type="select"  sortOrder="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="approved_email_template" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="2" translate="label" type="select">
+                    <label>Approved Email Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="*/*/enabled">1</field>
+                    </depends>
+                </field>
+
+                <!-- <field id="second_email_template" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="2" translate="label" type="select">
+                    <label>David Jones Email Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="*/*/enabled">1</field>
+                    </depends>
+                </field> -->
+
+            </group>
+        </section>
+    </system>
+</config>

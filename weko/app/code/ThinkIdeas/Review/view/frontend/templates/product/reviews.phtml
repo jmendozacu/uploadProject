@@ -1,0 +1,115 @@
+<?php 
+$ratings = $block->getAllStart();
+
+$totalrates = $totalfive = $totalfour = $totalthree = $totaltwo = $totalone= 0;
+$currentRate = array();
+$isReviewShow = false;
+foreach ($ratings as $key => $rates)
+{
+	if ($rates['value'] != 0) 
+	{
+		$totalrates += $rates['value'] ;
+		
+			if ($key == 5) {
+				$currentRate[$key] = $rates['value'];
+			}
+			elseif ($key == 4) {
+				$currentRate[$key] = $rates['value'] ;
+			}
+			elseif ($key == 3) {
+				$currentRate[$key] =  $rates['value'] ;
+			}
+			elseif ($key == 2) {
+				$currentRate[$key] = $rates['value'] ;
+			}
+			elseif ($key == 1) {
+				$currentRate[$key] = $rates['value'] ;
+			}
+
+
+	}
+	else
+	{
+		$currentRate[$key] = $rates['value'] ;
+	}	
+
+	if ($currentRate[$key] != 0) {
+		$isReviewShow = true;
+	}
+} 
+?>
+<?php if ($isReviewShow):?>
+	<div class="product-reviews-detail">
+
+	<h4 class="reviews-ttl"><?php echo __("Gesamtbewertung"); ?></h4>
+	   <div class="rating-process-main">
+	<?php foreach ($ratings as $key => $rating):?>
+
+	    	<div class="ratings-report rating-summary rating-process">
+	    		<?php $rate = $key; ?>
+	    		<div class="pull-main">
+	    			<div class="pull-left">
+	    				<div><?php echo $rate . __(" Sterne"); ?> <span class="glyphicon glyphicon-star"></span></div>
+	    			</div>
+	    			<div class="rating-result" title="<?php echo ((int)($currentRate[$key]) != 0) ? round((int)($currentRate[$key] * 100) / $totalrates) : 0?>% ">
+
+	                 	<span style="width:<?php echo ((int)($currentRate[$key]) != 0) ? round((int)($currentRate[$key] * 100) / $totalrates) : 0?>% "><span><span itemprop="ratingValue"><?php echo ((int)($currentRate[$key]) != 0) ? round((int)($currentRate[$key] * 100) / $totalrates) : 0?> </span>% of
+	                 	<span itemprop="bestRating">100</span></span></span>
+	             	</div>
+	    			<div class="pull-right"><?php echo $rating['value'];?></div>
+	    		</div>
+	    	</div>
+
+	<?php endforeach;?>
+	</div>
+	 <div class="center-rating"><?php echo $block->getChildHtml("summary_review"); ?></div>
+	<div class="right-rating">
+	<?php
+	$ratingObj = $block->getProductRatings();
+	if ($ratingObj->getSum()):?>
+	<?php $ratings = $ratingObj->getSum()/$ratingObj->getCount(); ?>
+		<div class="raview-rating-percentage"><?php echo round($ratings, 2) . "%"; ?></div>
+			<div class="review-rating-percentage-title"><?php echo __("wurden diesen artikel einem Freund weiterempfehlen"); ?></div>
+
+	<?php else: ?>
+			<div class="raview-rating-percentage"></div>
+			<div class="review-rating-percentage-title"><?php echo __("Noch keine Bewertungen"); ?></div>
+
+	<?php endif;?>
+	</div>
+	</div>
+	<input type="hidden" value="<?php echo $block->isReviewAllowed();?>" id="isReviewAlowed"/>
+	<?php echo $block->getChildHtml(); ?>
+	<script>
+	require([
+	    "jquery",
+	    "jquery/ui"
+	], function($){
+		$(document).ready(function (){
+			var isReviewAlowed = $("#isReviewAlowed").val();
+			console.log(isReviewAlowed);
+			if (isReviewAlowed == undefined || isReviewAlowed.length == 0) {
+				$("#review-form").hide();
+				$(".review-product-button").hide();
+			}
+
+			$(document).on("click", ".product-reviews-summary.empty .reviews-actions .add", function(){
+				$(".review-add").addClass('review-open');    
+	            $(".review-add").removeClass('review-close');
+			});
+
+			if (!$(".product-reviews-detail .product-reviews-summary").hasClass("empty")) {
+				var rating = parseInt($(".product-reviews-detail .product-reviews-summary .rating-summary .rating-result").attr("title"))/20;
+		
+				var summaryRating =  rating.toFixed(1);
+
+				$(".product-reviews-detail .product-reviews-summary .reviews-actions a.view").html(summaryRating);	
+				$(".product-reviews-detail .product-reviews-summary .reviews-actions a.add").html(" von 5 Sternen");	
+			}
+			$(".footer.content > .product-reviews-summary").addClass("product-review-summary-footer");
+			
+			$(".product-reviews-summary .reviews-actions").css("display","block");
+		});
+	});
+	</script>
+<?php endif;?>

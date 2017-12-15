@@ -1,0 +1,12 @@
+Steps to set Language Pack in magento 2
+
+1) Download Language pack
+2) CLI >> php bin/magento info:language:list (Find Your Language pack code)
+3) CLI >> php bin/magento setup:static-content:deploy <Language_Code>
+4) CLI >> php bin/magento setup:upgrade
+5) CLI >> php bin/magento setup:static-content:deploy
+6) Admin >> store >> cofiguration >> general >> general >> Locale Options >> Set your language as Locale
+7) Save Config
+8) set Static string in different language >> set in  echo __(<string>); 
+9) copy string and set in CSV(language pack)
+

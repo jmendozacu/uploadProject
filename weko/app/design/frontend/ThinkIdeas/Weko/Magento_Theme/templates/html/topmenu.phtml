@@ -1,0 +1,68 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Top menu for store
+ *
+ * @var $block \Magento\Theme\Block\Html\Topmenu
+ */
+?>
+<?php $columnsLimit = $block->getColumnsLimit() ?: 0; ?>
+<?php $_menu = $block->getHtml('level-top', 'submenu', $columnsLimit) ?>
+
+<nav class="navigation" data-action="navigation">
+    <span class="back mobile-menu-back">zurück</span>
+    <ul data-mage-init='{"menu":{"responsive":true, "expanded":true, "position":{"my":"left top","at":"left bottom"}}}'>
+        <?php /* @escapeNotVerified */ echo $_menu; ?>
+        <?php /* @escapeNotVerified */ echo $block->getChildHtml(); ?>
+
+        <!-- Added custom brand menu to top navigation -->
+        <li class="level0 level-top ui-menu-item">
+            <a href="<?php echo $this->getBaseUrl()."brands"; ?>" class="level-top ui-corner-all"  role="menuitem">
+                <span><?php echo __("Brands")?></span>
+            </a>
+        </li>
+        <!-- End - Added custom brand menu to top navigation -->
+    </ul>
+</nav>
+
+<script type="text/javascript">
+require(['jquery'], function($) {
+    jQuery(document).ready(function() {
+            $(document).on("click",".navigation .level0", function(){
+                    $(".navigation .mobile-menu-back").addClass("active");
+            });
+            $(document).on("click",".navigation .mobile-menu-back", function(){
+                    $(".navigation .mobile-menu-back").removeClass("active");
+            });
+            $(document).on("click",".nav-toggle", function(){
+                    $(".navigation .mobile-menu-back").removeClass("active");
+            });
+    //     jQuery( ".navigation .level0 a.ui-state-focus, .navigation .level0 a.ui-state-active" ).mouseenter(function() {
+    //     	  if($(this).next('li').!= null){
+				//     jQuery( ".menu-body" ).fadeIn("fast");
+				// }
+				// else
+				// {
+				// 	jQuery( ".menu-body" ).hide();	
+				// }
+
+	          
+    //     });
+
+    });
+});
+</script>
+
+
+
+
+
+ 

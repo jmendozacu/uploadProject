@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2016 thinkIdeas. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="ThinkIdeas\Bannerslider\Api\BannerRepositoryInterface" type="ThinkIdeas\Bannerslider\Model\ResourceModel\BannerRepository" />
+    <preference for="ThinkIdeas\Bannerslider\Api\SlideRepositoryInterface" type="ThinkIdeas\Bannerslider\Model\ResourceModel\SlideRepository" />
+    <preference for="ThinkIdeas\Bannerslider\Api\StatisticRepositoryInterface" type="ThinkIdeas\Bannerslider\Model\ResourceModel\StatisticRepository" />
+    <preference for="ThinkIdeas\Bannerslider\Api\BlockRepositoryInterface" type="ThinkIdeas\Bannerslider\Model\ResourceModel\BlockRepository" />
+    <preference for="ThinkIdeas\Bannerslider\Api\Data\BannerInterface" type="ThinkIdeas\Bannerslider\Model\Data\Banner" />
+    <preference for="ThinkIdeas\Bannerslider\Api\Data\SlideInterface" type="ThinkIdeas\Bannerslider\Model\Data\Slide" />
+    <preference for="ThinkIdeas\Bannerslider\Api\Data\StatisticInterface" type="ThinkIdeas\Bannerslider\Model\Data\Statistic" />
+    <preference for="ThinkIdeas\Bannerslider\Api\Data\ConditionInterface" type="ThinkIdeas\Bannerslider\Model\Data\Condition" />
+    <preference for="ThinkIdeas\Bannerslider\Api\Data\BlockInterface" type="ThinkIdeas\Bannerslider\Model\Data\Block" />
+    <preference for="ThinkIdeas\Bannerslider\Api\Data\SlideSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="ThinkIdeas\Bannerslider\Api\Data\BannerSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="ThinkIdeas\Bannerslider\Api\Data\StatisticSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="ThinkIdeas\Bannerslider\Api\Data\BlockSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <type name="Magento\Framework\EntityManager\MetadataPool">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="ThinkIdeas\Bannerslider\Api\Data\BannerInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">aw_bannerslider_banner</item>
+                    <item name="identifierField" xsi:type="string">id</item>
+                </item>
+                <item name="ThinkIdeas\Bannerslider\Api\Data\SlideInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">aw_bannerslider_slide</item>
+                    <item name="identifierField" xsi:type="string">id</item>
+                </item>
+                <item name="ThinkIdeas\Bannerslider\Api\Data\StatisticInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">aw_bannerslider_statistic</item>
+                    <item name="identifierField" xsi:type="string">id</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\Operation\ExtensionPool">
+        <arguments>
+            <argument name="extensionActions" xsi:type="array">
+                <item name="ThinkIdeas\Bannerslider\Api\Data\BannerInterface" xsi:type="array">
+                    <item name="read" xsi:type="array">
+                        <item name="slideReader" xsi:type="string">ThinkIdeas\Bannerslider\Model\ResourceModel\Banner\Relation\Slide\ReadHandler</item>
+                    </item>
+                    <item name="create" xsi:type="array">
+                        <item name="slideCreator" xsi:type="string">ThinkIdeas\Bannerslider\Model\ResourceModel\Banner\Relation\Slide\SaveHandler</item>
+                    </item>
+                    <item name="update" xsi:type="array">
+                        <item name="slideUpdater" xsi:type="string">ThinkIdeas\Bannerslider\Model\ResourceModel\Banner\Relation\Slide\SaveHandler</item>
+                    </item>
+                </item>
+                <item name="ThinkIdeas\Bannerslider\Api\Data\SlideInterface" xsi:type="array">
+                    <item name="read" xsi:type="array">
+                        <item name="storeReader" xsi:type="string">ThinkIdeas\Bannerslider\Model\ResourceModel\Slide\Relation\Store\ReadHandler</item>
+                        <item name="customerGroupReader" xsi:type="string">ThinkIdeas\Bannerslider\Model\ResourceModel\Slide\Relation\CustomerGroup\ReadHandler</item>
+                        <item name="bannerReader" xsi:type="string">ThinkIdeas\Bannerslider\Model\ResourceModel\Slide\Relation\Banner\ReadHandler</item>
+                    </item>
+                    <item name="create" xsi:type="array">
+                        <item name="storeCreator" xsi:type="string">ThinkIdeas\Bannerslider\Model\ResourceModel\Slide\Relation\Store\SaveHandler</item>
+                        <item name="customerGroupCreator" xsi:type="string">ThinkIdeas\Bannerslider\Model\ResourceModel\Slide\Relation\CustomerGroup\SaveHandler</item>
+                        <item name="bannerCreator" xsi:type="string">ThinkIdeas\Bannerslider\Model\ResourceModel\Slide\Relation\Banner\SaveHandler</item>
+                    </item>
+                    <item name="update" xsi:type="array">
+                        <item name="storeUpdater" xsi:type="string">ThinkIdeas\Bannerslider\Model\ResourceModel\Slide\Relation\Store\SaveHandler</item>
+                        <item name="customerGroupUpdater" xsi:type="string">ThinkIdeas\Bannerslider\Model\ResourceModel\Slide\Relation\CustomerGroup\SaveHandler</item>
+                        <item name="bannerUpdater" xsi:type="string">ThinkIdeas\Bannerslider\Model\ResourceModel\Slide\Relation\Banner\SaveHandler</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="aw_bannerslider_banner_grid_data_source" xsi:type="string">ThinkIdeas\Bannerslider\Model\ResourceModel\Banner\Grid\Collection</item>
+                <item name="aw_bannerslider_slide_grid_data_source" xsi:type="string">ThinkIdeas\Bannerslider\Model\ResourceModel\Slide\Grid\Collection</item>
+                <item name="aw_bannerslider_statistic_grid_data_source" xsi:type="string">ThinkIdeas\Bannerslider\Model\ResourceModel\Statistic\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="ThinkIdeas\Bannerslider\Model\ResourceModel\Banner\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">aw_bannerslider_banner</argument>
+            <argument name="eventPrefix" xsi:type="string">aw_bannerslider_banner_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">banner_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">ThinkIdeas\Bannerslider\Model\ResourceModel\Banner</argument>
+        </arguments>
+    </type>
+    <type name="ThinkIdeas\Bannerslider\Model\ResourceModel\Slide\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">aw_bannerslider_slide</argument>
+            <argument name="eventPrefix" xsi:type="string">aw_bannerslider_slide_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">slide_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">ThinkIdeas\Bannerslider\Model\ResourceModel\Slide</argument>
+        </arguments>
+    </type>
+    <type name="ThinkIdeas\Bannerslider\Model\ResourceModel\Statistic\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">aw_bannerslider_statistic</argument>
+            <argument name="eventPrefix" xsi:type="string">aw_bannerslider_statistic_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">statistic_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">ThinkIdeas\Bannerslider\Model\ResourceModel\Statistic</argument>
+        </arguments>
+    </type>
+    <virtualType name="ThinkIdeas\Bannerslider\Model\CustomerStatistic\Session" type="Magento\Framework\Session\SessionManager">
+        <arguments>
+            <argument name="storage" xsi:type="object">ThinkIdeas\Bannerslider\Model\CustomerStatistic\Session\Storage</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ThinkIdeas\Bannerslider\Model\CustomerStatistic\Session\Storage" type="Magento\Framework\Session\Storage">
+        <arguments>
+            <argument name="namespace" xsi:type="string">aw_bannerslider</argument>
+        </arguments>
+    </virtualType>
+</config>

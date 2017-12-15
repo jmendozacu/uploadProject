@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <move element="page.main.title" destination="product.info.main" before="-"/>
+        <move element="product.info.sku" destination="product.info.main" before="page.main.title"/>
+        <move element="thinkideas_description_brand_icon_main" destination="product.info.main" before="page.main.title"/> 
+        <move element="product.info.review" destination="product.info.main" after="page.main.title"/>
+        <move element="product.attributes" destination="product.info.description" before="-"/>
+        <move element="product.info.overview" destination="product.info.main" after="product.info.review"/>
+        
+      <referenceContainer name="content">
+          <container name="product-page-maindiv" htmlTag="div" htmlClass="product-pages-main"  before="-" > </container>
+      </referenceContainer>
+      <referenceContainer name="product.info.main">
+          <!--<block class="Magento\Cms\Block\Block" name="product_new_element" after="-">
+              <arguments>
+                  <argument name="block_id" xsi:type="string">product_new_element</argument>
+              </arguments>
+          </block>-->
+          <block class="Magento\Catalog\Block\Product\View" name="product.view.icons" after="-" template="product/view/icons.phtml" />
+      </referenceContainer>
+         <move element="product.info.media" destination="product-page-maindiv" before="-"/>
+         <move element="product.info.main" destination="product-page-maindiv" />
+    </body>
+</page>

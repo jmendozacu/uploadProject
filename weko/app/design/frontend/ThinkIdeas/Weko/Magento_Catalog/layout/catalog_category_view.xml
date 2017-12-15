@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <move element="category.description" destination="page.bottom.container" />
+        <referenceContainer name="content">
+            <block class="Magento\Catalog\Block\Category\View" name="category.image-brand" template="Magento_Catalog::category/image.phtml" before="-"/>
+            <block class="Magento\Theme\Block\Html\Title" name="brand.page.main.title" template="html/title.phtml" before="category.image-brand"/>
+        </referenceContainer>
+        <referenceBlock name="category.image" remove="true" />
+<!--        <referenceBlock name="page.main.title" remove="true" /> -->
+		
+		<move element="page.main.title" destination="page.top" after="breadcrumbs"/>
+    </body>
+</page>

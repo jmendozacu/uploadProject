@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2016 thinkIdeas. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="ThinkIdeas_Bannerslider::css/bannerslider.css"/>
+    </head>
+    <body>
+        <referenceContainer name="page.main.actions">
+            <block class="ThinkIdeas\Bannerslider\Block\Adminhtml\Page\Menu" name="aw_bannerslider_menu">
+                <block class="ThinkIdeas\Bannerslider\Block\Adminhtml\Page\Menu\Item" name="aw_bannerslider_menu_item.slides">
+                    <arguments>
+                        <argument name="path" xsi:type="string">*/slide/index</argument>
+                        <argument name="label" xsi:type="string">Slides</argument>
+                        <argument name="resource" xsi:type="string">ThinkIdeas_Bannerslider::slides</argument>
+                        <argument name="controller" xsi:type="string">slide</argument>
+                    </arguments>
+                </block>
+                <block class="ThinkIdeas\Bannerslider\Block\Adminhtml\Page\Menu\Item" name="aw_bannerslider_menu_item.banners">
+                    <arguments>
+                        <argument name="path" xsi:type="string">*/banner/index</argument>
+                        <argument name="label" xsi:type="string">Banners</argument>
+                        <argument name="resource" xsi:type="string">ThinkIdeas_Bannerslider::banners</argument>
+                        <argument name="controller" xsi:type="string">banner</argument>
+                    </arguments>
+                </block>
+                <block class="ThinkIdeas\Bannerslider\Block\Adminhtml\Page\Menu\Item" name="aw_bannerslider_menu_item.statistics">
+                    <arguments>
+                        <argument name="path" xsi:type="string">*/statistic/index</argument>
+                        <argument name="label" xsi:type="string">Statistics</argument>
+                        <argument name="resource" xsi:type="string">ThinkIdeas_Bannerslider::statistics</argument>
+                        <argument name="controller" xsi:type="string">statistic</argument>
+                    </arguments>
+                </block>
+                <block class="ThinkIdeas\Bannerslider\Block\Adminhtml\Page\Menu\Item" name="aw_bannerslider_menu_item.readme">
+                    <arguments>
+                        <argument name="label" xsi:type="string">Readme</argument>
+                        <argument name="link_attributes" xsi:type="array">
+                            <item name="href" xsi:type="string">http://confluence.thinkIdeas.com/display/EUDOC/Rich+Banner+Slider+-+Magento+2</item>
+                            <item name="target" xsi:type="string">_blank</item>
+                            <item name="class" xsi:type="string">separator</item>
+                        </argument>
+                    </arguments>
+                </block>
+                <block class="ThinkIdeas\Bannerslider\Block\Adminhtml\Page\Menu\Item" name="aw_bannerslider_menu_item.support">
+                    <arguments>
+                        <argument name="label" xsi:type="string">Get Support</argument>
+                        <argument name="link_attributes" xsi:type="array">
+                            <item name="href" xsi:type="string">http://ecommerce.thinkIdeas.com/contacts/</item>
+                            <item name="target" xsi:type="string">_blank</item>
+                        </argument>
+                    </arguments>
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

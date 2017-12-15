@@ -1,0 +1,23 @@
+<div class="cart-action-continue">
+    <?php if ($block->getContinueShoppingUrl()): ?>
+        <a class="action continue"
+            href="<?php echo $block->escapeUrl($block->getContinueShoppingUrl()) ?>"
+            title="<?php echo $block->escapeHtml(__('Continue Shopping')); ?>">
+            <span><?php /* @escapeNotVerified */ echo __('Continue Shopping') ?></span>
+            </a>
+        <?php endif; ?>
+</div>
+<ul class="opc-progress-bar">
+    <li class="opc-progress-bar-item _active">
+        <span><?php echo __("Shopping Cart"); ?></span>
+    </li>
+    <li class="opc-progress-bar-item">
+        <span><?php echo __("Deine Daten"); ?></span>
+    </li>
+    <li class="opc-progress-bar-item">
+        <span><?php echo __("Review & Payments"); ?></span>
+    </li>
+    <li class="opc-progress-bar-item">
+        <span><?php echo __("Order Summary"); ?></span>
+    </li>
+</ul>

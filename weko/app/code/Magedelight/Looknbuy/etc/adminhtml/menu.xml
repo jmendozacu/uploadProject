@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Magedelight
+* Copyright (C) 2016 Magedelight <info@magedelight.com>
+*
+* NOTICE OF LICENSE
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+*
+* @category Magedelight
+* @package MD_Bundlediscount
+* @copyright Copyright (c) 2016 Mage Delight (http://www.magedelight.com/)
+* @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+* @author Magedelight <info@magedelight.com>
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="Magedelight_Looknbuy::looknbuy" title="Look N Buy" module="Magedelight_Looknbuy" sortOrder="50" resource="Magedelight_Looknbuy::looknbuy"/>
+		<add id="Magedelight_Looknbuy::looknbuy_looks" title="Manage Looks" module="Magedelight_Looknbuy" sortOrder="11" parent="Magedelight_Looknbuy::looknbuy" resource="Magedelight_Looknbuy::add_looks"  action="looknbuy/index/index" />
+		<add id="Magedelight_Looknbuy::settings" title="Configuration" module="Magedelight_Looknbuy" sortOrder="12"
+			parent="Magedelight_Looknbuy::looknbuy" resource="Magedelight_Looknbuy::settings" action="adminhtml/system_config/edit/section/looknbuy"/>
+	</menu>
+</config>

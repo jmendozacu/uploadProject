@@ -1,0 +1,68 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<div class="field gender<?php if ($block->isRequired()) echo ' required' ?>">
+    <label class="label" for="<?php /* @escapeNotVerified */ echo $block->getFieldId('gender')?>"><span><?php /* @escapeNotVerified */ echo __('Gender') ?></span></label>
+    <div class="control">
+    <?php //echo"<pre/>"; print_r("test");exit; ?>
+        <?php $options = $block->getGenderOptions(); ?>
+        <?php $value = $block->getGender();?>
+        <?php foreach($options as $key => $option): ?>
+           <?php if ($option->getValue() == 1 || $option->getValue() == 2): ?>
+           <input class="checkbox <?php echo $option->getLabel()?>" id="<?php echo $option->getLabel()?>" type="checkbox"  name="<?php /* @escapeNotVerified */ echo $block->getFieldName('gender'); ?>" value="<?php /* @escapeNotVerified */ echo $option->getValue() ?>" <?php if ($option->getValue() == $value) echo ' checked="checked"' ?> data-name="<?php echo $option->getLabel();?>">
+            <label class="label" for="<?php echo $option->getLabel()?>">
+                <?php /* @escapeNotVerified */ echo __($option->getLabel()) ?>
+            </label>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        <input type="text" id="prefix"  name="prefix" class="required-entry" style="visibility: hidden;" data-validate="{required:true}" value="" />
+    </div>
+</div>
+<script>
+require([
+    "jquery"
+], function($){
+
+    $(document).ready(function(){
+        $('.gender input[type="checkbox"]:checked').each(function() { 
+            $('#prefix').attr("value",$(this).attr('data-name'));
+        });
+    });
+
+    $('.gender input[type="checkbox"]').click(function(){
+        var gender = $(this).attr('data-name');
+        //console.log(gender);
+        var ischecked= $(this).is(':checked');
+        
+        if(!ischecked)
+        {
+             $('#prefix').attr("value","");
+        }
+        else{
+           if (gender == "Frau") {
+                $('#prefix').attr("value","Frau");  
+            }
+            else
+            {
+                $('#prefix').attr("value","Herr");
+            } 
+        }
+
+        if (gender == 'Frau') 
+        {
+            $('.gender .Herr').removeAttr('checked');
+        }
+        else
+        {
+            $('.gender .Frau').removeAttr('checked');
+        }     
+    });
+
+});
+</script>

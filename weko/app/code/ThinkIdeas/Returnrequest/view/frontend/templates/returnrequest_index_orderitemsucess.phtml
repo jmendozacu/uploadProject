@@ -1,0 +1,93 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+// @codingStandardsIgnoreFile
+
+
+?>
+
+<?php if ($messages = $block->getMessages()): ?>
+    <?php foreach ($messages as $message): ?>
+        <h1><?php echo $block->escapeHtml($message) ?></h1>
+    <?php endforeach; ?>
+<?php endif; ?>
+
+
+
+
+
+<?php
+$dateshow=$block->getSaveddataofrrq();
+$errors = array_filter($dateshow);
+
+if (!empty($errors)) {   
+    ?>
+
+<div class="field name required">
+
+
+<div class="order-top-detail">
+    <label class="label " for="orderno">
+        <span class="lb-name">
+        <?php /* @escapeNotVerified */ echo __('Order No') ?>
+        </span>
+
+          <span class="lb-ans">
+        <?php /* @escapeNotVerified */ echo $dateshow["order_no"] ?>
+        </span>
+    </label>
+
+
+    <label class="label " for="orderno">
+       <span class="lb-name">
+        <?php /* @escapeNotVerified */ echo __('Item No') ?>
+        </span>
+
+        <span class="lb-ans">
+        <?php /* @escapeNotVerified */ echo $dateshow["item_no"] ?>
+        </span>
+    </label>
+
+
+
+       <label class="label" for="orderno">
+       <span class="lb-name">
+        <?php /* @escapeNotVerified */ echo __('Reason') ?>
+        </span>
+         <span class="lb-ans">
+        <?php /* @escapeNotVerified */ echo $dateshow["reason"]; ?>
+        </span>
+    </label>
+</div>
+
+
+      <div class="return-order-success-msg">
+            <span><?php echo __("Wir haben deine Retourenanfrage erhalten und melden uns so schnell wie möglich bei dir");?></span>
+            <div class="action-control return-order-success-btn">
+                <a href="<?php echo $this->getUrl('/', ['_current' => true, '_use_rewrite' => true]); ?>"><?php echo __("Zurück zum Shop");?></a>
+            </div>
+      </div>      
+</div>
+       
+        
+        
+
+    <?php
+} else {
+
+    // please tell youre customer that your submitted request is not accepted cause you have already 
+    //submited the same reques earlier. 
+    ?>
+         <label class="label" for="orderno">
+        <span>
+        <?php /* @escapeNotVerified */ echo __('Du hast bereits eine Retourenanfrage für diesen Artikel geschickt.') ?>
+        </span>
+    </label>  
+    <?php
+}
+?>
+
+
+

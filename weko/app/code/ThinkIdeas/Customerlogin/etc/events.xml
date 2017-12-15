@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_order_save_after">
+    	<observer name="set_guest_login" instance="ThinkIdeas\Customerlogin\Observer\CustomerLogin" />
+    </event>
+
+   <!-- After place order set weko card number and dob in sales_order_address -->
+    <event name="checkout_onepage_controller_success_action">
+        <observer name="persistence_one" instance="ThinkIdeas\Customerlogin\Observer\setOrderAddress"  />
+    </event>
+</config>

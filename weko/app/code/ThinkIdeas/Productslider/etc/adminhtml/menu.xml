@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Copyright © 2016 thinkIdeas (http://www.thinkIdeas.co/) All rights reserved.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend/etc/menu.xsd">
+    <menu>
+        <add id="ThinkIdeas_Productslider::productslider" title="Product Sliders" module="ThinkIdeas_Productslider" resource="ThinkIdeas_Productslider::productslider" parent="ThinkIdeas_Core::admin" />
+        <add id="ThinkIdeas_Productslider::manage_sliders" title="Manage Sliders" module="ThinkIdeas_Productslider" resource="ThinkIdeas_Productslider::manage_sliders" parent="ThinkIdeas_Productslider::productslider" action="productslider/slider/index"/>
+        <add id="ThinkIdeas_Productslider::config" title="Settings" module="ThinkIdeas_Productslider" resource="ThinkIdeas_Productslider::config" sortOrder="20" parent="ThinkIdeas_Productslider::productslider" action="adminhtml/system_config/edit/section/productslider"/>
+    </menu>
+</config>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* Magedelight
+* Copyright (C) 2016 Magedelight <info@magedelight.com>
+*
+* NOTICE OF LICENSE
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+*
+* @category Magedelight
+* @package MD_Bundlediscount
+* @copyright Copyright (c) 2016 Mage Delight (http://www.magedelight.com/)
+* @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+* @author Magedelight <info@magedelight.com>
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<tab id="magedelight" translate="label" sortOrder="300">
+			<label>Mage Delight</label>
+		</tab>
+		<section id="looknbuy" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+			<label>Look N Buy</label>
+			<tab>magedelight</tab>
+
+			<resource>Magedelight_Looknbuy::config_looknbuy</resource>
+			<group id="license" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>License Configuration</label>
+				<field id="serial_key" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Serial Key</label>
+				</field>
+				<field id="activation_key" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Activation Key</label>
+				</field>
+			</group>
+
+			<group id="general" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Look N Buy Page Configuration</label>
+				<field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enable On Frontend</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment><![CDATA[This option will enable look n buy list page.]]></comment>
+				</field>
+				<!-- <field id="top_enable" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Show Link In Top</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<validate>required-entry</validate>
+				</field>
+				<field id="category_enable" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Show Link In Category Section</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<validate>required-entry</validate>
+				</field> -->
+
+				<field id="enabled_look_on" type="select" translate="label" sortOrder="2" showInDefault="1" showInStore="0" showInWebsite="1">
+                    <label>Enabled Looknbuy Link On</label>
+                    <source_model>Magedelight\Looknbuy\Model\System\Config\Source\LinkType</source_model> 
+                </field>
+ 
+
+
+				<field id="link_title" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Link Title</label>
+					<comment>This is the title of the link displayed on frontend.</comment>
+
+				</field>
+				<field id="heading_title" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Header Title</label>
+					<comment>This is the title of the header of look n buy sections.</comment>
+					<validate>required-entry</validate>
+				</field>
+				<field id="url_key" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Look N Buy Page Url Key</label>
+					<comment>This is the key of Look N Buy page url.</comment>
+					<validate>required-entry validate-identifier</validate>
+				</field>
+				<field id="url_suffix" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Look N Buy Page Url Suffix</label>
+					<comment>This is the url suffix for look n buy page.For example ".html" etc.</comment>
+					<backend_model>Magento\Catalog\Model\System\Config\Backend\Catalog\Url\Rewrite\Suffix</backend_model>
+				</field>
+				<field id="page_layout" translate="label" type="select" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Look N Buy Page Layout</label>
+					<comment>This is the layout of look n buy page for customer.</comment>
+					<validate>required-entry</validate>
+					<source_model>Magedelight\Looknbuy\Model\System\Config\Source\Layouts</source_model>
+				</field>
+				<field id="discount_label" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Look n Buy Discount Label</label>
+					<comment>Cart totals label for discount area.</comment>
+					<validate>required-entry</validate>
+				</field>
+			</group>
+
+			<group id="social" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Social Share Configuration</label>
+				<field id="enable_social" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enable Social Sharing</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment><![CDATA[This option will enable social sharing on look page.]]></comment>
+				</field>
+				
+			</group>
+
+			<group id="facebook" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Facebook Configuration</label>
+
+				<field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enable Facebook Sharing</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment><![CDATA[This option will enable facebook sharing on look page.]]></comment>
+				</field>
+
+				<field id="app_id" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>App Id</label>
+				</field>
+				
+			</group>
+
+			<group id="twitter" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Twitter Configuration</label>
+
+				<field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enable Twitter Sharing</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment><![CDATA[This option will enable twitter sharing on look page.]]></comment>
+				</field>
+			</group>
+
+			<group id="pinit" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Pinit Configuration</label>
+
+				<field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enable Pinit Sharing</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment><![CDATA[This option will enable pinit sharing on look page.]]></comment>
+				</field>
+			</group>
+
+			<group id="styles" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Marker and Tooltip Styles</label>
+				<field id="heading_marker" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1">
+					<label>Marker Settings</label>
+					<frontend_model>Magento\Config\Block\System\Config\Form\Field\Heading</frontend_model>
+					<attribute type="shared">1</attribute>
+				</field>
+				<field id="marker_icon" translate="label comment" type="image" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Image</label>
+					<comment>Allowed file types: PNG, JPG, JPEG. Not all browsers support all these formats!</comment>
+					<backend_model>Magento\Config\Model\Config\Backend\Image\Favicon</backend_model>
+					<base_url type="media" scope_info="1">favicon</base_url>
+					<validate>required-entry</validate>
+				</field>
+				<field id="marker_width" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Width</label>
+					<validate>required-entry</validate>
+				</field>
+				<field id="marker_height" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Height</label>
+					<validate>required-entry</validate>
+				</field>
+
+				<field id="heading_tooltip" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1">
+					<label>Tooltip Settings</label>
+					<frontend_model>Magento\Config\Block\System\Config\Form\Field\Heading</frontend_model>
+					<attribute type="shared">1</attribute>
+				</field>
+
+				<field id="font_color" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Font Color</label>
+					<frontend_class>color</frontend_class>
+					<validate>required-entry</validate>
+				</field>
+
+				<field id="background_color" translate="label" type="text" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Background Color</label>
+					<frontend_class>color</frontend_class>
+					<validate>required-entry</validate>
+				</field>
+
+				<field id="font_size" translate="label" type="text" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Font Size</label>
+					<validate>required-entry</validate>
+					<comment><![CDATA[For ex. 20]]></comment>
+				</field>
+
+				<field id="opacity" translate="label" type="text" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Opacity</label>
+					<validate>required-entry</validate>
+					<comment><![CDATA[For ex. 1]]></comment>
+				</field>
+
+			</group>
+
+
+
+		</section>
+	</system>
+</config>

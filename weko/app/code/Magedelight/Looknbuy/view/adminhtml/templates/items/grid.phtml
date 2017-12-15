@@ -1,0 +1,133 @@
+<?php
+/**
+ * Magedelight
+ * Copyright (C) 2016 Magedelight <info@magedelight.com>
+ *
+ * NOTICE OF LICENSE
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+ *
+ * @category Magedelight
+ * @package Magedelight_Looknbuy
+ * @copyright Copyright (c) 2016 Mage Delight (http://www.magedelight.com/)
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Magedelight <info@magedelight.com>
+ */
+?>
+
+
+<?php $_items = json_decode($this->getOptionValues()) ?>
+<?php if (empty($_items)): ?>
+    <!--<form id="product_edit_form" data-form="product_edit_form" method="post" enctype="multipart/form-data" >-->
+
+        <div id="order-items_grid">
+            <div class="admin__table-wrapper">
+                <table class="data-table admin__table-primary order-tables" id="attribute-options-table">
+                    <thead>
+                        <tr class="headings">
+                            <th class="col-product"><span><?php /* @escapeNotVerified */ echo __('Product ID') ?></span></th>
+                            <th class="col-product-name"><span><?php /* @escapeNotVerified */ echo __('Product Name') ?></span></th>
+                             <th class="col-sku"><span><?php /* @escapeNotVerified */ echo __('Sku') ?></span></th>
+                            <th class="col-price"><span><?php /* @escapeNotVerified */ echo __('Price') ?></span></th>
+                            <th class="col-qty"><span><?php /* @escapeNotVerified */ echo __('Qty') ?></span></th>
+                            <th class="col-action"><span><?php /* @escapeNotVerified */ echo __('Action') ?></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="even" id="no-product">
+                            <td class="empty-text" colspan="100"><?php /* @escapeNotVerified */ echo __('No product selected') ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <input type="hidden" id="option-count-check" value="" />
+                <input type="hidden" name="lid" value="<?php echo $this->getRequest()->getParam("look_id") ?>" />
+            </div>
+        </div>
+
+    <!--</form>-->
+<?php else: ?>
+
+    <!--<form id="product_edit_form" data-form="product_edit_form" method="post" enctype="multipart/form-data" >-->
+        <div id="order-items_grid">
+            <div class="admin__table-wrapper">
+                <table class="data-table admin__table-primary order-tables" id="attribute-options-table">
+                    <thead>
+                        <tr class="headings">
+                            <th class="col-product"><span><?php /* @escapeNotVerified */ echo __('Product ID') ?></span></th>
+                            <th class="col-product-name"><span><?php /* @escapeNotVerified */ echo __('Product Name') ?></span></th>
+                            <th class="col-sku"><span><?php /* @escapeNotVerified */ echo __('Sku') ?></span></th>
+                            <th class="col-price"><span><?php /* @escapeNotVerified */ echo __('Price') ?></span></th>
+                            <th class="col-qty"><span><?php /* @escapeNotVerified */ echo __('Qty') ?></span></th>
+                            <th class="col-action"><span><?php /* @escapeNotVerified */ echo __('Action') ?></span></th>
+                        </tr>
+                    </thead>
+
+                    <?php $i = 0 ?>
+
+                    <tbody class="<?php /* @escapeNotVerified */ echo($i % 2) ? 'even' : 'odd' ?>">
+
+                        <tr class="even" id="no-product" style="display:none">
+                            <td class="empty-text" colspan="100"><?php /* @escapeNotVerified */ echo __('No product selected') ?></td>
+                        </tr>
+
+                        <?php
+                        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                        $priceHelper = $objectManager->create('Magento\Framework\Pricing\Helper\Data');
+                        ?>
+                        <?php foreach ($_items as $_item):$i++ ?>
+                            <tr class="option-row">
+                                <td>
+                                    <span><?php echo $_item->pid ?></span>
+                                    <input type="hidden" name="option[value][<?php echo $_item->id ?>][pid]" value="<?php echo $_item->pid ?>" />
+                                </td> 
+                                <td>
+                                    <span><?php echo $_item->pname ?></span>
+                                    <input type="hidden" name="option[value][<?php echo $_item->id ?>][pname]" value="<?php echo $_item->pname ?>" />
+                                </td> 
+                                <td>
+                                    <span><?php echo $_item->psku ?></span>
+                                    <input type="hidden" name="option[value][<?php echo $_item->id ?>][psku]" value="<?php echo $_item->psku ?>" />
+                                </td>
+                                <td>
+                                    <span><?php echo $_item->price; ?></span>
+                                    <input type="hidden" name="option[value][<?php echo $_item->id ?>][price]" value="<?php echo $_item->price ?>" />
+                                </td>
+                                
+                                <td>
+                                    <input style="width:20px;" class="input-text admin__control-text qty required-entry validate-greater-than-zero" type="text" name="option[value][<?php echo $_item->id ?>][qty]" value="<?php echo $_item->qty ?>">
+                                </td>  
+                                <td id="delete_button_container_<?php echo $_item->id ?>">
+                                    <input type="hidden" class="delete-flag" name="option[value][<?php echo $_item->id ?>][del]" value="" />
+                                    <input type="hidden" class="delete-flag" name="option[value][<?php echo $_item->id ?>][lid]" value="<?php echo $this->getRequest()->getParam("look_id") ?>" />
+                                    <button class="action-delete delete-option" type="button"><span>Remove Product</span></button> 
+                                </td> 
+
+                            </tr>
+
+                        <?php endforeach; ?>
+                    </tbody>
+
+                </table>
+                <input type="hidden" id="option-count-check" value="" />
+                <input type="hidden" name="lid" value="<?php echo $this->getRequest()->getParam("look_id") ?>" />
+
+            </div>
+        </div>
+
+    <!--</form>-->
+
+
+<?php endif; ?>
+
+

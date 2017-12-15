@@ -1,0 +1,22 @@
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="cart-action-continue">
+    <a class="action continue" data-bind="attr: {href: continueCartUrl}">
+        <span data-bind="i18n: 'Continue Shopping'"></span>
+    </a>
+</div>
+<ul class="opc-progress-bar">
+    <li class="opc-progress-bar-item _complete" >
+        <span data-bind="i18n: 'Warenkorb', click: redirectToCart"></span>
+        <!--<p data-bind="i18n: 'Creating an account has many benefits:'"></p>-->
+    </li>
+    <!-- ko foreach: { data: steps().sort(sortItems), as: 'item' } -->
+        <li class="opc-progress-bar-item" data-bind="css: item.isVisible() ? '_active' : ($parent.isProcessed(item) ? '_complete' : '')">
+            <span data-bind="i18n: item.title, click: $parent.navigateTo"></span>
+        </li>
+    <!-- /ko -->
+</ul>

@@ -1,0 +1,223 @@
+<!--@subject {{trans "Wie gefallen Dir deine Weko-Produkte?"}}  @-->
+<!--@vars {
+"var this.getUrl($store, 'review/orders/products')":"Warehouse Account URL",
+"var customer.email":"Customer Email",
+"var customer.name":"Customer Name"
+} @-->
+ 
+{{template config_path="design/email/header_template"}} <!-- pathe of template header-->
+
+<!-- here $myvar1 , $myvar2, $myvar3, $myvar4, $myvar5, $myvar6 are variables in which we
+                                     asssign values when we use this template for send mail-->
+
+<!-- you can Modify content of template according to your requirement-->
+
+
+
+<p></p> <br>
+<p class="bl-ttl">{{trans "Wie gefallen Dir deine Wenko Produkte?"}}</p>
+ <br>
+ <div class="mail-center-text" ><img src="{{view url='images/email/bbl1.jpg'}}" /></div>
+<br>
+<p class="text-two">{{trans "Du hast vor kurzem deine Bestellung von uns erhalten."}}
+<br>
+{{trans "Wir würden uns über eine kurze Bewertung deiner Produkte sehr treuen."}}
+<br>
+{{trans "Mit deiner Bewertung hilfst du anderen Kunden bei Ihrer Kaufentscheidung."}}
+<br>
+{{trans "Es dauert nur ein paar Minuten. Klicke dazu bitte folgenden Buffon:"}}
+</p>
+<br>
+<br>
+<p>
+    {{trans
+        '<a class="zum-btn blue-color" href="%review_url"><span>JETZT BEWERTUNG ABGEBEN</span></a>'
+
+        review_url=$this.getUrl($store,'review/orders/products',[_query:[orderid:$data.orderid,token:$customer.rp_token],_nosid:1])"
+    |raw}}
+</p>
+
+<br><br>
+
+<p class="text-two">{{trans "Wir danken dir far dein Feedback."}}  </p>
+
+<p class="red-text">{{trans "Dein Weko Onlineshop Team"}}</p>
+
+
+
+{{template config_path="design/email/footer_template"}} <!--footer of template-->
+
+<!--@styles 
+table.main{
+  width: 720px;
+}
+
+.menu-ul{
+  list-style: none;
+  display: inline-block;
+
+}
+
+
+.menu-ul  li{
+    display: inline-block;
+    font-size: 18px;
+    margin-left:25px;  }
+
+.menu-ul  a{
+      color: #000;
+      text-decoration: none;
+    }
+
+
+table.wrapper{
+    border-top:solid 5px #bc0002;
+}
+
+td.header{
+  border-bottom: solid 1px #c0c0c0;
+      padding: 15px 0px 15px;
+}
+
+td.header .logo{
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+.footer{
+   border-top: solid 1px #c0c0c0;
+   padding: 15px 0px 15px;
+   text-align: center;
+}
+
+.footer p{
+  color: #919191;
+  font-size: 12px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+.footer p a{
+  display: inline-block;
+  margin-left: 11px;
+  margin-right: 11px;
+  text-decoration: none;
+}
+
+
+.main-email-ttl{
+ font-size: 28px;
+ color: #e40011;
+ font-weight: bold;
+ text-align: center;
+ }
+
+
+ .text-two{
+   font-size: 20px;
+   color: #000;
+    text-align: center;
+
+ }
+
+ .ul-list-mail{
+     font-size: 20px;
+   color: #000;
+    text-align: center;
+    font-weight: bold;
+ }
+  .ul-list-mail li  {
+        list-style: none;
+  }
+
+
+
+ .red-text{
+     font-size: 20px;
+ color: #e40011;
+ text-align: center;
+ font-style: italic;
+ }
+
+ .zum-btn{
+   color: #fff;
+   text-transform: uppercase;
+    text-align: center;
+    display: block;
+    margin-bottom: 50px;
+ }
+
+  .zum-btn:hover{
+      color: #fff !important;
+  }
+
+ .zum-btn span{
+   background:#83d124;
+    padding: 12px 100px;
+    font-size: 16px;
+    color: #fff;
+}
+
+
+ .blue-color span{
+   background:#002a7e !important;
+
+ }
+
+
+.black-btn{
+    color: #fff;
+   text-transform: uppercase;
+    text-align: left;
+    display: block;
+    margin-bottom: 50px;
+}
+
+
+.black-btn:hover{ color: #fff !important;   }
+
+
+.black-btn span{
+  background: #000 !important;
+   padding: 12px 100px;
+    font-size: 16px;
+    color: #fff;
+}
+
+ .mail-center-text{
+   text-align: center;
+   display: block;
+ }
+  .mail-center-text img{
+    text-align: center;
+  }
+
+.bl-ttl{
+  margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 28px;
+    color: #002a7e;
+    font-weight: bold;
+    text-align: center;
+ }
+
+h4.for-ttl {
+    font-size: 24px !important;
+    text-transform: uppercase;
+    text-align: left;
+    color: #000;
+}
+
+
+.txt-left{
+  text-align: left !important;
+}
+
+ .text-one{
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #000;
+    text-align: left;
+}
+@-->

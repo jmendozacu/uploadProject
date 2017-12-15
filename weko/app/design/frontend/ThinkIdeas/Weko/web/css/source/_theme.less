@@ -1,0 +1,257 @@
+// /**
+//  * Copyright © 2016 Magento. All rights reserved.
+//  * See COPYING.txt for license details.
+//  */
+
+//
+//  Blank theme overrides
+//  _____________________________________________
+
+//  Theme file should contain declarations (overrides) ONLY OF EXISTING variables
+//  Otherwise this theme won't be available for parent nesting
+//  All new variables should be placed in local theme lib or local theme files
+
+@text__color: @primary__color;
+
+@primary__color: #424242;
+
+
+
+//
+//  Links
+//  ---------------------------------------------
+
+@link__color: @text__color;
+@link__text-decoration: none;
+
+@link__visited__color: @link__color;
+@link__visited__text-decoration: none;
+
+@link__hover__color: @theme_red;
+@link__hover__text-decoration: none;
+
+@link__active__color: @theme_red;
+@link__active__text-decoration: none;
+
+
+
+@icons__font-path: '@{baseDir}fonts/weko-icon';
+
+@icons__font-name: 'weko-icon';
+
+@font-family__base: 'Adelle-Regular';
+
+@font-family__Rtitel:  'Covered By Your Grace', cursive;
+
+
+@font-family__mail: 'Arial, Helvetica, sans-serif';
+
+
+
+
+@theme_red: #e30e1d;
+@theme_red_light: #e33d49;
+@border_theme: #eaeaea;
+@darkgray: #333333;
+
+@layout__max-width: 1165px;
+
+//  Placeholder
+@form-element-input-placeholder__color: #9a9a9a;
+
+
+@navigation__background: transparent;
+@navigation-level0-item__font-size: 16;
+
+@navigation-level0-item__margin: 0;
+@navigation-level0-item__padding: 8px @indent__xl 8px 15px;
+@navigation-level0-item__text-transform: uppercase;
+
+
+@navigation-level0-item__border: 1px solid @color-gray82;
+@navigation-level0-item__color: @color-gray34;
+@navigation-level0-item__text-decoration: none;
+
+@navigation-level0-item__active__border-color: @color-orange-red1;
+@navigation-level0-item__active__border-style: solid;
+@navigation-level0-item__active__border-width: 0 0 0 8px;
+
+@navigation-desktop-level0-item__hover__color: @theme_red;
+
+//
+//  Desktop navigation
+//  ---------------------------------------------
+
+@navigation-desktop__background: transparent;
+
+@navigation-desktop__font-weight: 400;
+
+@navigation-desktop__font-size:14px;
+
+@navigation-desktop-level0-item__line-height: 39px;
+@navigation-desktop-level0-item__margin: 0 0px 0 0;
+@navigation-desktop-level0-item__padding: 0 12px;
+@navigation-desktop-level0-item__color: @color-gray34;
+
+@navigation-desktop-level0-item__text-decoration: none;
+@submenu-item__text-decoration: none;
+@navigation-level0-item__text-decoration: none;
+
+@submenu-desktop__background: @page__background-color;
+
+@submenu-desktop-item__hover__background: false;
+@submenu-desktop-item__hover__color: @navigation-desktop-level0-item__hover__color;
+
+@navigation-desktop-level0-item__active__border-color: @theme_red;
+@submenu-desktop-item__active__border-width: 0 0 0 0px;
+
+@submenu-desktop__min-width: 100%;
+@submenu-desktop__padding: 15px 0;
+
+@submenu__font-weight: @font-weight__regular;
+@submenu-desktop__font-weight: @font-weight__regular;
+
+
+
+/*mobile nav*/
+
+@navigation-level0-item__border: 1px solid #eaeaea;
+@navigation-level0-item__color: #424242;
+@navigation-level0-item__font-weight: @font-weight__regular;
+@navigation-level0-item__font-size: 14;
+@navigation-level0-item__text-transform: none;
+@navigation-level0-item__padding: 11px @indent__xl 11px 15px;
+
+@navigation-level0-item__active__border-color: transparent;
+/*@navigation-level0-item__active__border-width: 0 0 0 0px;*/
+
+
+
+@page__background-color: #fafafa;
+
+
+@icon-cart: '\e90c';
+@icon-account: '\e900';
+@icon-heart-round: '\e921';
+@icon-msg-heart:  '\e93e';
+@icon-arrow-left:  '\e903';
+@icon-arrow-right: '\e908';
+@icon_cart_btn: '\e911';
+
+@icon-settings: '\e916';
+@icon-star: '\e92f';
+@message-success-icon: '\e93f';
+
+@icon-wishlist-full: '\e947';
+@icon-wishlist-empty: '\e945';
+
+@icon-menu: '\e922';
+
+@icon-filt: '\e91f';
+
+@icon-remove: '\e910';
+
+@message__padding: 13px @indent__base;
+@message-icon__font-size: 18px;
+@message-icon__font-line-height: 20px;
+
+
+@button__padding: 12px 20px;
+@button-primary__background:#7ed321;
+@button-primary__border: 0px solid @color-blue1;
+@button-primary__color: @color-white;
+
+@button-primary__hover__background: #424242;
+@button-primary__hover__border: 0px solid @color-blue2;
+@button-primary__hover__color: #fff;
+
+@button__active__color: @button__color;
+@button__active__background: @button__hover__background;
+@button__active__border: @button__border;
+
+@button__font-weight:normal;
+@button__border-radius: 0px;
+
+@button__font-size:13px;
+
+
+@layout-column-main__width-2-left: @layout-column-main__width-1 - @layout-column__sidebar-width;
+
+@layout-column__sidebar-width: 25.2%;
+
+@breadcrumbs__font-size:12px;
+
+@breadcrumbs-link__color: #bebebe;
+@breadcrumbs-link__color:#bebebe;
+@breadcrumbs-link__visited__color: #bebebe;
+@breadcrumbs-link__hover__color: #bebebe;
+
+@breadcrumbs-current__color: #bebebe;
+
+@breadcrumbs-separator__color:#bebebe;
+@breadcrumbs-icon__font-content: '\/';
+@breadcrumbs-icon__font-size: 13px;
+@breadcrumbs-icon__font-line-height: 16px;
+@breadcrumbs-icon__font-color: #bebebe;
+
+@pager__font-size: 14px;
+@pager__font-weight: @font-weight__bold;
+@pager__line-height: 32px;
+@pager-current__color: @theme_red;
+@pager__color: #cbcbcb;
+@pager-action__visited__color: @pager__color;
+@pager-action__active__color: @pager__color;
+@pager-action__hover__color: @pager__color;
+@pager-action__visited__color: #cbcbcb;
+
+
+@pager-icon__font-size: 34px;
+@pager-icon__font-line-height: @icon-font__line-height;
+@pager-action__border:none;
+
+@pager-icon__previous-content: '\e901';
+@pager-icon__next-content: '\e902';
+
+@rating-icon__count: 5;
+@rating-icon__content: @icon-star;
+@rating-icon__font: @icon-font;
+@rating-icon__font-size: 20px;
+@rating-icon__letter-spacing: 4px;
+
+@rating-icon__color: #e8e8e8;
+@rating-icon__active__color: #7ed321;
+
+@select__background: transparent;
+@select__padding: @indent__xs 40px 4px @indent__s;
+
+
+@form-element-input__border-color: #e2e2e2;
+@form-element-input__border: 1px solid #e2e2e2;
+@form-element-input__border-radius: 0px;
+@form-element-input__height: 40px;
+
+@form-field-label__font-weight: @font-weight__regular;
+@form-field-type-label-inline__align: left;
+
+@form-field-type-label-inline__width: 28%;
+
+@form-field-label__color: #888888;
+
+//  Form field control
+@form-field-type-control-inline__width: 65.2%;
+
+
+@table-th__font-size: false;
+@table-th__color: #000;
+@table-th__font-family: false;
+@table-th__font-weight: bold;
+@table-th__line-height: false;
+@table-th__font-style: uppercase;
+@border-color__base:#ececec;
+
+
+@tab-content__padding-right: 0;
+@tab-content__padding-left: 0;
+
+
+@message__margin: 5px 0 @indent__s;

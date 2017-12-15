@@ -1,0 +1,147 @@
+<?php
+/**
+ * ThinkIdeas_Faq extension
+ * 
+ * @category  ThinkIdeas
+ * @package   ThinkIdeas_Faq
+ */
+ ?>
+<?php /** @var \ThinkIdeas\Storelocator\Block\Storelocator $block */?>
+<?php $_store = $block->getCurrentStore();?>
+<?php $data = $block->getStoresForFrontend(); ?>
+<?php $countryList = $block->getCountries(); ?>
+<?php $modulePath = "thinkideas_storelocator/stockist/image/"; ?>
+<?php $templateSetting = $block->getTemplateSettings(); ?>
+
+    <div class="faq-title form-group">
+        <div class="row">
+            <div class="text-center">
+                <h1><?php echo __("Kontakt");?></h1>
+                <div class="titel-below">Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Curabitur blandit tempus porttitor.</div>
+            </div>
+        </div>
+    </div>
+
+
+<ul class="stores-contact-tabs tab">
+    <li><a href="javascript:void(0)" id="defaultOpen-tabs" class="tablinks" onclick="openCity(event, 'custom-stores')"><?php echo __('Standorte');?></a></li>    
+    <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'contact-form')"><?php echo __('Kontaktformular');?></a></li>
+</ul>
+<div class="stores-container tabcontent" id="custom-stores">
+    <div class="parent-storelocator <?php echo $templateSetting; ?>">
+        <div class="results-store">
+        	<ul class="stores-tabs tab">
+        		<?php $i = 0; foreach ($data as $item): ?>
+        			<?php //echo "<pre/>"; print_r($item->getData());exit;?>
+        			<li><a href="javascript:void(0)" id="<?php echo ($i==0) ? 'defaultOpen-stores': '' ?>" class="tablinks-stores" onclick="openStore(event, 'store-<?php echo $item['stockist_id']?>')"><?php echo __($item['name']);?></a></li>
+        		<?php $i++; endforeach;?>
+        	</ul>
+            <?php foreach ($data as $item): ?>
+            <?php $data_marker = $item["latitude"].$item["longitude"]; ?>
+            <div class="results-content loaded-results address tabcontent-stores" id="store-<?php echo $item['stockist_id']?>" data-marker="<?php echo $block->escapeHtml($data_marker); ?>">
+                <!--<p class="results-title1"><?php echo $block->escapeHtml($item["name"]); ?></p>         -->
+                <?php if ($item["image"]): ?>
+                <div class="image">
+                    <img src="<?php echo $block->getBaseImageUrl().$modulePath.$block->escapeHtml($item["image"]) ?>"
+                        alt="<?php echo $block->escapeHtml($item["name"]) ?>" />
+                </div>
+                <?php endif; ?>
+                <div class="results-item-data img-below-address">
+                    <?php if ($item["address"]): ?>
+                    <p class="results-address"><?php echo $block->escapeHtml($item["address"]); ?></p>
+                    <?php endif; ?>
+                    <?php if ($item["city"]): ?>
+                    <p class="results-phone">
+                        <?php
+                            echo $block->escapeHtml($item["city"]);
+                            echo $block->escapeHtml($item["postcode"]) ? ", " . $block->escapeHtml($item["postcode"]) : "";
+                            ?>
+                    </p>
+                    <?php endif; ?>
+                    <?php if ($item["country"] && $countryList[$item["country"]]): ?>
+                    <p class="results-miles"><?php echo $block->escapeHtml($countryList[$item["country"]]) ?></p>
+                    <?php endif; ?>
+                </div>
+                <div class="results-item-data">
+                    <p class="results-title"><?php /* @escapeNotVerified */ echo __("Our opening times") ?></p>
+                    <?php if ($item["mondaytofriday"]): ?>
+                    <p class="results-address"><?php /* @escapeNotVerified */ echo __("Monday to Friday : ") ?><?php echo $block->escapeHtml($item["mondaytofriday"]); ?></p>
+                    <?php endif; ?>
+                    <?php if ($item["saturday"]): ?>
+                    <p class="results-address"><?php /* @escapeNotVerified */ echo __("Saturday : ") ?><?php echo $block->escapeHtml($item["saturday"]); ?></p>
+                    <?php endif; ?>
+                    <?php if ($item["holiday"]): ?>
+                    <p class="results-address"><?php /* @escapeNotVerified */ echo __("Holiday : ") ?><?php echo $block->escapeHtml($item["holiday"]); ?></p>
+                    <?php endif; ?>
+                    <?php if ($item["newyear"]): ?>
+                    <p class="results-address"><?php /* @escapeNotVerified */ echo __("New Year : ") ?><?php echo $block->escapeHtml($item["newyear"]); ?></p>
+                    <?php endif; ?>
+                </div>
+                <div class="results-item-data">
+                    <p class="results-title"><?php /* @escapeNotVerified */ echo __("Contact") ?></p>
+                    <?php if ($item["phone"]): ?>
+                    <p class="results-address"><?php /* @escapeNotVerified */ echo __("Tel : ") ?><?php echo $block->escapeHtml($item["phone"]); ?></p>
+                    <?php endif; ?>
+                    <?php if ($item["link"]): ?>
+                    <p class="results-address"><?php /* @escapeNotVerified */ echo __("Fax : ") ?><?php echo $block->escapeHtml($item["link"]); ?></p>
+                    <?php endif; ?>
+                    <?php if ($item["email"]): ?>
+                    <p class="results-address"><?php /* @escapeNotVerified */ echo __("E-Mail : ") ?><?php echo $block->escapeHtml($item["email"]); ?></p>
+                    <?php endif; ?>
+                </div>
+                <div>
+                </div>
+            </div>
+            <?php endforeach;?>
+        </div>
+    </div>
+    <div id="map-canvas" style="height: 100%; width: 100%;"></div>
+</div>
+<script>
+	function openCity(evt, cityName) {
+    	require([
+            'jquery'
+        ], function($){
+    	    var i, tabcontent, tablinks;
+    	    tabcontent = document.getElementsByClassName("tabcontent");
+    	    for (i = 0; i < tabcontent.length; i++) {
+    	        tabcontent[i].style.display = "none";
+    	    }
+    	    tablinks = document.getElementsByClassName("tablinks");
+    	    for (i = 0; i < tablinks.length; i++) {
+    	        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    	    }
+    	    document.getElementById(cityName).style.display = "block";
+    	    evt.target.className += " active";
+    	});
+    }
+
+    function openStore(evt, cityName) {
+    	require([
+            'jquery'
+        ], function($){
+    	    var i, tabcontent_stores, tablinks_stores;
+    	    tabcontent_stores = document.getElementsByClassName("tabcontent-stores");
+    	    for (i = 0; i < tabcontent_stores.length; i++) {
+    	        tabcontent_stores[i].style.display = "none";
+    	    }
+    	    tablinks_stores = document.getElementsByClassName("tablinks-stores");
+    	    for (i = 0; i < tablinks_stores.length; i++) {
+    	        tablinks_stores[i].className = tablinks_stores[i].className.replace(" active", "");
+    	    }
+    	    
+    	    document.getElementById(cityName).style.display = "block";
+    	    evt.target.className += " active";
+    	});
+    }
+
+    require([
+        'jquery'
+    ], function($){
+        $(document).ready(function(){
+            $("#defaultOpen-tabs").trigger('click');
+            $("#defaultOpen-stores").trigger('click');
+	    });
+    });
+    
+</script>

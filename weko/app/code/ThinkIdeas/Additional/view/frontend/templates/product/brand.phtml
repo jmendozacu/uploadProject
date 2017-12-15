@@ -1,0 +1,16 @@
+<?php
+// echo"<pre/>"; print_r("test");exit;
+$setting = $block->getBrandIcon();
+
+?>
+
+<?php if ($setting) : ?>
+
+<div class="amshopbybrand-link">
+    <a href="<?php echo $setting->getUrlPath() ?>"><img
+        title="<?php echo $block->stripTags($setting->getTitle())?>"
+        alt="<?php   echo $block->stripTags($setting->getTitle())?>"
+        src="<?php   echo $setting->getSliderImageUrl() ?>" />
+    </a>
+</div>
+<?php endif ?>

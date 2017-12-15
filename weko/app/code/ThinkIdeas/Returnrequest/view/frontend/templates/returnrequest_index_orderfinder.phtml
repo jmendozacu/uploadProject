@@ -1,0 +1,62 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+// @codingStandardsIgnoreFile
+?>
+<?php if ($messages = $block->getMessages()): ?>
+    <?php foreach ($messages as $message): ?>
+        <h1><?php echo $block->escapeHtml($message) ?></h1>
+    <?php endforeach; ?>
+<?php endif; ?>
+
+    <div class="block-title order">
+        <strong>Artikel zurückschicken</strong>
+        </div>
+
+            <div class="retun-content">
+                <p> Bitte fülle das Kontaktformular aus und wir melden uns so schnell wie möglich bei dir.   </p>
+            </div>
+
+<form class="form form-page2"
+      action="<?php /* @escapeNotVerified */ echo $block->getFormAction(); ?>"
+      id="returnrequest_orderitem"
+      method="post"
+      data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>"
+      data-mage-init='{"validation":{}}'>
+    <fieldset class="fieldset">
+
+
+        <div class="field name order-name-lb">
+            <label class="label" for="orderno"><span><?php /* @escapeNotVerified */ echo __('Bestellnummer') ?></span></label>
+        </div>        
+        <div class="field name  order-no-lb">
+            <label class="label ord-number" for="orderno"><span><?php echo $block->getOrdernorrq(); ?></span></label>
+        </div>
+
+        <div class="field name required">
+            <label class="label1" for="itemno"><span><?php /* @escapeNotVerified */ echo __('Artikelnummern die zurückgesendet werden sollen. Diese findest du auf deiner Rechnung.') ?></span></label>
+            <div class="control1">
+                <input name="itemno" id="itemno" title="<?php /* @escapeNotVerified */ echo __('Item No') ?>" value="" class="input-text" type="text" data-validate="{required:true}"/>
+            </div>
+        </div>         
+
+        <div class="field comment required">
+            <label class="label1" for="reason"><span><?php /* @escapeNotVerified */ echo __('Grund der Retoure ') ?></span></label>
+            <div class="control1">
+                <textarea name="reason" id="reason" title="<?php /* @escapeNotVerified */ echo __('Reason') ?>" class="input-text" cols="5" rows="3" data-validate="{required:true}"></textarea>
+            </div>
+        </div>
+    </fieldset>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <input type="hidden" name="hideit" id="hideit" value="orderitemform" />
+            <input type="hidden" name="orderidhiddne" id="orderidhiddne" value="<?php echo $block->getOrdernorrq(); ?>" />
+
+            <button type="submit" title="<?php /* @escapeNotVerified */ echo __('Submit') ?>" class="action submit primary">
+                <span><?php /* @escapeNotVerified */ echo __('Submit') ?></span>
+            </button>
+        </div>
+    </div>
+</form>

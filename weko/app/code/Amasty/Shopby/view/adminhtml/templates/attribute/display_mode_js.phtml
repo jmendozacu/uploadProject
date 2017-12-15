@@ -1,0 +1,44 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2017 Amasty (https://www.amasty.com)
+ * @package Amasty_Shopby
+ */
+?>
+<?php
+/**
+ * @var $block \Amasty\Shopby\Block\Adminhtml\Catalog\Product\Attribute\Edit
+ */
+?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Amasty_Shopby/js/display-mode": {
+                "inputTypeMap": <?php /* @escapeNotVerified */ echo $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode(
+                    $block->getInputTypeMap()
+                );?>,
+                "showProductQuantitiesConfig": [
+                    "<?php echo \Amasty\Shopby\Model\Source\DisplayMode::MODE_DEFAULT?>",
+                    "<?php echo \Amasty\Shopby\Model\Source\DisplayMode::MODE_DROPDOWN?>",
+                    "<?php echo \Amasty\Shopby\Model\Source\DisplayMode::MODE_IMAGES_LABELS?>"
+                ],
+                "numberUnfoldedOptionsConfig": [
+                    "<?php echo \Amasty\Shopby\Model\Source\DisplayMode::MODE_DEFAULT?>",
+                    "<?php echo \Amasty\Shopby\Model\Source\DisplayMode::MODE_IMAGES_LABELS?>"
+                ],
+                "isMultiselectConfig": [
+                    "<?php echo \Amasty\Shopby\Model\Source\DisplayMode::MODE_DEFAULT?>",
+                    "<?php echo \Amasty\Shopby\Model\Source\DisplayMode::MODE_DROPDOWN?>",
+                    "<?php echo \Amasty\Shopby\Model\Source\DisplayMode::MODE_IMAGES_LABELS?>",
+                    "<?php echo \Amasty\Shopby\Model\Source\DisplayMode::MODE_IMAGES?>",
+                    "<?php echo \Amasty\Shopby\Model\Source\DisplayMode::MODE_TEXT_SWATCH?>"
+                ],
+                "notices": {
+                    "<?php echo \Amasty\Shopby\Model\Source\DisplayMode::MODE_IMAGES?>": "<?php echo __('Please upload images at the Properties tab.')?>",
+                    "<?php echo \Amasty\Shopby\Model\Source\DisplayMode::MODE_IMAGES_LABELS?>": "<?php echo __('Please upload images at the Properties tab.')?>",
+                    "<?php echo \Amasty\Shopby\Model\Source\DisplayMode::MODE_TEXT_SWATCH?>": "<?php echo __('Please add text values at the Properties tab.')?>"
+                }
+            }
+        }
+    }
+</script>

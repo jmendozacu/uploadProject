@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template area="frontend" file="returnrequest.html" id="return_info_general_approved_email_template" label="Return Request email" module="ThinkIdeas_Returnrequest" type="html"/>
+</config>

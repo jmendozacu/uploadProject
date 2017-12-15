@@ -1,0 +1,26 @@
+<button class="review-product-button"><?php echo __("BEWERTUNG SCHREIBEN") ?></button>
+
+ <div class="summary-heading-title"><h4><?php echo __("Gesamtbewertung");?></h4></div>
+<script>
+require([
+    "jquery"
+], function($){
+    $(document).ready(function(){
+    	$(".review-add").addClass('review-close');
+    	
+        $(document).on('click','.review-product-button', function()
+        {    
+
+            if ($(".review-add").hasClass('review-open')) {
+                $(".review-add").addClass('review-close');    
+                $(".review-add").removeClass('review-open');
+            }
+            else
+            {
+                $(".review-add").addClass('review-open');    
+                $(".review-add").removeClass('review-close');
+            }            
+        }); 
+    });
+});
+</script>

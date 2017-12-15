@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+<!--        <tab id="thinkideatab" sortOrder="10" translate="label">
+            <label>ThinkIdea</label>
+        </tab>
+        <section id="thinkideasec" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+            <label>Think Idea Category Slider</label>
+            <tab>thinkideatab</tab>
+            <resource>ThinkIdeas_Categorysliders::config_thinkideas_categorysliders</resource>
+            <group id="thinkideagroup" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>Categorie Slider</label>
+                <field id="cate_enabled_slider" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+                    <label>Enable Extension</label>
+                    <comment/>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                </field>
+            </group>
+        </section>-->
+    </system>
+</config>

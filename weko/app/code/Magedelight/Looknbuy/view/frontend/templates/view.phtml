@@ -1,0 +1,291 @@
+<?php
+/**
+ * Magedelight
+ * Copyright (C) 2016 Magedelight <info@magedelight.com>
+ *
+ * NOTICE OF LICENSE
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+ *
+ * @category Magedelight
+ * @package Magedelight_Looknbuy
+ * @copyright Copyright (c) 2016 Mage Delight (http://www.magedelight.com/)
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Magedelight <info@magedelight.com>
+ */
+?>
+<?php
+$look_id = $this->getRequest()->getParam('look_id');
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$look = $this->getLook();
+$markers = $look['markers'];
+$this->_storeManager = $objectManager->create('\Magento\Store\Model\StoreManagerInterface');
+$this->helper = $objectManager->create('\Magedelight\Looknbuy\Helper\Data');
+
+$this->scopeConfig = $objectManager->create('\Magento\Framework\App\Config\ScopeConfigInterface');
+$layout = $look['layout'];
+
+if ($layout == 1) {
+    $class = "looknbuy-1column";
+} else {
+    $class = "looknbuy-2columns";
+}
+$ishomepage = "inspiration";
+$lookImgUrl = $this->helper->imageResize($look['base_image'], $layout, $ishomepage);
+?>
+
+
+<?php
+$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+$folderName = \Magento\Config\Model\Config\Backend\Image\Favicon::UPLOAD_DIR;
+$uploded_image = $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) .$folderName . '/' . $this->scopeConfig->getValue('looknbuy/styles/marker_icon', $storeScope);
+
+$markerImagePath = $this->scopeConfig->getValue('looknbuy/styles/marker_icon', $storeScope) ? $uploded_image : $block->getViewFileUrl('Magedelight_Looknbuy::images/marker.png') ;
+$markerImageUrl =  $markerImagePath;
+
+$markerWidth = $this->scopeConfig->getValue('looknbuy/styles/marker_width', $storeScope);
+$markerHeight = $this->scopeConfig->getValue('looknbuy/styles/marker_height', $storeScope);
+$fontColor = '#' . $this->scopeConfig->getValue('looknbuy/styles/font_color', $storeScope);
+$backgroundColor = '#' . $this->scopeConfig->getValue('looknbuy/styles/background_color', $storeScope);
+$fontSize = $this->scopeConfig->getValue('looknbuy/styles/font_size', $storeScope);
+$opacity = $this->scopeConfig->getValue('looknbuy/styles/opacity', $storeScope);
+?>
+
+<style>.base_image .easypin .easypin-marker .easypin-popover:before{border-color:<?php echo $backgroundColor ?> transparent transparent ;}</style>
+
+<div class="<?php echo $class; ?>"> 
+    <div class="base_image"  id="wrapper">
+        <img id="image1" src="<?php echo $lookImgUrl; ?>"  class="pin" easypin-id="example" >
+    </div>
+
+    <div style="display:none;" easypin-tpl>
+        <popover>
+            <div style="height:auto; background-color:<?php echo $backgroundColor ?>;color: <?php echo $fontColor ?>; opacity: <?php echo $opacity ?>; font-size: <?php echo $fontSize ?>">
+                    <!-- {[content]} -->
+                    <ol class="products list items product-items">
+                        <li class="item product product-item">
+                            <div class="product-item-info" data-container="product-grid">
+                                <a href="{[producturl]}" class="product photo product-item-photo" tabindex="-1">
+                                    <span class="product-image-container" style="width:160px;">
+                                        <span class="product-image-wrapper" style="padding-bottom: 100%;">
+                                            <img class="product-image-photo" src="{[product_image]}" width="160" height="160" alt="{[content]}"></span>
+                                    </span>
+                                </a>
+                                <div class="product details product-item-details">
+                                    <strong class="product name product-item-name">
+                                        <a class="product-item-link"
+                                           href="{[producturl]}">
+                                            {[content]}
+                                        </a>
+                                    </strong>
+                                    <div class="price-box price-final_price" data-role="priceBox" data-product-id="{[productid]}">
+                                        <span class="price-container price-final_price tax weee">
+                                            <span id="product-price-{[productid]}" data-price-amount="{[productprice]}" data-price-type="finalPrice" class="price-wrapper ">
+                                                <span class="price">{[productprice]}</span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="product-item-inner">
+                                        <div class="product actions product-item-actions">
+                                            <div class="actions-primary">
+                                                <div class="main-btn1">
+                                                    <a class="action tocart primary" href="{[producturl]}" title="{[content]}"><span>Zum Produkt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+        </popover>
+
+        <marker>
+            <div style="width:<?php echo $markerWidth ?>px;height:<?php echo $markerHeight ?>px;">
+                <img src="<?php echo $markerImageUrl; ?>" width="<?php echo $markerWidth ?>" height="<?php echo $markerHeight ?>">
+				<span class="pulse"></span>
+            </div>
+        </marker>
+    </div>
+    
+
+
+    <script type="text/javascript">
+
+        require([
+            'jquery',
+            'jquery/ui',
+            'Magedelight_Looknbuy/js/easing',
+            'Magedelight_Looknbuy/js/easypin'
+
+        ], function ($) {
+
+            jQuery(document).ready(function () {
+
+                jQuery('.pin').easypinShow({
+                    data: '<?php echo $markers; ?>',
+                    responsive: true,
+                    popover: {
+                        show: false,
+                        animate: true
+                    }
+                });
+
+
+            });
+
+        });
+
+    </script>
+
+    <div class="look-data">
+
+        <h3><?php echo $look['look_name'] ?></h3>
+        <?php if ($layout == 1) { ?>
+            <div class="description">
+                <?php echo $look['description']; ?>     
+
+            </div>
+        <?php } ?>
+        <?php $products = json_decode($this->getProducts()); ?>
+
+        <?php if (count($products) != 0):?>
+        <div class="main-titel"><h2><span>Produkte aus dem Look</span></h2></div>
+
+        <form method="post" action="<?php echo $this->getUrl("looknbuy/cart/add") ?>" data-form="look-view-form" data-role="tocart-form" name="look-option" id="look_items_form" enctype="multipart/form-data" validate="validate">
+             <?php echo $block->getBlockHtml('formkey')?>
+            <div class="products wrapper grid products-grid">
+
+                <ol  class="products list items product-items">
+                    
+                    <?php $iterator = 1; ?>
+                    <?php
+                    $image = 'cart_page_product_thumbnail';
+                    $i = 0;
+                    foreach ($products as $_product):
+                        ?>
+                        <?php
+                            $_item = $objectManager->create('Magento\Catalog\Model\Product')->load($_product->pid);
+                            $this->imageBuilder = $objectManager->create('Magento\Catalog\Helper\Image');
+                            $imgUrl = $this->imageBuilder->init($_item, $image)->constrainOnly(FALSE)->keepAspectRatio(TRUE)->resize(160)->getUrl();
+                            
+                            $_productNameStripped = $block->stripTags($_item->getName(), null, true);
+                            ?>
+                            <?php /* @escapeNotVerified */ /*echo($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?> <?php */ ?>
+                            <li class="item product product-item">
+                            <div class="product-item-info" data-container="product-grid">
+
+                                <?php // Product Image ?>
+                                <a href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
+                                    <span class="product-image-container" style="width:160px;">
+                                        <span class="product-image-wrapper" style="padding-bottom: 100%;">
+                                            <img class="product-image-photo" src="<?php echo $imgUrl; ?>" alt="<?php echo $_item->getName(); ?>" /></span>
+                                    </span>
+                                </a>
+                                <div class="product details product-item-details">
+                                    <?php
+                                        $_productNameStripped = $block->stripTags($_item->getName(), null, true);
+                                    ?>
+                                    <strong class="product name product-item-name">
+                                        <a class="product-item-link"
+                                           href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>">
+                                            <?php /* @escapeNotVerified */ echo __($_item->getName()); ?>
+                                        </a>
+                                    </strong>
+                                     <?php
+                                            echo $block->getProductPriceHtml(
+                                                    $_item, \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE, \Magento\Framework\Pricing\Render::ZONE_ITEM_VIEW, [
+                                                'price_id_suffix' => '-look-item'
+                                                    ]
+                                            )
+                                            ?>
+                                            <?php
+                                                $attribute_code = 'delivery_time';
+                                                $deliveryWeek =  $_item->getResource()->getAttribute($attribute_code)->getFrontend()->getValue($_item);
+                                                $attribute_code = 'delivery_time_color';
+                                                $deliveryWeekColor =  $_item->getResource()->getAttribute($attribute_code)->getFrontend()->getValue($_item);
+                                                $week = filter_var($deliveryWeek, FILTER_SANITIZE_NUMBER_INT);
+                                            ?>
+                                             <?php
+                                            echo $block->getProductPriceHtml(
+                                                    $_item, 'tier_price', \Magento\Framework\Pricing\Render::ZONE_ITEM_VIEW, [
+                                                'price_id_suffix' => '-look-item'
+                                                    ]
+                                            )
+                                            ?>
+                                 <div class="product actions product-item-actions <?php echo strtolower($deliveryWeekColor); ?>">
+                                    <div class="actions-primary">  
+                                        <?php if ($_item->getIsSalable() && $week != 6 && $week != 8): ?>
+                                            <?php if ($_item->getReserveAndCollect()): ?>
+                                                    <div class="stock available typerc-stock-status"><span><?php /* @escapeNotVerified */ echo __('Nur Abholung möglich ') ?></span></div>
+                                            <?php elseif ($_item->getProductStatus() == 1):?>
+                                                    <div class="stock-count view-only-status"><span><?php /* @escapeNotVerified */ echo __('ANSICHTSPRODUKT') ?></span></div>
+                                            <?php else:?>
+                                                    <div class="stock available"><span><?php /* @escapeNotVerified */ echo __('Auf Lager') ?></span></div>
+                                                        <?php if($_item->getDeliveryTimeInDays()){ ?>
+                                                            <div class="stock-count"><?php echo " -" .$_item->getDeliveryTimeInDays();?><span> <?php /* @escapeNotVerified */ echo __('Tage Lieferzeit') ?></span></div>
+                                                        <?php } ?>
+                                            <?php endif; ?>
+                                        <?php else: ?>
+                                            <div class="stock unavailable"><span><?php /* @escapeNotVerified */ echo __('Nicht auf Lager') ?></span></div>
+                                            <?php if($_item->getData('delivery_time_in_week')): ?>
+                                                <div class="stock-count"><?php echo " -" .$_item->getData('delivery_time_in_week');?><span> <?php /* @escapeNotVerified */ echo __('Wochen Lieferzeit') ?></span>
+                                                </div>
+                                        <?php endif;?>
+                                    <?php endif; ?>
+                                    </div>
+                                </div>
+
+                        <div class="product-item-inner">
+                            <div class="product actions product-item-actions">
+                                            <div class="actions-primary">
+                                                <?php if ($_item->isSaleable() && $week != 6 && $week != 8): ?>
+                                                        <?php if ($_item->getReserveAndCollect()): ?>
+                                                                <div class="main-btn1"><a class="action tocart primary reserved-btn" href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><span><?php /* @escapeNotVerified */ echo __('In einer Filiale reservieren') ?></span></a></div>
+
+                                                        <?php elseif ($_item->getProductStatus() == 1):?>
+                                                                <div class="main-btn1"><a class="action tocart primary out-of-stock" href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php /* @escapeNotVerified */ echo __('Ansichtsprodukt') ?></a></div>
+                                                         <?php else:?>
+                                                                <div class="main-btn1"><a class="action tocart primary" href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><span><?php /* @escapeNotVerified */ echo __('Zum Produkt') ?></span></a></div>
+                                                        <?php endif; ?>
+                                                <?php else: ?>
+                                                              <div class="main-btn1"><a class="action tocart primary out-of-stock" href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><span><?php /* @escapeNotVerified */ echo __('Leider Aktuell Ausverkauft') ?></span></a></div>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php echo($iterator == count($products)+1) ? '</li>' : '' ?>
+                    <?php endforeach; ?>
+
+
+                </ol>
+            </div>
+        </form>
+        <?php else:?>
+            <div class="no-product-available">
+                <h3><?php echo __("Keine Produktliste verfügbar."); ?></h3>
+            </div>
+        <?php endif;?>
+    </div>
+    <?php if ($layout == 2) { ?>
+        <div class="description">
+            <?php echo $look['description']; ?>     
+
+        </div>
+    <?php } ?>
+</div>

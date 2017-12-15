@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="controller_action_review_order_success_after">
+        <observer name="thinkideas_review_product_success_save_after" instance="ThinkIdeas\Review\Observer\Product\Success\Save" />
+    </event>
+</config>

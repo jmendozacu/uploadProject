@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * ThinkIdeas
+ *
+ * @category    ThinkIdeas
+ * @package     ThinkIdeas_Faq
+ *
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="ThinkIdeas_Faq::faq" title="FAQ" module="ThinkIdeas_Faq" sortOrder="40"
+             resource="ThinkIdeas_Faq::faq"/>
+        <add id="ThinkIdeas_Faq::faq_faq" title="Manage FAQ" module="ThinkIdeas_Faq" sortOrder="1"
+             parent="ThinkIdeas_Faq::faq" action="faqadmin/faq/index"
+             resource="ThinkIdeas_Faq::faq_faq"/>
+        <add id="ThinkIdeas_Faq::faq_category" title="Manage Category" module="ThinkIdeas_Faq" sortOrder="2"
+             parent="ThinkIdeas_Faq::faq" action="faqadmin/category/index"
+             resource="ThinkIdeas_Faq::category"/>
+        <add id="ThinkIdeas_Faq::config_faq" title="Settings" module="ThinkIdeas_Faq" sortOrder="4"
+             parent="ThinkIdeas_Faq::faq" action="adminhtml/system_config/edit/section/faq"
+             resource="ThinkIdeas_Faq::config_faq"/>
+    </menu>
+</config>

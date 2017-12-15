@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="customer_account_navigation">
+            <block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-demo-link">
+                <arguments>                  
+                    <argument name="label" xsi:type="string">Return Requst</argument>
+                    <argument name="path" xsi:type="string">returnrequest</argument>  
+                </arguments>
+            </block>
+	   <block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-logout-link">
+                <arguments>                   
+                    <argument name="label" xsi:type="string">Abmelden</argument>
+                    <argument name="path" xsi:type="string">customer/account/logout</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

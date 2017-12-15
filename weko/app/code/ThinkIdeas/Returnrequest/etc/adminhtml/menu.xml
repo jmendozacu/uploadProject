@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="ThinkIdeas_Returnrequest::parent" title="Returnrequest" module="ThinkIdeas_Returnrequest" sortOrder="100" resource="ThinkIdeas_Returnrequest::parent"/>
+        <add id="ThinkIdeas_Returnrequest::index" title="Returnrequest Index" module="ThinkIdeas_Returnrequest" sortOrder="10" action="returnrequest/index" resource="ThinkIdeas_Returnrequest::index" parent="ThinkIdeas_Returnrequest::parent"/>
+        <add id="ThinkIdeas_Returnrequest::returnrequest" title="ThinkIdeas Returnrequest" module="ThinkIdeas_Returnrequest" sortOrder="20" parent="ThinkIdeas_Returnrequest::parent" action="returnrequest/returnrequest" resource="ThinkIdeas_Returnrequest::returnrequest"/>
+
+    </menu>
+</config>

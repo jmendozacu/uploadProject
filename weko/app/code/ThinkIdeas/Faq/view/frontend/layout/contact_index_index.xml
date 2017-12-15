@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="page.main.title" remove="true"/>
+        <referenceBlock name="contactForm" remove="true"/>
+        <referenceContainer name="content">
+            <container name="faq.contact.store"  htmlTag="div" htmlClass="faq-contact-store-wrapper">
+                <block class="ThinkIdeas\Faq\Block\Overview" name="faq" template="faq.phtml" before="-">
+                    <block class="ThinkIdeas\Faq\Block\Tag" name="faq.tags" template="tags.phtml" />
+                    <block class="ThinkIdeas\Faq\Block\Listfaq" name="faq.listing" template="list.phtml" />
+                </block>
+                <container name="contact.store"  htmlTag="div" htmlClass="contact-store-wrapper">
+                    <block class="ThinkIdeas\Storelocator\Block\Storelocator" name="storelocator.stores.contact" template="ThinkIdeas_Faq::main.phtml"/>
+                    <block class="Magento\Contact\Block\ContactForm" name="faq.contactForm" template="ThinkIdeas_Faq::form.phtml" after="-">
+                        <container name="form.additional.info" label="Form Additional Info"/>
+                    </block>
+                </container>
+            </container>
+        </referenceContainer>
+    </body>
+</page>

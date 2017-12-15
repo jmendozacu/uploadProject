@@ -1,0 +1,83 @@
+// /**
+//  * Copyright © 2016 Magento. All rights reserved.
+//  * See COPYING.txt for license details.
+//  */
+
+//
+//  Common
+//  _____________________________________________
+
+
+
+
+
+
+@font-face {
+    font-family: 'adelle_rgbold';
+    src: url('@{baseDir}fonts/adelle/adelle_bold-webfont.woff2') format('woff2'),
+         url('@{baseDir}fonts/adelle/adelle_bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+@font-face {
+    font-family: 'adelle_ltlight';
+    src: url('@{baseDir}fonts/adelle/adelle_light-webfont.woff2') format('woff2'),
+         url('@{baseDir}fonts/adelle/adelle_light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: 'Adelle-Regular';
+  src: url('@{baseDir}fonts/adelle/Adelle-Regular.eot');
+  src: url('@{baseDir}fonts/adelle/Adelle-Regular.eot?#iefix') format('embedded-opentype'),
+  url('@{baseDir}fonts/adelle/Adelle-Regular.woff') format('woff'),
+  url('@{baseDir}fonts/adelle/Adelle-Regular.ttf')  format('truetype'),
+  url('@{baseDir}fonts/adelle/Adelle-Regular.svg#Adelle-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+
+
+
+@font-face {
+    	font-family: 'James Almacen';
+	src: url('@{baseDir}fonts/adelle/JamesAlmacen.eot');
+	src: url('@{baseDir}fonts/adelle/JamesAlmacen.eot?#iefix') format('embedded-opentype'),
+		url('@{baseDir}fonts/adelle/JamesAlmacen.woff2') format('woff2'),
+		url('@{baseDir}fonts/adelle/JamesAlmacen.woff') format('woff'),
+		url('@{baseDir}fonts/adelle/JamesAlmacen.ttf') format('truetype'),
+		url('@{baseDir}fonts/adelle/JamesAlmacen.svg#JamesAlmacen') format('svg');
+	font-weight: normal;
+	font-style: italic;       
+}
+
+
+
+
+
+//
+//  Desktop
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    h1 {
+        .lib-css(font-size, @h1__font-size-desktop);
+        .lib-css(margin-bottom, @h1__margin-bottom__desktop);
+    }
+}
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+    .items {
+        .lib-list-reset-styles();
+    }
+}

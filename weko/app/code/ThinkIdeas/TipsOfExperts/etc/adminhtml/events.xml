@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="amshopby_option_form_build_after">
+        <observer name="amasty_shopby_tips_of_experts_option_form_build_after" instance="ThinkIdeas\TipsOfExperts\Observer\Admin\OptionFormBuildAfter"/>
+    </event>
+</config>

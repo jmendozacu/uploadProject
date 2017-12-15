@@ -1,0 +1,207 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Checkout\Block\Cart\Sidebar */
+?>
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$priceHelper = $objectManager->create('Magento\Framework\Pricing\Helper\Data');
+?>
+<div class="container">
+<div data-block="minicart" class="minicart-wrapper">
+    <a class="action showcart" href="<?php /* @escapeNotVerified */ echo $block->getShoppingCartUrl(); ?>"
+       data-bind="scope: 'minicart_content'">
+        <span class="text"><?php /* @escapeNotVerified */ echo __('My Cart'); ?></span>
+        <span class="counter qty empty"
+              data-bind="css: { empty: !!getCartParam('summary_count') == false }, blockLoader: isLoading">
+            <span class="counter-number"><!-- ko text: getCartParam('summary_count') --><!-- /ko --></span>
+            <span class="counter-label">
+            <!-- ko if: getCartParam('summary_count') -->
+                <!-- ko text: getCartParam('summary_count') --><!-- /ko -->
+                <!-- ko i18n: 'items' --><!-- /ko -->
+            <!-- /ko -->
+            </span>
+        </span>
+    </a>
+    <?php if ($block->getIsNeedToDisplaySideBar()): ?>
+        <div class="block block-minicart empty"
+             data-role="dropdownDialog">
+            <div id="minicart-content-wrapper" data-bind="scope: 'minicart_content'">
+                <!-- ko template: getTemplate() --><!-- /ko -->
+            </div>
+            <?php echo $block->getChildHtml('minicart.addons'); ?>
+        </div>
+    <?php endif ?>
+    <!-- minicart Popup -->
+    <div class="show-cart" style="display: none">
+
+        <div id="minicart-content-wrapper" data-bind="scope: 'minicart_content'">
+            <h4><?php echo __("Folgender Artikel wurde in deinen Warenkorb gelegt:");?></h4>
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <span class="ns-close"></span>
+        </div>
+        <?php 
+        $id =$this->getRequest()->getParam('id');
+        $helper = $this->helper('ThinkIdeas\Additional\Helper\Data');
+        $_products = $helper->getUpsellProducts($id);
+        $image = 'category_page_grid'; 
+        // echo"<pre/>"; print_r($_products);exit;
+        ?>
+        <?php if ($_products): ?>
+        <div class="rec-titel"><span><?php echo __("KUNDEN INTERESSIERTE AUCH");?></span></div>
+        <div class="products wrapper grid products-grid">
+        <ul class="products list items product-items">
+        <?php foreach ($_products as $key => $_item):?>
+            <?php
+            $_productNameStripped = $block->stripTags($_item->getName(), null, true);
+            ?>
+            <?php $iterator = 1; ?>
+            <?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
+            <div class="product-item-info ">
+
+            <a href="<?php /* @escapeNotVerified */ echo $block->getProductUrl($_item) ?>" class="product photo product-item-photo">
+                <?php echo $helper->getImage($_item, $image)->toHtml(); ?>
+            </a>
+
+            <div class="product details product-item-details">
+               <strong class="product name product-item-name"><a class="product-item-link" title="<?php echo $block->escapeHtml($_item->getName()) ?>" href="<?php /* @escapeNotVerified */ echo $block->getProductUrl($_item) ?>">
+                    <?php echo $block->escapeHtml($_item->getName()) ?></a>
+               </strong>
+                <?php if ($_item->getSpecialPrice()): ?>
+                        <div class="price-box price-final_price" data-role="priceBox" data-product-id="2">
+                            <span class="special-price">
+                                <span class="price-container price-final_price tax weee">
+                                    <span class="price-label">Sonderangebot</span>
+                                    <span id="product-price-2" data-price-amount="99" data-price-type="finalPrice" class="price-wrapper ">
+                                        <span class="price"><?php /* @escapeNotVerified */ echo $priceHelper->currency($_item->getFinalPrice(), true, false);?>
+                                        </span>    
+                                    </span>
+                                </span>
+                            </span>
+                            <span class="old-price">
+                                <span class="price-container price-final_price tax weee">
+                                    <span class="price-label">Normalpreis</span>
+                                    <span id="old-price-2" data-price-amount="199" data-price-type="oldPrice" class="price-wrapper ">
+                                        <span class="price"><?php /* @escapeNotVerified */ echo $priceHelper->currency($_item->getPrice(), true, false);?>
+                                        </span>    
+                                    </span>
+                                </span>
+                            </span>
+                        </div>
+                <?php else:?>
+                        <div class="price-box price-final_price" data-role="priceBox" data-product-id="4">   
+                            <span class="price-container price-final_price tax weee">
+                                <span id="product-price-4" data-price-amount="95.9" data-price-type="finalPrice" class="price-wrapper ">
+                                    <span class="price"><?php /* @escapeNotVerified */ echo $priceHelper->currency($_item->getPrice(), true, false); ?>
+                                    </span>
+                                </span>
+                            </span>
+                        </div>
+                <?php endif;?>
+                 <div class="product-item-inner1">
+                 <div class="product actions product-item-actions">
+                         <div class="actions-primary">
+                             <?php if ($_item->isSaleable()): ?>
+
+                                 <div class="main-btn1"><a class="action tocart1 primary" href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><span><?php /* @escapeNotVerified */ echo __('Zum Produkt') ?></span></a></div>
+                             <?php else: ?>
+
+                                       <div class="main-btn1"> <a class="action tocart1 primary out-of-stock" href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php /* @escapeNotVerified */ echo __('Ausverkauft') ?></a></div>
+                             <?php endif; ?>
+                         </div>
+
+                     <?php /*if ($showWishlist || $showCompare): ?>
+                         <div class="secondary-addto-links actions-secondary" data-role="add-to-links">
+                             <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
+                                 <a href="#" data-post='<?php /* @escapeNotVerified */ /*echo $block->getAddToWishlistParams($_item); ?>'  class="action towishlist" data-action="add-to-wishlist" title="<?php /* @escapeNotVerified */ /*echo __('Add to Wish List') ?>">
+                                     <span><?php /* @escapeNotVerified */ /*echo __('Add to Wish List') ?></span>
+                                 </a>
+                             <?php endif; ?>
+                             <?php if ($block->getAddToCompareUrl() && $showCompare): ?>
+                                 <?php
+                                 $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');
+                                 ?>
+                                 <a href="#" class="action tocompare"
+                                    data-post='<?php /* @escapeNotVerified */ /*echo $compareHelper->getPostDataParams($_item); ?>'
+                                    data-role="add-to-links"
+                                    title="<?php /* @escapeNotVerified */ /*echo __('Add to Compare'); ?>">
+                                     <span><?php /* @escapeNotVerified */ /*echo __('Add to Compare') ?></span>
+                                 </a>
+                             <?php endif; ?>
+                         </div>
+                     <?php endif; */?>
+                    </div>
+                    </div>
+
+               </div>
+            </div>
+            <?php echo($iterator == count($_item)+1) ? '</li>' : '' ?>
+            <?php endforeach; ?>
+            </ul>
+            </div>
+        <?php endif; ?>
+    </div>
+    <script>
+        window.checkout = <?php /* @escapeNotVerified */ echo \Zend_Json::encode($block->getConfig()); ?>;
+    </script>
+    <script type="text/x-magento-init">
+    {
+        "[data-block='minicart']": {
+            "Magento_Ui/js/core/app": <?php /* @escapeNotVerified */ echo $block->getJsLayout();?>
+        },
+        "*": {
+            "Magento_Ui/js/block-loader": "<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('images/loader-1.gif'); ?>"
+        }
+    }
+    </script>
+</div>
+</div>
+<script type="text/javascript">
+    require([
+        "jquery",
+        "mage/mage"
+    ], function ($) {
+        $(document).ready(function () {
+            $(document).on("click" ,".closecartpopup", function(){
+                setTimeout( function(){$('.show-cart').hide();
+                        $("body").removeClass("popup-added");} , 10)
+
+            });
+
+            $('.container').hover(function () {
+                $(this).children('.minicart-wrapper,.action showcart').addClass("active");
+                $(this).children('.ui-dialog ui-widget ui-widget-content ui-corner-all ui-front mage-dropdown-dialog').show();
+
+            }, function () {
+                $(this).children('.minicart-wrapper,.action showcart').removeClass("active");
+                $(this).children('.ui-dialog ui-widget ui-widget-content ui-corner-all ui-front mage-dropdown-dialog').hide();
+            });
+
+            $(window).scroll(function(){
+                if (jQuery(this).scrollTop() > 10) {
+                    setTimeout( function(){$('.show-cart').hide();
+                        $("body").removeClass("popup-added");} , 0)
+                } 
+
+            })
+            /*$(".action.showcart").hover(function() {
+                $(this).addClass('hover');
+                $(".block-minicart").stop(true, true).delay(300).fadeIn(500, "easeOutCubic");
+            }, function() {
+                $(this).removeClass('hover');
+                $(".block-minicart").stop(true, true).delay(500).fadeOut(500, "easeInCubic");
+            });
+            
+            $('.block-minicart').fadeOut(1).hover(function(){
+                    $(".block-minicart").stop(true, true).fadeIn(500, "easeOutCubic");
+            }, function(){
+                    $(".block-minicart").stop(true, true).delay(500).fadeOut(500, "easeInCubic");
+            });*/
+        });
+    });
+</script>

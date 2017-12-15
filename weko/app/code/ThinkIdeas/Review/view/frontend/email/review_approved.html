@@ -1,0 +1,210 @@
+<!--@subject {{trans "Weko Review Approved"}}  @-->
+<!--@vars {
+"var this.getUrl($store, 'review/orders/products')":"Warehouse Account URL",
+"var customer.email":"Customer Email",
+"var customer.name":"Customer Name"
+} @-->
+ 
+{{template config_path="design/email/header_template"}} <!-- pathe of template header-->
+
+<!-- you can Modify content of template according to your requirement-->
+
+<p></p> <br>
+<p class="bl-ttl">{{trans "Vielen Dank für deine Bewertung."}}</p>
+ <br>
+ <div class="mail-center-text" ><img src="{{view url='images/email/bbl.jpg'}}" /></div>
+<br>
+
+<p class="text-two">{{trans "Danke dass Du dir die Zeit genommen hast,"}}
+<br>
+{{trans "deine Bestellung zu bewerten."}}</p>
+<br>
+
+<p class="text-two">{{trans "Damit hast du uns geholfen immer besser zu werden."}}</p>
+<br>
+<br>
+
+<p>
+    {{trans
+        '<a class="zum-btn blue-color" href="%base_url"><span>ZURÜCK ZUM SHOP</span></a>'
+        base_url=$this.getUrl($store,'/',[_query:[token:$customer.rp_token],_nosid:1])"
+    |raw}}
+</p>
+{{template config_path="design/email/footer_template"}} <!--footer of template-->
+
+
+
+<!--@styles 
+table.main{
+  width: 720px;
+}
+
+.menu-ul{
+  list-style: none;
+  display: inline-block;
+
+}
+
+
+.menu-ul  li{
+    display: inline-block;
+    font-size: 18px;
+    margin-left:25px;  }
+
+.menu-ul  a{
+      color: #000;
+      text-decoration: none;
+    }
+
+
+table.wrapper{
+    border-top:solid 5px #bc0002;
+}
+
+td.header{
+  border-bottom: solid 1px #c0c0c0;
+      padding: 15px 0px 15px;
+}
+
+td.header .logo{
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+.footer{
+   border-top: solid 1px #c0c0c0;
+   padding: 15px 0px 15px;
+   text-align: center;
+}
+
+.footer p{
+  color: #919191;
+  font-size: 12px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+.footer p a{
+  display: inline-block;
+  margin-left: 11px;
+  margin-right: 11px;
+  text-decoration: none;
+}
+
+
+.main-email-ttl{
+ font-size: 28px;
+ color: #e40011;
+ font-weight: bold;
+ text-align: center;
+ }
+
+
+ .text-two{
+   font-size: 20px;
+   color: #000;
+    text-align: center;
+
+ }
+
+ .ul-list-mail{
+     font-size: 20px;
+   color: #000;
+    text-align: center;
+    font-weight: bold;
+ }
+  .ul-list-mail li  {
+        list-style: none;
+  }
+
+
+
+ .red-text{
+     font-size: 20px;
+ color: #e40011;
+ text-align: center;
+ font-style: italic;
+ }
+
+ .zum-btn{
+   color: #fff;
+   text-transform: uppercase;
+    text-align: center;
+    display: block;
+    margin-bottom: 50px;
+ }
+
+  .zum-btn:hover{
+      color: #fff !important;
+  }
+
+ .zum-btn span{
+   background:#83d124;
+    padding: 12px 100px;
+    font-size: 16px;
+    color: #fff;
+}
+
+
+ .blue-color span{
+   background:#002a7e !important;
+
+ }
+
+
+.black-btn{
+    color: #fff;
+   text-transform: uppercase;
+    text-align: left;
+    display: block;
+    margin-bottom: 50px;
+}
+
+
+.black-btn:hover{ color: #fff !important;   }
+
+
+.black-btn span{
+  background: #000 !important;
+   padding: 12px 100px;
+    font-size: 16px;
+    color: #fff;
+}
+
+ .mail-center-text{
+   text-align: center;
+   display: block;
+ }
+  .mail-center-text img{
+    text-align: center;
+  }
+
+.bl-ttl{
+  margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 28px;
+    color: #002a7e;
+    font-weight: bold;
+    text-align: center;
+ }
+
+h4.for-ttl {
+    font-size: 24px !important;
+    text-transform: uppercase;
+    text-align: left;
+    color: #000;
+}
+
+
+.txt-left{
+  text-align: left !important;
+}
+
+ .text-one{
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #000;
+    text-align: left;
+}
+@-->

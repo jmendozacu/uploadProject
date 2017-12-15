@@ -1,0 +1,52 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/* @var $block \Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Cart */
+/* @var \Magento\Wishlist\Model\Item $item */
+$item = $block->getItem();
+$product = $item->getProduct();
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$_product = $objectManager->create('Magento\Catalog\Model\Product')->load($product->getId());
+
+$attribute_code = 'delivery_time';
+$deliveryWeek =  $_product->getResource()->getAttribute($attribute_code)->getFrontend()->getValue($_product);
+$week = filter_var($deliveryWeek, FILTER_SANITIZE_NUMBER_INT);  
+?>
+<?php foreach ($block->getChildNames() as $childName): ?>
+    <?php /* @escapeNotVerified */ echo $block->getLayout()->renderElement($childName, false); ?>
+<?php endforeach;?>
+<?php
+    $_productNameStripped = $block->stripTags($_product->getName(), null, true);
+?>
+<div class="box-tocart">
+    <fieldset class="fieldset">
+    <?php if ($product->isSaleable()): ?>
+        <?php if ($week == '6' || $week == '8'):?>
+                <div class="actions">
+                    <a class="action tocart primary out-of-stock" href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php /* @escapeNotVerified */ echo __('Leider Aktuell Ausverkauft') ?></a>
+                </div>
+        <?php else:?>
+            <?php if(!$_product->getReserveAndCollect()): ?>
+                    <div class="actions">
+                        <a class="action tocart primary" href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><span><?php /* @escapeNotVerified */ echo __('Zum Produkt') ?></span></a>
+                    </div>
+            <?php else: ?>
+                <?php $buttonTitle = __('Jetzt reservieren'); ?>
+                <div class="actions">
+                    <a class="action tocart primary reserved-btn" href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><span><?php /* @escapeNotVerified */ echo __('In einer Filiale reservieren') ?></span></a>
+                </div>
+            <?php endif; ?>
+        <?php endif;?>
+    <?php else:?>
+        <div class="actions">
+            <a class="action tocart primary out-of-stock" href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php /* @escapeNotVerified */ echo __('Leider Aktuell Ausverkauft') ?></a>
+        </div>
+    <?php endif; ?>
+    </fieldset>
+</div>

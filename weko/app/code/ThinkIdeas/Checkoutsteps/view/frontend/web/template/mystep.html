@@ -1,0 +1,82 @@
+<!--The 'step_code' value from the .js file should be used-->
+<li id="step_code" data-bind="fadeVisible: isVisible">
+    <!--<div class="step-title" data-bind="i18n: 'Order Summary'" data-role="title"></div>-->
+    <div id="checkout-step-title"
+         class="step-content"
+         data-role="content">
+
+
+        <!-- ko foreach: getRegion('review-payment-method') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+
+        <!-- ko foreach: getRegion('review-shipping-address') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+
+
+        <!-- ko foreach: getRegion('review-billing-address') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+
+        <!-- ko foreach: getRegion('review-summary') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+
+        <!-- ko foreach: getRegion('review-discount') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+
+        <div class="checkout-review-main">
+            <div class="step-title" data-bind="i18n: 'Prüfen und Bestätigen'" data-role="title"></div>
+            <form data-bind="submit: navigateToNextStep" novalidate="novalidate">
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button data-role="opc-continue" type="submit" class="button action continue primary">
+                        <span><!-- ko i18n: 'ZAHLUNGSPFLICHTIG BESTELLEN'--><!-- /ko --></span>
+                    </button>
+                </div>
+            </div>
+            </form>
+        </div>
+        
+        <div id="review-cart">
+
+        </div>
+
+
+
+
+        <!--<form data-bind="submit: navigateToNextStep" novalidate="novalidate">
+            <div class="actions-toolbar">
+                <div class="primary">
+
+
+
+                    <button data-role="opc-continue" type="submit" class="button action continue primary">
+                        <span>&lt;!&ndash; ko i18n: 'ZAHLUNGSPFLICHTIG BESTELLEN'&ndash;&gt;&lt;!&ndash; /ko &ndash;&gt;</span>
+                    </button>
+                </div>
+            </div>
+        </form>-->
+    </div>
+
+
+    <div class="review-text-main">
+        <div class="review-texts">
+            <!--<p>Lieferung dieser Artikel per DHL.<br> Bei Vorkassenzahlung erfolgt der Versand nach Zahlungseingang</p>
+            <p>Mit dem Klick auf, Zahlungspﬂichtig bestellen“ schließt Du den Kauf ab und bestätigst unsere<br> AGB , unsere Datenschutzbestimmungen  und ein zweiwöchiges Widerrufsrecht.</p>
+
+            <p class="bk-link">Zurück zur Bezahlmethode</p>-->
+        </div>
+        <form data-bind="submit: navigateToNextStep" novalidate="novalidate">
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button data-role="opc-continue" type="submit" class="button action continue primary">
+                        <span><!-- ko i18n: 'ZAHLUNGSPFLICHTIG BESTELLEN'--><!-- /ko --></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</li>

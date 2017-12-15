@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="thinkideas_reviews_section_general_review_setting_product_review_email_template" label="Review Ordered Product" file="product_review.html" type="html" module="ThinkIdeas_Review" area="frontend"/>
+    <template id="thinkideas_reviews_section_general_review_setting_product_review_confirmation_email_template" label="Review Confirmation" file="review_approved.html" type="html" module="ThinkIdeas_Review" area="frontend"/>
+</config>
+

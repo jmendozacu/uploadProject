@@ -1,0 +1,283 @@
+<?php
+/**
+ * Magedelight
+ * Copyright (C) 2016 Magedelight <info@magedelight.com>
+ *
+ * NOTICE OF LICENSE
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+ *
+ * @category Magedelight
+ * @package Magedelight_Looknbuy
+ * @copyright Copyright (c) 2016 Mage Delight (http://www.magedelight.com/)
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Magedelight <info@magedelight.com>
+ */
+?>
+
+
+<?php
+$lookId = $this->getRequest()->getParam('look_id');
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+$look = $objectManager->create('\Magedelight\Looknbuy\Model\Looknbuy')->load($lookId);
+$markers = $look['markers'];
+if($markers == "null" || $markers == "{}")
+{
+    $markers = NULL;
+}
+$layout = $look['layout'];
+$this->_storeManager = $objectManager->create('\Magento\Store\Model\StoreManagerInterface');
+$this->helper = $objectManager->create('\Magedelight\Looknbuy\Helper\Data');
+
+$lookImgUrl = $this->helper->imageResize($look['base_image'], $layout);
+
+
+//$lookImgUrl = $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . $look['base_image'];
+?>
+
+<?php
+$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+$folderName = \Magento\Config\Model\Config\Backend\Image\Favicon::UPLOAD_DIR;
+$this->scopeConfig = $objectManager->create('\Magento\Framework\App\Config\ScopeConfigInterface');
+
+$uploded_image = $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) .$folderName . '/' . $this->scopeConfig->getValue('looknbuy/styles/marker_icon', $storeScope);
+
+$markerImagePath = $this->scopeConfig->getValue('looknbuy/styles/marker_icon', $storeScope) ? $uploded_image : $block->getViewFileUrl('Magedelight_Looknbuy::images/marker.png') ;
+$markerImageUrl =  $markerImagePath;
+$markerWidth = $this->scopeConfig->getValue('looknbuy/styles/marker_width', $storeScope);
+$markerHeight = $this->scopeConfig->getValue('looknbuy/styles/marker_height', $storeScope);
+$fontColor = '#' . $this->scopeConfig->getValue('looknbuy/styles/font_color', $storeScope);
+$backgroundColor = '#' . $this->scopeConfig->getValue('looknbuy/styles/background_color', $storeScope);
+$fontSize = $this->scopeConfig->getValue('looknbuy/styles/font_size', $storeScope);
+$opacity = $this->scopeConfig->getValue('looknbuy/styles/opacity', $storeScope);
+?>
+
+<?php $_items = json_decode($this->getOptionValues()); ?>
+
+     <?php 
+        // echo"<pre/>"; print_r($_items);exit;
+        ?>
+    <div class="messages">
+        <div class="message message-notice" style="text-align:right;">
+		<span style="float:left; margin:7px 0 0 0;"><?php echo __("Please save marker after add or change existing marker for save makers properly.");?></span>
+		<button class="coords action-secondary" type="button" ><span><?php echo __("Save Markers"); ?></span></button>
+		</div>
+         
+    </div>
+
+<div class="base_image"  id="wrapper" style="overflow: scroll; width: 1240px;">
+    <img id="image1" src="<?php echo $lookImgUrl; ?>" style="width: 1240px;"  class="pin" easypin-id="example" >
+</div>
+
+
+<div class="easy-modal" style="display:none;" modal-position="free">
+    <div>
+        <h3><?php echo __("Select Associated Product") ?></h3>
+        <select  name="content" class="productlist">
+            <option value=""><?php echo __("Please Select Product") ?></option>
+            <?php foreach ($_items as $_item): ?>
+                <?php $product = $objectManager->create('Magento\Catalog\Model\Product')->load($_item->pid);
+
+                $image = 'product_listing_thumbnail';
+                $this->imageBuilder = $objectManager->create('Magento\Catalog\Helper\Image');
+                $imgUrl = $this->imageBuilder->init($product, $image)->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(TRUE)->resize(160,160)->getUrl();
+                $productUrl = $product->getProductUrl();
+                $inStock = $product->getIsSalable();
+                if (!$inStock) {
+                    $inStock = "0";
+                }
+                $deliveryDay = $product->getDeliveryTimeInDays();
+                $deliveryWeek = $product->getResource()->getAttribute("delivery_time")->getFrontend()->getValue($product);
+                ?>
+                <option value="<?php echo $_item->pname; ?>" data-id="<?php echo $_item->pid; ?>" data-price="<?php echo $_item->price; ?>" data-img="<?php echo $imgUrl; ?>" data-url="<?php echo $productUrl; ?>" data-in-stock="<?php echo $inStock; ?>" data-delivery-day="<?php echo $deliveryDay; ?>" data-delivery-week="<?php echo $deliveryWeek; ?>"><?php echo $_item->pname; ?></option>
+
+            <?php endforeach; ?>
+        </select>
+       
+        <input name="productid" type="hidden" class="pid"/>
+        <input name="productprice" type="hidden" class="product_price"/>        
+        <input name="product_image" type="hidden" class="product_image"/>
+        <input name="producturl" type="hidden" class="product_url"/>
+        <input name="productinstock" type="hidden" class="product_instock"/>
+        <input name="productdeliveryday" type="hidden" class="product_delivery_day"/>
+        <input name="productdeliveryweek" type="hidden" class="product_delivery_week"/>
+
+        
+    </div>
+    <br />
+    <div>
+        <input type="button" value="Save Marker!" class="easy-submit">
+    </div>
+</div>
+
+<div style="display:none;" width="130" shadow="false" easypin-tpl popover>
+    <popover>
+    <div style="width:100%;text-align:center;">{[content]}</div>
+    </popover>
+    
+     <marker>
+        <div style="width:<?php echo $markerWidth ?>px;height:<?php echo $markerHeight ?>px;">
+            <img src="<?php echo $markerImageUrl; ?>" width="<?php echo $markerWidth ?>" height="<?php echo $markerHeight ?>">
+
+        </div>
+    </marker>
+</div>
+
+
+
+<?php $i = 0; ?>
+<div class="marker-product-list">
+<ul>
+<?php $i = 0; foreach ($_items as $_item): $i++ ?>
+	<li class="<?php if($i%2 == 0) echo 'even'; else echo 'odd';?>">
+    <?php
+    $product = $objectManager->create('Magento\Catalog\Model\Product')->load($_item->pid);
+
+    $image = 'product_listing_thumbnail';
+    $this->imageBuilder = $objectManager->create('Magento\Catalog\Helper\Image');
+    $imgUrl = $this->imageBuilder->init($product, $image)->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(TRUE)->resize(70,70)->getUrl();
+    ?>
+    <img src="<?php echo $imgUrl; ?>">
+    <span><?php echo $_item->pname; ?></span>
+	</li>
+
+<?php endforeach; ?>
+</ul>
+</div>
+<?php 
+$limit = $i; 
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$marker_height = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('looknbuy/styles/marker_height');
+
+?> 
+
+
+<input type="hidden" name="markers" id="markers" value='<?php echo $markers; ?>' >
+
+
+<script type="text/javascript">
+
+    require([
+        'jquery',
+        'jquery/ui',
+        'Magedelight_Looknbuy/js/easing',
+        'Magedelight_Looknbuy/js/easypin'
+
+    ], function ($) {
+        jQuery(document).ready(function () {
+            debugger;
+            var marker_height = "<?php echo $marker_height; ?>";
+            
+            jQuery(document).on("change", ".productlist", function (){
+                var pid = jQuery('option:selected', this).attr('data-id');
+                var price = jQuery('option:selected', this).attr('data-price');
+                var img = jQuery('option:selected', this).attr('data-img');
+                var url = jQuery('option:selected', this).attr('data-url');
+                var inStock = jQuery('option:selected', this).attr('data-in-stock');
+                var deliveryDay = jQuery('option:selected', this).attr('data-delivery-day');
+                var deliveryWeek = jQuery('option:selected', this).attr('data-delivery-week');
+
+                
+                jQuery(".pid").val(pid);
+                jQuery(".product_price").val(price);
+                jQuery(".product_image").val(img);
+                jQuery(".product_url").val(url);
+                jQuery(".product_instock").val(inStock);
+                jQuery(".product_delivery_day").val(deliveryDay);
+                jQuery(".product_delivery_week").val(deliveryWeek);
+            });
+
+            jQuery('.pin').easypinShow({
+                data: '<?php echo $markers; ?>',
+                responsive: true
+            });
+
+
+
+<?php if ($markers != '') { ?>
+                var $instance = jQuery('.pin').easypin({
+                    init: '<?php echo $markers; ?>',
+                    markerSrc: '<?php echo $markerImageUrl; ?>',
+                    editSrc: '<?php echo $block->getViewFileUrl('Magedelight_Looknbuy::images/edit.png'); ?>',
+                    deleteSrc: '<?php echo $block->getViewFileUrl('Magedelight_Looknbuy::images/remove.png'); ?>',
+                    limit: '<?php echo $limit; ?>',
+                    modalWidth: 300,
+                    popoverStyle: {
+                        'background-color': '<?php echo $backgroundColor; ?>',
+                        'color': '<?php echo $fontColor; ?>',
+                        'font-size': '<?php echo $fontSize; ?>',
+                        'opacity': '<?php echo $opacity; ?>'
+
+                    },
+                    drop: function (x, y, element) {
+                        jQuery(".coords").trigger("click");
+                    },
+                    drag: function (x, y, element) {
+                        jQuery(".coords").trigger("click");
+                    },
+                    done: function (element) {
+
+                        return true;
+                    }
+
+                });
+<?php } else { ?>
+
+                var $instance = jQuery('.pin').easypin({
+                    markerSrc: '<?php echo $markerImageUrl; ?>',
+                    editSrc: '<?php echo $block->getViewFileUrl('Magedelight_Looknbuy::images/edit.png'); ?>',
+                    deleteSrc: '<?php echo $block->getViewFileUrl('Magedelight_Looknbuy::images/remove.png'); ?>',
+                    limit: '<?php echo $limit; ?>',
+                    modalWidth: 300,
+                    popoverStyle: {
+                        'background-color': '<?php echo $backgroundColor; ?>',
+                        'color': '<?php echo $fontColor; ?>',
+                        'font-size': '<?php echo $fontSize; ?>',
+                        'opacity': '<?php echo $opacity; ?>'
+                    },
+                    drop: function (x, y, element) {
+                        jQuery(".coords").trigger("click");
+                    },
+                    drag: function (x, y, element) {
+                        jQuery(".coords").trigger("click");
+                    },
+                    done: function (element) {
+                        jQuery(".coords").trigger("click");
+                        return true;
+                    }
+                });
+<?php } ?>
+// set the 'get.coordinates' event
+            $instance.easypin.event("get.coordinates",
+                    function ($instance, data, params) {
+//                        console.log(data);
+                        jQuery('#markers').val(data);
+                        
+                    });
+
+
+            jQuery(".coords").click(function (e) {
+                $instance.easypin.fire("get.coordinates",
+                        {}, function (data) {
+                    
+                    return JSON.stringify(data);
+                });
+            });
+        });
+
+    });
+
+</script>

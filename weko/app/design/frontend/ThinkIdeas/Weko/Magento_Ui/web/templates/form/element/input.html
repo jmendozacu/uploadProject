@@ -1,0 +1,32 @@
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!-- ko if: inputName == 'custom_attributes[weko_card_number]' -->
+<input class="input-text weko-card-number" type="text"  data-bind="
+    value: value,
+    valueUpdate: 'keyup',
+    hasFocus: focused,
+    attr: {
+        name: inputName,
+        placeholder: placeholder,
+        'aria-describedby': noticeId,
+        id: uid,
+        disabled: disabled
+    }" />
+<!-- /ko -->
+<!-- ko ifnot: inputName == 'custom_attributes[weko_card_number]' -->
+<input class="input-text" type="text"  data-bind="
+    value: value,
+    valueUpdate: 'keyup',
+    hasFocus: focused,
+    attr: {
+        name: inputName,
+        placeholder: placeholder,
+        'aria-describedby': noticeId,
+        id: uid,
+        disabled: disabled
+    }" />
+<!-- /ko -->

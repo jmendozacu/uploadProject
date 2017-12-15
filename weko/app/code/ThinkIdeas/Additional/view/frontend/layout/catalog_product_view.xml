@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2016 thinkIdeas. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <referenceContainer name="product.info.media">
+                <block class="ThinkIdeas\Additional\Block\Product\View" name="thinkideas_product_status_label" as="productstatus" template="ThinkIdeas_Additional::product/label.phtml" before="product.info.main"/>
+            </referenceContainer>
+            <referenceBlock name="product.info.details">
+                <block class="ThinkIdeas\Additional\Block\Product\View" name="thinkideas_aditional_tab_function" template="ThinkIdeas_Additional::product/function.phtml" group="detailed_info">
+                    <arguments>
+                        <argument translate="true" name="title" xsi:type="string">Funktion &amp; Qualität</argument>
+                    </arguments>
+                </block>
+                <block class="ThinkIdeas\Additional\Block\Product\View" name="thinkideas_aditional_tab_shipping" template="ThinkIdeas_Additional::product/shipping.phtml" group="detailed_info">
+                    <arguments>
+                        <argument translate="true" name="title" xsi:type="string">Lieferung &amp; Versand</argument>
+                    </arguments>
+                </block>
+                <referenceBlock name="product.info.description">
+                    <block class="ThinkIdeas\Additional\Block\Product\View" name="thinkideas_description_brand_icon" as="brandicon" template="ThinkIdeas_Additional::product/brand.phtml"/>
+                </referenceBlock>
+            </referenceBlock>
+            <referenceContainer name="product.info.main">
+                <block class="ThinkIdeas\Additional\Block\Product\View" name="thinkideas_description_brand_icon_main" as="brandicon_main" template="ThinkIdeas_Additional::product/brand.phtml" before="-"/>
+            </referenceContainer>
+        </referenceContainer>
+
+    </body>
+</page>

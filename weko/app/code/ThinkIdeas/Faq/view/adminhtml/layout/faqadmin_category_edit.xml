@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * ThinkIdeas
+ *
+ * @category    ThinkIdeas
+ * @package     ThinkIdeas_Faq
+ *
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left"
+      xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <update handle="editor"/>
+    <body>
+        <referenceBlock name="menu">
+            <action method="setActive">
+                <argument name="itemId" xsi:type="string">ThinkIdeas_Faq::faq</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="page.main.actions">
+            <block class="Magento\Backend\Block\Store\Switcher" name="category.store.switcher" template="Magento_Backend::store/switcher.phtml" />
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="ThinkIdeas\Faq\Block\Adminhtml\Category\Edit" name="faqadmin_category_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="ThinkIdeas\Faq\Block\Adminhtml\Category\Edit\Tabs" name="faqadmin_category_edit_tabs">
+            </block>
+        </referenceContainer>
+    </body>
+</page>
+

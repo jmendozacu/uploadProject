@@ -1,0 +1,43 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/* @var $block \Magento\Catalog\Block\Product\AbstractProduct */
+?>
+
+<?php
+
+/** @var ThinkIdeas\Linkedproducts\Block\Product\ProductList\Customtype $block */
+if ($exist = count($block->getItemCollection()->getItems())) {
+    $image = 'customtype_products_list';
+    $title = __('Kundenspezifische Produkte');   
+    $items = $block->getItemCollection()->getItems();
+}
+?>
+<?php if ($exist):?>
+<div>
+    <div class="block-title title">
+        <strong id="block-customtype-heading" role="heading" aria-level="2"><?php /* @escapeNotVerified */ echo $title; ?></strong>
+    </div>
+    <div class="block-content content" aria-labelledby="block-customtype-heading">
+       <!-- <div class="products wrapper grid products-grid products-customtype"> -->
+    <!--  <ol class="products list items product-items">-->
+            <ol class="product-cost-main">
+                <?php $iterator = 1; ?>
+                <?php foreach ($items as $_item): ?>
+                    <?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
+                    <?php /* @escapeNotVerified */ echo '<!-- ' . $image . '-->' ?>
+                        <a href="<?php /* @escapeNotVerified */ echo $block->getProductUrl($_item) ?>" class="product photo product-item-photo">
+                            <?php echo $block->getImage($_item, $image)->toHtml(); ?>
+                        </a>
+                    <?php echo($iterator == count($items)+1) ? '</li>' : '' ?>
+                <?php endforeach ?>
+            </ol>
+        <!--/div> -->
+    </div>
+</div>
+<?php endif;?>

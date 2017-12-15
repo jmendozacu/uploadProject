@@ -1,0 +1,75 @@
+<ul class="tabs clearfix mobile-login-tabs" data-tabgroup="maincontent">
+    <li><a href="#form-validate-register" data-link="register"><?php echo __("Neukunde"); ?></a></li>
+    <li><a href="#login-customer" class="active" data-link="login"><?php echo __("Kunden-Login"); ?></a></li>
+</ul>
+<style type="text/css">
+	tabs {
+  li {
+    float:left;
+    width:20%;
+  }
+  a {
+    display:block;
+    text-align:center;
+    text-decoration:none;
+    text-transform:uppercase;
+    color:#888;
+    padding:20px 0;
+    border-bottom:2px solid #888;
+    background:#f7f7f7;
+    
+    &:hover, &.active {
+      background:#ddd;
+    }
+  }
+}
+.tabgroup {
+  div {
+    padding:30px;
+    box-shadow:0 3px 10px rgba(0,0,0,.3);
+  }
+}
+.clearfix:after {
+  content:"";
+  display:table;
+  clear:both;
+}
+
+</style>
+
+<script>
+require([
+    'jquery'
+], function($){
+	console.log(window.screen.width);
+	if(window.screen.width < 768){           
+
+		$('.column main > div.form-create-account').hide();
+		$('.column main > div.login-container').show();
+
+		$('div.login-container').show();
+		$('form.form-create-account').hide();
+
+		$('.mobile-login-tabs a').click(function(e){
+		  e.preventDefault();
+		    var menu = $(this),
+		        tabgroup = '#'+menu.parents('.mobile-login-tabs').data('tabgroup'),
+		        others = menu.closest('li').siblings().children('a'),
+		        target = menu.attr('href');
+		    others.removeClass('active');
+		    menu.addClass('active');
+		    console.log(target);
+		    if (target == "#login-customer") {
+		    	$('form.form-create-account').hide();
+		    	$('div.login-container').show();
+		    }
+		    else{
+		    	$('div.login-container').hide();
+		    	$('form.form-create-account').show();	
+		    }    
+		    
+		  	// $('.column main > div.mobile-login-tabs').show();
+		})
+	}
+});
+</script>

@@ -1,0 +1,54 @@
+<?php
+/**
+ * ThinkIdeas account login dropup
+ */
+?>
+<?php 
+$login = $block->getCustomerLoggedIn();
+$_logInUrl = 'customer/account/login';
+$_myAccountInUrl = 'customer/account/';
+$buttonTitle = __("Sign In");
+
+if($login) {
+    $buttonTitle = __("Sign Out");
+    $_logInUrl = 'customer/account/logout';
+}
+?>
+<li id="minilogin" class="minilogin-wrapper">
+    <a id="minilogin-toggle" class="action" href="<?php echo $block->getUrl($_myAccountInUrl);?>"><span class="text"><?php echo __('Mein Konto');?></span></a>
+    <div id="minilogin-content-wrapper" style="display: none;">
+        <?php if($login):?>
+            <div class="minilogin-customer">
+                <?php echo $this->getLayout()->createBlock('Magento\CMS\Block\Block')->setBlockId('my-account-link')->toHtml(); ?>
+            </div>
+        <?php endif;?>
+        <a href="<?php echo $block->getUrl($_logInUrl);?>" id="minilogin-login" class="minilogin-login button btn">            
+            <?php echo $buttonTitle;?></a>
+            <?php if(!$login):?>
+                <div class="minilogin-login-text">
+                    <span><?php echo __('Neu bei Weko?');?></span>
+                    <span class="minilogin-sign-link">
+                        <a href="<?php echo $block->getUrl('customer/account/create/');?>"><?php echo __('Kostenlos registrieren');?></a>
+                    </span>
+                </div>
+            <?php endif;?>
+        <div class="minilogin-saperator"></div>
+        <div class="minilogin-links-wrapper">
+            <ul class="minilogin-links">
+            <?php echo $this->getChildHtml();?>
+            </ul>
+        </div>
+    </div>
+</li>
+
+<script type="text/javascript">
+    require([
+        'jquery'
+    ], function($) {
+        $(document).ready(function($) {
+            $("#minilogin").hover(function () {
+                $("#minilogin-content-wrapper").toggle();
+            })
+        });
+    });
+</script>

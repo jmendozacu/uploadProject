@@ -1,0 +1,186 @@
+ssh <username>@<domain> -p<port>
+Password
+ls -lh
+---------------------
+Live FTP Details :
+
+Host: 34.196.154.221
+User name: magento
+Password: kTjFJJFL3LZECjMz
+Port: 2004
+============================
+Site Setup on Git
+-----------------------------
+ronak.chauhan@krishtechnolabs.com
+ronak2407 
+(Gitbuh: ronak@2407)
+Skype Login :
+-------------
+Skype ID : ssp94.bleuciel@outlook.com
+Password : ssp94@bleuciel
+
+------------
+SMB authentication:
+
+uname : ronak.chauhan
+pass  : ronak123
+Domain name : krishinc.net
+
+------
+git clone http://vcs.magentoprojects.net/unit2/navali-co-nz.git (project)
+
+
+php bin/magento setup:upgrade
+php bin/magento setup:static-content:deploy
+php bin/magento indexer:reindex
+php bin/magento cache:flush
+----------------------------
+set database on unit 2
+---------------------------
+mysqldump -uroot -p myborosil > unit2_myborosil_backup.sql
+
+ssh root@10.16.16.2 -p 10222
+Password : secret
+
+mysql -uroot -p unit2_navali < unit2_navali.sql
+
+
+Live Url : http://45.32.247.234/
+
+Host: 45.32.247.234 
+Port: sFTP – 2020
+Username: dev_navali 
+Password: 03WwRSt87R43
+
+===========================
+Magento 1 to Magento 2 Migration >>
+---------------------------
+Step 1 : Setup magento 2 as new setup without sample data
+
+Step 2 : Export magento 1 database
+
+Step 3 : Follow command on magento 2 terminal (Install data-migration tool in magento 2)
+
+>> composer config repositories.magento composer https://repo.magento.com
+>> composer require magento/data-migration-tool:~2.0
+
+Step 4 : Go to (Change Magento 1.x config.xml.dist to config.xml)
+
+   <your Magento 2 install dir>/vendor/magento/data-migration-tool/etc/<migration edition>/<magento-1 ce version>
+   Enter the following command to create a config.xml from the provided sample:
+   cp config.xml.dist config.xml
+>> change : (example)
+ <source>
+     <database host="localhost" name="navali_old" user="root" password="root"/>
+ </source>
+ <destination>
+     <database host="10.16.16.2:13306" name="unit2_navali" user="root" password="secret"/>
+ </destination>
+
+Step 5 : Add encryption key 
+
+   <crypt_key>ENCRYPTION_KEY</crypt_key>. (Find it from magento1 root >> app/etc/local.xml  <crypt> <key> tag)
+
+Step 6 :  Work with configuration and mapping files (Rename settings.xml.dest to settings.xml)
+
+	<your Magento 2 install dir>/vendor/magento/data-migration-tool/etc/<migration edition> run below command  (edition like ce-to-ce)
+	 cp settings.xml.dist settings.xml
+	
+        It will create copy file of settings.xml.dist
+
+Step 7 : Change magento 2 config settings using command(etc/migration edition/migration version) 
+
+>> php bin/magento migrate:setting vendor/magento/data-migration-tool/etc/ce-to-ce/1.9.0.1/config.xml
+
+>> php bin/magento migrate:data vendor/magento/data-migration-tool/etc/ce-to-ce/1.9.0.1/config.xml
+
+===================== Navali Migration Notes ==============
+Delete attribute_id = 121,178 from catalog_eav_attribute
+
+Delete fields : eav_attribute.send_order_email, eav_attribute.send_register_email
+ 
+==================== Checkout field set optional from required ===============================
+
+update eav_attribute set is_required=0 where attribute_code='telephone';
+
+===========================
+magento.unit2@gmail.com /Mu456321
+unit2.magento@gmail.com /unit2@123#
+
+
+ssh magento@34.196.154.221 -p2004
+Pass : kTjFJJFL3LZECjMz
+cd html
+php bin/magento cache:flush
+php bin/magento indexer:reindex
+php bin/magento setup:upgrade
+php bin/magento setup:static-content:deploy de_DE en_US
+
+Weko :-  php bin/magento setup:static-content:deploy --theme ThinkIdeas/Weko de_DE en_US
+Navali :- php bin/magento setup:static-content:deploy en_NZ en_US
+
+------ Resize Images version 2.1.6 -----
+php bin/magento catalog:images:resize
+
+============================
+Paypal Sandbox details:
+--------------------------------
+Email : ronak.chauhan@krishtechnolabs.com
+pass : ronak@123
+--------------------
+username: ronak.chauhan-facilitator_api1.krishtechnolabs.com
+password: Y2RWLR54GP22SHHM
+Signature: AFcWxV21C7fd0v3bYYYRCpSSRl31AibnCKsGOwSYXityT2yQCa-Khv0j 
+===============================
+SSH Detail – Deployment user
+Host: 34.196.154.221
+User name: magento
+Password: kTjFJJFL3LZECjMz
+Port: 2004
+ 
+Mysql – Account detail - Weko Database
+
+Access point: http://thinkfurniture.magentoprojects.net/phpmyadmin/
+User name: thinkfurniture
+Password: fRTUCKyCEDfCjhmb
+Root Password: EVnM9ZYwkPsqR7DU
+
+======================================================================
+Deploy Project on Staggin:
+----------------------------------------------------------------------
+Export database using ssh
+----------------------
+http://ecom.dbs.com/
+Username: root
+password: secret
+SSH IP: 10.16.16.2
+SSH PORT: 10222
+----------------------
+Download database using FTP
+----------------------
+Import database using below phpmyadmin details:
+------------------------
+PHPMyAdmin: http://pma.myborosil.solution.magentoprojects.net
+
+Hostname: db
+Database: myborosil
+Username: myborosil
+Password: L2wTYmGzHzvnRhmW
+Port: 3306
+---------------------
+Remove all tables
+--------------------
+Login to below ssh creds:
+--------------------
+Server IP: 10.16.16.19
+SSH Port: 1122
+User: root
+password: sa#custom@123
+Go to >>  /var/www/html/deployment/myborosil
+run command: >> ansible-playbook -i hosts deploy.yml
+====================================================================
+Extract .tar file:
+
+tar -xvf media.tar.gz
+=====================================================================
+

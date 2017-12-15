@@ -1,0 +1,390 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/* @var $block \Magento\Catalog\Block\Product\AbstractProduct */
+?>
+
+<?php
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+switch ($type = $block->getType()) {
+
+    case 'related-rule':
+        if ($exist = $block->hasItems()) {
+            $type = 'related';
+            $class = $type;
+
+            $image = 'related_products_list';
+            $title = __('Related Products');
+            $items = $block->getAllItems();
+            $limit = $block->getPositionLimit();
+            $shuffle = (int) $block->isShuffled();
+            $canItemsAddToCart = $block->canItemsAddToCart();
+
+            $showAddTo = true;
+            $showCart = false;
+            $templateType = null;
+            $description = false;
+        }
+        break;
+
+    case 'related':
+        /** @var \Magento\Catalog\Block\Product\ProductList\Related $block */
+        if ($exist = $block->getItems()->getSize()) {
+            $type = 'related';
+            $class = $type;
+
+            $image = 'related_products_list';
+            $title = __('Related Products');
+            $items = $block->getItems();
+            $limit = 0;
+            $shuffle = 0;
+            $canItemsAddToCart = $block->canItemsAddToCart();
+
+            $showAddTo = true;
+            $showCart = false;
+            $templateType = null;
+            $description = false;
+        }
+        break;
+
+    case 'upsell-rule':
+        if ($exist = $block->hasItems()) {
+            $type = 'upsell';
+            $class = $type;
+
+            $image = 'upsell_products_list';
+            $title = __('We found other products you might like!');
+            $items = $block->getAllItems();
+            $limit = $block->getPositionLimit();
+            $shuffle = (int) $block->isShuffled();
+
+            $showAddTo = false;
+            $showCart = false;
+            $templateType = null;
+            $description = false;
+            $canItemsAddToCart = false;
+        }
+        break;
+
+    case 'upsell':
+        /** @var \Magento\Catalog\Block\Product\ProductList\Upsell $block */
+        if ($exist = count($block->getItemCollection()->getItems())) {
+            $type = 'upsell';
+            $class = $type;
+
+            $image = 'upsell_products_list';
+            $title = __('We found other products you might like!');
+            $items = $block->getItemCollection()->getItems();
+            $limit = $block->getItemLimit('upsell');
+            $shuffle = 0;
+
+            $showAddTo = false;
+            $showCart = false;
+            $templateType = null;
+            $description = false;
+            $canItemsAddToCart = false;
+        }
+        break;
+
+    case 'crosssell-rule':
+        /** @var \Magento\Catalog\Block\Product\ProductList\Crosssell $block */
+        if ($exist = $block->hasItems()) {
+            $type = 'crosssell';
+            $class = $type;
+
+            $image = 'cart_cross_sell_products';
+            $title = __('More Choices:');
+            $items = $block->getItemCollection();
+
+            $showAddTo = false;
+            $showCart = false;
+            $templateType = null;
+            $description = false;
+            $canItemsAddToCart = false;
+        }
+        break;
+
+    case 'crosssell':
+        /** @var \Magento\Catalog\Block\Product\ProductList\Crosssell $block */
+        if ($exist = $block->getItemCount()) {
+            $type = 'crosssell';
+            $class = $type;
+
+            $image = 'cart_cross_sell_products';
+            $title = __('More Choices:');
+            $items = $block->getItems();
+
+            $showAddTo = false;
+            $showCart = false;
+            $templateType = null;
+            $description = false;
+            $canItemsAddToCart = false;
+        }
+        break;
+
+    case 'new':
+        if ($exist = $block->getProductCollection()) {
+            $type = 'new';
+            $mode = 'grid';
+            $type = $type . ' ' . $mode;
+
+            $class = 'widget' . ' ' . $type;
+
+            $image = 'new_products_content_widget_grid';
+            $title = __('New Products');
+            $items = $exist;
+
+            $showAddTo = true;
+            $showCart = true;
+            $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+            $description = ($mode == 'list') ? true : false;
+            $canItemsAddToCart = false;
+        }
+        break;
+
+    case 'other':
+        break;
+}
+?>
+
+<?php if ($exist):?>
+
+<div class="product-slider-wrapper">
+    <?php if ($type == 'related' || $type == 'upsell'): ?>
+    <?php if ($type == 'related'): ?>
+    <div class="block block-product-slider slider-list <?php /* @escapeNotVerified */ echo $class; ?>" data-mage-init='{"relatedProducts":{"relatedCheckbox":".related.checkbox"}}' data-limit="<?php /* @escapeNotVerified */ echo $limit; ?>" data-shuffle="<?php /* @escapeNotVerified */ echo $shuffle; ?>">
+        <?php else: ?>
+        <div class="block block-product-slider slider-list <?php /* @escapeNotVerified */ echo $class; ?>" data-mage-init='{"upsellProducts":{}}' data-limit="<?php /* @escapeNotVerified */ echo $limit; ?>" data-shuffle="<?php /* @escapeNotVerified */ echo $shuffle; ?>">
+            <?php endif; ?>
+            <?php else: ?>
+            <div class="block block-product-slider slider-list <?php /* @escapeNotVerified */ echo $class; ?>">
+                <?php endif; ?>
+                <div class="block-title1 title">
+                    <strong id="block-<?php /* @escapeNotVerified */ echo $class?>-heading" role="heading" aria-level="2"><span><?php /* @escapeNotVerified */ echo $title; ?></span></strong>
+                </div>
+                <div class="block-content content" aria-labelledby="block-<?php /* @escapeNotVerified */ echo $class?>-heading">
+                    <?php if ($type == 'related' && $canItemsAddToCart): ?>
+                        <!-- <div class="block-actions">
+            <?php /* @escapeNotVerified */ //echo __('Check items to add to the cart or') ?>
+            <button type="button" class="action select" role="select-all"><span><?php /* @escapeNotVerified */ //echo __('select all') ?></span></button>
+        </div> -->
+                    <?php endif; ?>
+                    <div class="products wrapper grid products-grid products-<?php /* @escapeNotVerified */ echo $type; ?>">
+                        <ol class="products list items product-items product-slider-<?php /* @escapeNotVerified */ echo $type; ?>">
+                            <?php $iterator = 1; ?>
+                            <?php foreach ($items as $_item): ?>
+                                <?php $available = ''; ?>
+                                <?php $_productNameStripped = $block->stripTags($_item->getName(), null, true); ?>
+                                <?php if (!$_item->isComposite() && $_item->isSaleable() && $type == 'related'): ?>
+                                    <?php if (!$_item->getRequiredOptions()): ?>
+                                        <?php $available = 'related-available'; ?>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <?php 
+                                    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                                    $StockState = $objectManager->get('\Magento\CatalogInventory\Api\StockStateInterface');
+                                    $totalqty =  $StockState->getStockQty($_item->getId(), $_item->getStore()->getWebsiteId());
+                                    $attribute_code = 'delivery_time_color';
+                                    $deliveryWeekColor =  $_item->getResource()->getAttribute($attribute_code)->getFrontend()->getValue($_item);
+                                    $attribute_code = 'delivery_time';
+                                    $deliveryWeek =  $_item->getResource()->getAttribute($attribute_code)->getFrontend()->getValue($_item);
+                                    $week = filter_var($deliveryWeek, FILTER_SANITIZE_NUMBER_INT);
+                                ?>
+                                <?php if ($type == 'related' || $type == 'upsell'): ?>
+                                    <?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li class="item product product-item" style="display: none;">' : '</li><li class="item product product-item" style="display: none;">' ?>
+                                <?php else: ?>
+                                    <?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
+                                <?php endif; ?>
+                                <div class="product-item-info <?php /* @escapeNotVerified */ echo $available; ?>">
+                                    <?php /* @escapeNotVerified */ echo '<!-- ' . $image . '-->' ?>
+                                    <a href="<?php /* @escapeNotVerified */ echo $block->getProductUrl($_item) ?>" class="product photo product-item-photo">
+                                        <?php echo $block->getImage($_item, $image)->toHtml(); ?>
+                                        <div class="dis-tag"><?php echo $this->helper('ThinkIdeas\Additional\Helper\Data')->DisplayDiscountLabel($_item); ?></div>
+                                    </a>
+                                    <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow()) : ?>
+                                        <div class="secondary-addto-links actions-secondary" data-role="add-to-links">
+                                            <a href="#" data-post='<?php /* @escapeNotVerified */ echo $block->getAddToWishlistParams($_item); ?>' class="action towishlist" data-action="add-to-wishlist">
+                                                <span><?php /* @escapeNotVerified */ echo __('Add to Wish List') ?></span>
+                                            </a>
+                                        </div>
+                                    <?php endif; ?>
+                                    <div class="product details product-item-details">
+                                        <strong class="product name product-item-name"><a class="product-item-link" title="<?php echo $block->escapeHtml($_item->getName()) ?>" href="<?php /* @escapeNotVerified */ echo $block->getProductUrl($_item) ?>">
+                                                <?php ;
+                                                if (strlen($_item->getName()) > 30)
+                                                {
+                                                    $namestr = array();
+                                                    $namestr[] = substr($_item->getName(), 0, 30);
+                                                    $namestr[] = substr($_item->getName(), 30, strlen($_item->getName())-30);
+                                                    $name = implode($namestr, "-");
+                                                }
+                                                else{
+                                                    $name = $_item->getName();
+                                                }
+                                                ?>
+                                                <?php echo $block->escapeHtml($name) ?>
+                                            </a>
+                                        </strong>
+
+                                        <?php /* @escapeNotVerified */ echo $block->getProductPrice($_item); ?>
+                                        <?php if ($type == "upsell" | $type == 'crosssell'):?>
+                                            <div class="product actions product-item-actions <?php echo strtolower($deliveryWeekColor); ?>">
+                                                <div class="actions-primary">
+                                                <?php if ($_item->getIsSalable()): ?>
+                                                    <?php if ($totalqty == 0  && $deliveryWeek == 'Sofort lieferbar'):?>                                                    
+                                                        <div class="stock unavailable"><span><?php /* @escapeNotVerified */ echo __('Nicht auf Lager') ?></span></div>
+                                                        <div class="actions-primary">
+                                                            <div class="main-btn"> <a class="action tocart primary out-of-stock" href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php /* @escapeNotVerified */ echo __('Leider Aktuell Ausverkauft') ?></a>
+                                                                </div>
+                                                        </div>
+                                                    <?php elseif ($_item->getReserveAndCollect()):?>
+                                                        <div class="main-btn"><a class="action tocart primary reserved-btn" href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><span><?php /* @escapeNotVerified */ echo __('In einer Filiale reservieren') ?></span></a></div>
+                                                    <?php else:?>
+                                                        <div class="stock available"><span><?php /* @escapeNotVerified */ echo __('Auf Lager') ?></span></div>
+                                                        <?php if($_item->getDeliveryTimeInDays()){ ?>
+                                                            <div class="stock-count"><?php echo $_item->getDeliveryTimeInDays();?><span> <?php /* @escapeNotVerified */ echo __('&nbsp Tage Lieferzeit') ?></span></div>
+                                                        <?php } ?>
+                                                        <div class="main-btn"><a class="action tocart primary" href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><span><?php /* @escapeNotVerified */ echo __('Zum Produkt') ?></span></a></div>
+                                                    <?php endif; ?>
+                                                    </div>
+                                                <?php else:?>
+                                                        <div class="stock unavailable"><span><?php /* @escapeNotVerified */ echo __('Nicht auf Lager') ?></span></div>
+                                                        <div class="actions-primary">
+                                                            <div class="main-btn"> <a class="action tocart primary out-of-stock" href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php /* @escapeNotVerified */ echo __('Leider Aktuell Ausverkauft') ?></a>
+                                                                </div>
+                                                        </div>
+                                                    <?php //endif;?>
+                                                <?php endif;?>
+                                            </div>
+                                        <?php endif;?>
+
+                                        <?php if ($templateType): ?>
+                                            <?php echo $block->getReviewsSummaryHtml($_item, $templateType) ?>
+                                        <?php endif; ?>
+
+                                        <?php if (!$_item->isComposite() && $_item->isSaleable() && $type == 'related'): ?>
+                                            <?php if (!$_item->getRequiredOptions()): ?>
+                                                <div class="field choice related">
+                                                    <!-- <input type="checkbox" class="checkbox related" id="related-checkbox<?php /* @escapeNotVerified */ //echo $_item->getId() ?>" name="related_products[]" value="<?php /* @escapeNotVerified */ //echo $_item->getId() ?>" />
+                                        <label class="label" for="related-checkbox<?php /* @escapeNotVerified */ //echo $_item->getId() ?>"><span><?php /* @escapeNotVerified */ //echo __('Add to Cart') ?></span></label> -->
+                                                </div>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+
+                                        <?php if ($showAddTo || $showCart): ?>
+                                            <div class="product actions product-item-actions <?php echo strtolower($deliveryWeekColor); ?>">
+                                                <?php if ($showCart): ?>
+                                                    <div class="actions-primary">
+                                                        <?php //if ($_item->isSaleable()): ?>
+                                                        <?php if ($_item->getIsSalable()): ?>    
+                                                            <?php if ($totalqty == 0  && $deliveryWeek == 'Sofort lieferbar'):?>
+                                                                    <div class="stock unavailable"><span><?php /* @escapeNotVerified */ echo __('Nicht auf Lager') ?></span></div>
+                                                                    <div class="main-btn"> <a class="action tocart primary out-of-stock" href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php /* @escapeNotVerified */ echo __('Leider Aktuell Ausverkauft') ?></a>
+                                                                    </div>
+                                                            <?php elseif ($_item->getReserveAndCollect()):?>
+                                                                    <div class="main-btn"><a class="action tocart primary reserved-btn" href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><span><?php /* @escapeNotVerified */ echo __('In einer Filiale reservieren') ?></span></a></div>
+                                                                <?php else:?>
+                                                                    <div class="stock available"><span><?php /* @escapeNotVerified */ echo __('Auf Lager') ?></span></div>
+                                                                    <?php if($_item->getDeliveryTimeInDays()){ ?>
+                                                                        <div class="stock-count"><?php echo $_item->getDeliveryTimeInDays();?><span> <?php /* @escapeNotVerified */ echo __('Tage Lieferzeit') ?></span></div>
+                                                                    <?php } ?>
+                                                                    <div class="main-btn"><a class="action tocart primary" href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><span><?php /* @escapeNotVerified */ echo __('Zum Produkt') ?></span></a></div>
+                                                                <?php endif; ?>
+                                                        <?php else: ?>
+                                                                <div class="stock unavailable"><span><?php /* @escapeNotVerified */ echo __('Nicht auf Lager') ?></span></div>
+                                                                <div class="main-btn"> <a class="action tocart primary out-of-stock" href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php /* @escapeNotVerified */ echo __('Leider Aktuell Ausverkauft') ?></a>
+                                                                </div>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                <?php endif; ?>
+
+                                                <?php if ($showAddTo): ?>
+                                                    <div class="secondary-addto-links actions-secondary <?php echo strtolower($deliveryWeekColor); ?>" data-role="add-to-links">
+                                                        <div class="actions-primary">
+                                                        <?php if ($_item->isSaleable()): ?>
+                                                            <?php if ($totalqty == 0  && $deliveryWeek == 'Sofort lieferbar'):?>
+                                                                <div class="stock unavailable"><span><?php /* @escapeNotVerified */ echo __('Nicht auf Lager') ?></span></div>
+                                                                <?php if($_item->getDeliveryTime()){ ?>
+                                                                    <div class="stock-count"><?php echo " -" .$_item->getDeliveryTime();?><span> <?php /* @escapeNotVerified */ echo __('Wochen Lieferzeit') ?></span></div>
+                                                                <?php } ?>
+                                                                iv class="main-btn"> <a class="action tocart primary out-of-stock" href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php /* @escapeNotVerified */ echo __('Leider Aktuell Ausverkauft') ?></a>
+                                                            <?php elseif ($_item->getReserveAndCollect()):?>
+                                                                    <div class="main-btn"><a class="action tocart primary reserved-btn" href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><span><?php /* @escapeNotVerified */ echo __('In einer Filiale reservieren') ?></span></a></div>
+                                                            <?php else:?>
+                                                                    <div class="stock available"><span><?php /* @escapeNotVerified */ echo __('Auf Lager') ?></span></div>
+                                                                    <?php if($_item->getDeliveryTimeInDays()){ ?>
+                                                                        <div class="stock-count"><?php echo " -" .$_item->getDeliveryTimeInDays();?><span> <?php /* @escapeNotVerified */ echo __('Tage Lieferzeit') ?></span></div>
+                                                                    <?php } ?>
+                                                                    <div class="main-btn"><a class="action tocart primary" href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><span><?php /* @escapeNotVerified */ echo __('Zum Produkt') ?></span></a></div>
+                                                                <?php endif; ?>
+                                                        <?php else:?>
+                                                                <div class="stock unavailable"><span><?php /* @escapeNotVerified */ echo __('Nicht auf Lager') ?></span></div>
+                                                                <?php if($_item->getDeliveryTime()){ ?>
+                                                                    <div class="stock-count"><?php echo " -" .$_item->getDeliveryTime();?><span> <?php /* @escapeNotVerified */ echo __('Wochen Lieferzeit') ?></span></div>
+                                                                <?php } ?>
+                                                                iv class="main-btn"> <a class="action tocart primary out-of-stock" href="<?php /* @escapeNotVerified */ echo $_item->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php /* @escapeNotVerified */ echo __('Leider Aktuell Ausverkauft') ?></a>
+                                                                </div>
+                                                        <?php endif;?>
+                                                        
+                                                        <?php if ($addToBlock = $block->getChildBlock('addto')): ?>
+                                                            <?php //echo $addToBlock->setProduct($_item)->getChildHtml(); ?>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                                <?php echo($iterator == count($items)+1) ? '</li>' : '' ?>
+                            <?php endforeach ?>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            require(['jquery', 'slick'], function($){
+                $(function(){
+                    $(".product-slider-<?php echo $type ?>").slick({
+                        dots: false,
+                        infinite: true,
+                        slidesToShow: 4,
+                        slidesToScroll: 1,
+                        speed: 500,
+                        autoplay: false,
+                        autoplaySpeed: 1000,
+                        cssEase: 'linear',
+                        rtl: false,
+                        responsive: [
+                            {
+                                breakpoint: 1024,
+                                settings: {
+                                    slidesToShow: 3,
+                                    slidesToScroll: 2
+                                }
+                            },
+                            {
+                                breakpoint: 768,
+                                settings: {
+                                    slidesToShow: 3,
+                                    slidesToScroll: 1
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 1,
+                                    slidesToScroll: 1
+                                }
+                            }
+                        ]
+                    })
+                })
+            });
+        </script>
+        <?php endif;?>

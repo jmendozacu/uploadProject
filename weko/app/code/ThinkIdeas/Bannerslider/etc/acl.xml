@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2016 thinkIdeas. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::content">
+                    <resource id="ThinkIdeas_Bannerslider::main" title="Banner Slider" sortOrder="200">
+                        <resource id="ThinkIdeas_Bannerslider::slides" title="Slides" sortOrder="10"/>
+                        <resource id="ThinkIdeas_Bannerslider::banners" title="Banners" sortOrder="20"/>
+                        <resource id="ThinkIdeas_Bannerslider::statistics" title="Statistics" sortOrder="30"/>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

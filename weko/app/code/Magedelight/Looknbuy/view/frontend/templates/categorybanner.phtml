@@ -1,0 +1,169 @@
+<?php 
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+$this->_storeManager = $objectManager->create('\Magento\Store\Model\StoreManagerInterface');
+$this->helper = $objectManager->create('\Magedelight\Looknbuy\Helper\Data');
+
+$this->scopeConfig = $objectManager->create('\Magento\Framework\App\Config\ScopeConfigInterface');
+
+$look = $this->getCategoryBannerLook();
+
+$banners = $look->getData();
+
+$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+$folderName = \Magento\Config\Model\Config\Backend\Image\Favicon::UPLOAD_DIR;
+$uploded_image = $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) .$folderName . '/' . $this->scopeConfig->getValue('looknbuy/styles/marker_icon', $storeScope);
+
+$markerImagePath = $this->scopeConfig->getValue('looknbuy/styles/marker_icon', $storeScope) ? $uploded_image : $block->getViewFileUrl('Magedelight_Looknbuy::images/marker.png') ;
+$markerImageUrl =  $markerImagePath;
+
+$markerWidth = $this->scopeConfig->getValue('looknbuy/styles/marker_width', $storeScope);
+$markerHeight = $this->scopeConfig->getValue('looknbuy/styles/marker_height', $storeScope);
+$fontColor = '#' . $this->scopeConfig->getValue('looknbuy/styles/font_color', $storeScope);
+$backgroundColor = '#' . $this->scopeConfig->getValue('looknbuy/styles/background_color', $storeScope);
+$fontSize = $this->scopeConfig->getValue('looknbuy/styles/font_size', $storeScope);
+$opacity = $this->scopeConfig->getValue('looknbuy/styles/opacity', $storeScope);
+$class = "looknbuy-1column";
+?>
+<style type="text/css">
+.base_image .easypin .easypin-marker .easypin-popover:before
+{
+    border-color:<?php echo $backgroundColor ?> transparent transparent ;
+}
+</style>
+<div class="block-content content">
+            <div class="homepage--banner-grid ">
+                <ol class="homepagebanner list items homepage-slider">
+<?php foreach ($banners as $key => $banner) {
+
+// echo"<pre/>"; print_r($banner);exit;
+
+$layout = $banner['layout'];
+$markers = $banner['markers'];
+$ishomepage = "category";
+$lookImgUrl = $block->getImageUrl($banner['base_image'], $layout);
+
+?>
+<li>
+    <div class="<?php echo $class; ?>"> 
+        <div class="base_image"  id="wrapper">
+            <img id="image1" src="<?php echo $lookImgUrl; ?>"  class="pin-<?php echo $banner['look_id']; ?>" easypin-id="example" >
+            <?php if ($banner['description']):?>
+                <div class="look-description">
+                    <?php 
+                        echo __($banner['description']);
+                    ?>
+                </div>
+            <?php endif;?>
+        </div>
+
+        <div style="display:none;" easypin-tpl>
+            <popover>
+                <div style="height:auto; background-color:<?php echo $backgroundColor ?>;color: <?php echo $fontColor ?>; opacity: <?php echo $opacity ?>; font-size: <?php echo $fontSize ?>">
+                    <!-- {[content]} -->
+                    <ol class="products list items product-items">
+                        <li class="item product product-item">
+                            <div class="product-item-info" data-container="product-grid">
+                                <a href="{[producturl]}" class="product photo product-item-photo" tabindex="-1">
+                                    <span class="product-image-container" style="width:160px;">
+                                        <span class="product-image-wrapper" style="padding-bottom: 100%;">
+                                            <img class="product-image-photo" src="{[product_image]}" width="160" height="160" alt="{[content]}"></span>
+                                    </span>
+                                </a>
+                                <div class="product details product-item-details">
+                                    <strong class="product name product-item-name">
+                                        <a class="product-item-link"
+                                           href="{[producturl]}">
+                                            {[content]}
+                                        </a>
+                                    </strong>
+                                    <div class="price-box price-final_price" data-role="priceBox" data-product-id="{[productid]}">
+                                        <span class="price-container price-final_price tax weee">
+                                            <span id="product-price-{[productid]}" data-price-amount="{[productprice]}" data-price-type="finalPrice" class="price-wrapper ">
+                                                <span class="price">{[productprice]}</span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="product-item-inner">
+                                        <div class="product actions product-item-actions">
+                                            <div class="actions-primary">
+                                                <div class="main-btn1">
+                                                    <a class="action tocart primary" href="{[producturl]}" title="{[content]}"><span>Zum Produkt</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </popover>
+
+            <marker>
+                <div style="width:<?php echo $markerWidth ?>px;height:<?php echo $markerHeight ?>px;">
+                    <img src="<?php echo $markerImageUrl; ?>" width="<?php echo $markerWidth ?>" height="<?php echo $markerHeight ?>">
+					<span class="pulse"></span>
+                </div>
+            </marker>
+        </div>
+        
+        
+        <script type="text/javascript">
+
+            require([
+                'jquery',
+                'jquery/ui',
+                'easing',
+                'easypin'
+
+            ], function ($) {
+
+                jQuery(document).ready(function () {
+
+                    jQuery(".pin-<?php echo $banner['look_id']; ?>").easypinShow({
+                        data: '<?php echo $markers; ?>',
+                        responsive: true,
+                        popover: {
+                            show: false,
+                            animate: true
+                        }
+                    });
+
+
+                });
+
+            });
+
+        </script>
+    </div>
+</li>
+<?php 
+}
+?>
+</ol>
+</div>
+</div>
+<script type="text/javascript">
+    require(['jquery', 'slicklook'], function($){
+        $(function(){
+            $('.homepage-slider').slick({
+                dots: false,
+                infinite: true,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                speed: 500,
+                autoplay: true,
+                autoplaySpeed: 5000,
+                cssEase: 'linear',
+                arrows:true,
+            })
+        })
+        $('.homepage-slider').on('afterChange', function(event, slick, currentSlide) {              
+                 if ($('.page-footer').next('.easypin-popover').length){
+                    $('.page-footer').next('.easypin-popover').remove();
+                }               
+            });
+    });
+</script>

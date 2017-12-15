@@ -1,0 +1,21 @@
+{
+    "name": "thinkideas/module-customerattribute",
+    "description": "Create Customer Address Attribute.",
+    "license": "proprietary",
+    "authors": [
+        {
+            "email": "info@mage2gen.com",
+            "name": "Mage2Gen"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "ThinkIdeas\\Customerattribute\\": ""
+        }
+    }
+}

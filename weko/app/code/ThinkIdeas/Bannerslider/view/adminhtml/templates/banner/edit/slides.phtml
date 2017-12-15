@@ -1,0 +1,33 @@
+<?php
+/**
+* Copyright 2016 thinkIdeas. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+
+// @codingStandardsIgnoreFile
+
+/* @var \ThinkIdeas\Bannerslider\Block\Adminhtml\Banner\Edit\Tab\Slides $block */
+?>
+<div class="messages">
+    <div class="message message-notice">
+        <?php echo $block->escapeHtml(__('Use same resolution images for best results')) ?>
+    </div>
+</div>
+<?php
+    $blockGrid = $block->getBlockGrid();
+    /* @noEscape */ echo $blockGrid->toHtml();
+?>
+<input type="hidden" name="slide_position" id="slide_position" data-form-part="aw_bannerslider_banner_form" value="" />
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "ThinkIdeas_Bannerslider/js/banner/edit/assign-slides": {
+                "selectedSlides": <?php /* @noEscape */ echo $blockGrid->getSelectedSlidePosition(); ?>,
+                "gridJsObjectName": <?php /* @noEscape */ echo '"' . $blockGrid->getJsObjectName() . '"' ?: '{}'; ?>
+            }
+        }
+    }
+</script>
+<script>
+    require('mage/apply/main').apply();
+</script>

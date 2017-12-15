@@ -1,0 +1,11 @@
+<!--@subject Account approved to  weko.com @-->
+
+{{template config_path="design/email/header_template"}}
+{{var $order}}
+{{trans "Name: %name" name=$order.name}}<br/>
+{{trans "Email: %email" email=$order.email}}<br/>
+{{trans "Order Id: %order_id" order_id=$order.order_id}}<br/>
+{{trans "Itemno: %itemno" itemno=$order.itemno}}<br/>
+{{trans "Reason: %reason" reason=$order.reason|raw}}<br/>
+{{trans $order}}
+{{template config_path="design/email/footer_template"}}

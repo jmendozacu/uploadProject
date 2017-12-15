@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * ThinkIdeas
+ *
+ * @category    ThinkIdeas
+ * @package     ThinkIdeas_Faq
+ *
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <update handle="formkey"/>
+    <container name="root">
+        <block class="ThinkIdeas\Faq\Block\Adminhtml\Faq\Grid" name="admin.block.faq.grid"/>
+    </container>
+</page>

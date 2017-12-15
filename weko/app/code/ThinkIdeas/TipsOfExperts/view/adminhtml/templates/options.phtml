@@ -1,0 +1,74 @@
+<div id="manage-tips-of-experts-panel" data-index="attribute_tips_of_experts_select_container">
+    <table class="admin__control-table" data-index="attribute_tips_of_experts_select">
+        <colgroup>
+            <col />
+            <col />
+            <col width="1" />
+            <col width="1" />
+        </colgroup>
+        <thead>
+            <tr id="attribute-tips-of-experts-table">
+                <th class="col-list_block">
+                    <span><?php echo $block->escapeHtml(__('List Block')) ?></span>
+                </th>
+                <th class="col-expert_block">
+                    <span><?php echo $block->escapeHtml(__('Expert Block')) ?></span>
+                </th>
+                <th class="col-position">
+                    <span><?php echo $block->escapeHtml(__('Position')) ?></span>
+                </th>
+                <th class="col-delete">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody data-role="tips-of-experts-container" class="ignore-validate"></tbody>
+        <tfoot>
+            <tr>
+                <th colspan="100" class="col-actions-add">
+                    <button id="add_new_tip_button" data-action="add_new_row"
+                        title="<?php echo $block->escapeHtml(__('Add New Tip')); ?>"
+                        type="button" class="action- scalable add">
+                        <span><?php echo $block->escapeHtml(__('Add New Tip')); ?></span>
+                    </button>
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+    <input type="hidden" id="tip-count-check" value="" />
+</div>
+<script id="tip-of-expert-template" type="text/x-magento-template">
+     <tr>        
+        <td class="col-list_block">
+            <select id="list_block_<%- data.id %>" style="width: 100%; max-width: 100%" class="list_block admin__control-select">
+                <option value="0"><?php echo __('[ SELECT BLOCK ]'); ?></option>
+                <?php foreach($block->getBlockArray() as $blockArray): ?>
+                    <option value="<?php echo $blockArray['value'] ?>"><?php echo $blockArray['label'] ?></option>
+                <?php endforeach; ?>
+            </select>
+        </td>
+        <td class="col-expert_block">
+            <select id="expert_block_<%- data.id %>" style="width: 100%; max-width: 100%" class="expert_block admin__control-select">
+                <option value="0"><?php echo __('[ SELECT BLOCK ]'); ?></option>
+                <?php foreach($block->getBlockArray() as $blockArray): ?>
+                    <option value="<?php echo $blockArray['value'] ?>"><?php echo $blockArray['label'] ?></option>
+                <?php endforeach; ?>
+            </select>
+        </td>
+        <td class="col-position">
+            <input data-role="order" type="text" class="position admin__control-text" style="width: 160px; max-width: 160px;" value="<%- data.position %>" />
+        </td>
+        <td id="delete_button_container_<%- data.id %>" class="col-delete">
+            <input type="hidden" class="delete-flag" value="" />
+            <button id="delete_button_<%- data.id %>" title="<?php echo $block->escapeHtml(__('Delete')) ?>" type="button" class="action- scalable delete delete-tip">
+                <span><?php echo $block->escapeHtml(__('Delete')) ?></span>
+            </button>
+        </td>
+    </tr>
+</script>
+
+<script>
+require([
+    'ThinkIdeas_TipsOfExperts/js/options'
+], function (tipsOfOptions) {
+	tipsOfOptions({});
+});
+</script>

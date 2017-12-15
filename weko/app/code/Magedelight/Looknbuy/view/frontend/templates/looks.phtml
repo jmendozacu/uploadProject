@@ -1,0 +1,115 @@
+<?php
+/**
+ * Magedelight
+ * Copyright (C) 2016 Magedelight <info@magedelight.com>
+ *
+ * NOTICE OF LICENSE
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see http://opensource.org/licenses/gpl-3.0.html.
+ *
+ * @category Magedelight
+ * @package Magedelight_Looknbuy
+ * @copyright Copyright (c) 2016 Mage Delight (http://www.magedelight.com/)
+ * @license http://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author Magedelight <info@magedelight.com>
+ */
+?>
+<?php
+
+use Magento\Framework\App\Action\Action;
+
+$_lookCollection = $block->getlooksCollection(); // get collection which we set in block class 
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+$this->_storeManager = $objectManager->create('\Magento\Store\Model\StoreManagerInterface');
+$this->scopeConfig = $objectManager->create('\Magento\Framework\App\Config\ScopeConfigInterface');
+
+?>
+<?php if ($_lookCollection && count($_lookCollection)): ?>
+
+
+    <?php 
+    // echo"<pre/>"; print_r($_lookCollection->getData());exit;
+
+    ?>
+
+
+
+    <?php
+        $viewMode = 'grid';
+        $image = 'category_page_grid';
+        $showDescription = false;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    ?>
+
+<div class="sort-dcp">Entdecke unsere WEKO Wohnwelten. Einfach auf das Bild klicken und inspirieren lassen.</div>
+
+
+    <div class="wrapper <?php /* @escapeNotVerified */ echo $viewMode; ?> products-<?php /* @escapeNotVerified */ echo $viewMode; ?>">
+        <?php $iterator = 1; ?>
+        <ol id="wookmark_grid" class=" list  tiles-wrap animated">
+
+            <?php foreach ($_lookCollection->getData() as $_look): ?>
+            
+            <?php 
+            // echo"<pre/>"; print_r($_look);exit;
+            $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+            $urlKey = trim($_look['url_key'],'/');
+            $suffix = trim($this->scopeConfig->getValue('looknbuy/general/url_suffix', $storeScope),'/');
+            $urlKey .= (strlen($suffix) > 0 || $suffix != '') ? '.'.str_replace('.','',$suffix): '/';
+            
+            ?>
+                <?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li class="">' : '</li><li class="">' ?>
+                
+                    <?php
+                    $lookImgUrl = $this->imageResize($_look['base_image']);?>
+                    <?php // Product Image ?>
+          
+                        <a class="product-item-link1"
+                               href="<?php /* @escapeNotVerified */ echo $this->_storeManager->getStore()->getBaseUrl() .$urlKey ?>">
+                                <img class="product-image-photo1" src="<?php echo $lookImgUrl ?>" alt="<?php $_look['look_name'] ?>">
+                    <div class="pro-name-div">
+                        <?php
+                        $_lookNameStripped = $block->stripTags($_look['look_name'], null, true);
+                        ?>
+
+                         <h3><?php /* @escapeNotVerified */ echo $_look['look_name']; ?> </h3>
+                         <p>ENTDECKEN</p>
+                    </div>
+
+                    </a>
+                <?php echo($iterator == count($_lookCollection) + 1) ? '</li>' : '' ?>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+    <?php //echo $block->getToolbarHtml() ?>
+<?php else: ?>
+    <div class="message info empty"><span><?php echo __('No looks found.'); ?></span></div>
+<?php endif ?>
+<script type="text/javascript">
+    require([
+        "jquery",
+        "wookmark"
+    ], function ($, Wookmark) {
+        $(document).ready(function () {
+            var wookmark1 = new Wookmark('#wookmark_grid', {
+                outerOffset: 0, // Optional, the distance to the containers border
+                offset: 15,
+                itemWidth: 365 // Optional, the width of a grid item
+            });
+        });
+    });
+</script>

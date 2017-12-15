@@ -1,0 +1,134 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<div id="checkout" data-bind="scope:'checkout'" class="checkout-container">
+    <div id="checkout-loader" data-role="checkout-loader" class="loading-mask" data-mage-init='{"checkoutLoader": {}}'>
+        <div class="loader">
+            <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('images/loader-1.gif'); ?>"
+                 alt="<?php /* @escapeNotVerified */ echo __('Loading...'); ?>"
+                 style="position: absolute;">
+        </div>
+    </div>
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <script type="text/x-magento-init">
+        {
+            "#checkout": {
+                "Magento_Ui/js/core/app": <?php /* @escapeNotVerified */ echo $block->getJsLayout();?>
+            }
+        }
+    </script>
+    <script>
+        window.checkoutConfig = <?php /* @escapeNotVerified */ echo \Zend_Json::encode($block->getCheckoutConfig()); ?>;
+        // Create aliases for customer.js model from customer module
+        window.isCustomerLoggedIn = window.checkoutConfig.isCustomerLoggedIn;
+        window.customerData = window.checkoutConfig.customerData;
+    </script>
+    <script>
+        require(['jquery',
+            'mage/url',
+            'Magento_Ui/js/block-loader'
+        ], function($,url, blockLoader) {
+
+            //$(document).ajaxStop(function() {
+                //setTimeout(function(){
+                   /* var currentURL = window.location.href;
+                    var currentURLPart = currentURL.split("#");
+                    console.log(currentURLPart[1]);
+                    var baseURL = '';
+                    if(currentURLPart[1] == 'shipping' || currentURLPart[1] == ''){
+                        $("#back-step-cart").css("display", "block");
+
+                        //baseURL =  currentURLPart[0]+"cart";
+                        // $("#back-step-shipping a").attr("href", baseURL);
+                    } else if(currentURLPart[1] == 'payment'){
+                        console.log("sdfsdfsdfsdfsdf");
+                        $("#back-step-payment").css("display", "none");
+                        $("#back-step-cart").css("display", "none");
+                        $("#back-step-shipping").css("display", "block");
+                       // baseURL =  currentURLPart[0]+"#shipping";
+                        // $("#back-step-review a").attr("href", baseURL);
+                    }else if(currentURLPart[1] == 'order_summary'){
+                        console.log("sadasd");
+                        $("#back-step-payment").css("display", "block");
+                        $("#back-step-cart").css("display", "none");
+                        $("#back-step-shipping").css("display", "none");
+
+                        //baseURL =  currentURLPart[0]+"#payment";
+                         //$("#back-step-review a").attr("href", baseURL);
+                    }*/
+
+                    //$("#back-step-shipping a").attr("href", baseURL);
+                    // $("#back-step-payment a").attr("href", baseURL);
+                    /// $("#back-step-review a").attr("href", baseURL);
+               // }, 3000);
+            //});
+
+
+
+
+
+            $(document).on("click", '.gender input', function(){
+                var gender = $(this).attr('data-name');
+
+                if($(this).prop("checked") == true){
+                    if(gender == 'Herr'){
+                        $(".weko-prefix").val("Herr").change();
+                    }
+                    if(gender == 'Frau'){
+
+                        $(".weko-prefix").val("Frau").change();
+                    }
+                }
+                else
+                {
+                    $(".weko-prefix").val("").change();
+                }
+
+                if (gender == 'Frau')
+                {
+                    $('.gender .Herr').removeAttr('checked');
+                }
+                else
+                {
+                    $('.gender .Frau').removeAttr('checked');
+                }
+            });
+
+            blockLoader("<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('images/loader-1.gif'); ?>");
+            return url.setBaseUrl('<?php /* @escapeNotVerified */ echo $block->getBaseUrl();?>');
+        })
+    </script>
+
+
+</div>
+
+<div class="review-cart-items" id="review-cart-items" style="display: none;">
+    <?php echo $block->getChildHtml('checkout-review-items') ?>
+    <?php echo $block->getChildHtml('cart.summary') ?>
+</div>
+
+<div id="back-step-cart" style="display: none">
+    <a href="javascript:void(0)" class="checkout-back-link">
+        <span><?php echo __('Zurück zum Warenkorb'); ?></span>
+    </a>
+</div>
+<div id="back-step-shipping" style="display: none">
+    <a href="javascript:void(0)" class="checkout-back-link">
+        <span><?php echo __('Zurück zu ihren Daten'); ?></span>
+    </a>
+</div>
+<div id="back-step-payment" style="display: none">
+    <a href="javascript:void(0)" class="checkout-back-link">
+        <span><?php echo __('Zurück zur Bezahlmethode'); ?></span>
+    </a>
+</div>
+
+
+<div id="review-static-block" style="display: none;">
+    <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('review-step-text')->toHtml();?>
+</div>

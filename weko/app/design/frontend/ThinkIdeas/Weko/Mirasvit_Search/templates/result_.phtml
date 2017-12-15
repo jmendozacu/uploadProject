@@ -1,0 +1,32 @@
+<?php
+//@codingStandardsIgnoreFile
+/** @var \Mirasvit\Search\Block\Result $block */
+
+$indexes = $block->getIndices();
+$currentContent = $block->getCurrentContent();
+$tabsCnt = 0;
+$totalCnt = 0;
+?>
+    <?php foreach ($indexes as $index): ?>
+        <?php $collection = $block->getSearchCollection($index); ?>
+        <?php $totalCnt += $collection->getSize() ?>
+
+    <?php endforeach ?>
+</ul> 
+
+<?= $currentContent ?>
+<?php if ($totalCnt == 0): ?>
+<div class="search-emp-ttl">Versuche es mit einem neuen Begriff</div>
+
+
+    <?=$block->getChildHtml("search.no_results") ?>
+    <?php echo $block->getChildHtml("display.search.box") ?>
+
+
+<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('empty_search_block')->toHtml();?>
+<?php endif ?>
+<?php /*if ($block->getCurrentIndexSize() == 0 && $tabsCnt > 0): ?>
+    <div class="message notice">
+        <div>Please select other tab to see more results</div>
+    </div>
+<?php endif */?>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="3columns" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="top.links">
+            <block class="ThinkIdeas\Customerlogin\Block\Html\Index" name="my.weko" template="ThinkIdeas_Customerlogin::html/myweko.phtml" >
+                <!--<block class="Magento\Framework\View\Element\Html\Link\Current" name="my-smile-account-link">
+                    <arguments>
+                        <argument name="label" xsi:type="string" translate="true">My Account</argument>
+                        <argument name="path" xsi:type="string">customer/account</argument>
+                    </arguments>
+                </block>-->
+                <!--<block class="Magento\Framework\View\Element\Html\Link\Current" name="my-smile-orders-link">
+                    <arguments>
+                        <argument name="path" xsi:type="string">sales/order/history</argument>
+                        <argument name="label" xsi:type="string" translate="true">My Orders</argument>
+                    </arguments>
+                </block>-->
+            </block>
+        </referenceContainer>
+    </body>
+</page>

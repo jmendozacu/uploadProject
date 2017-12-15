@@ -1,0 +1,41 @@
+<?php
+$wishlistProducts = $block->getcurrentUserWishlistItems();
+$abstractProductBlock = $block->getLayout()->createBlock('\Magento\Catalog\Block\Product\AbstractProduct');
+?>
+<div class="wishlist">
+<?php $counter = count($wishlistProducts->getData()); ?>
+	<div class="items-total">
+        <span class="count"><?php echo $counter; ?></span>
+       <span><?php echo __('Artikel in der Wunschliste'); ?></span>
+    </div>
+<?php foreach ($wishlistProducts as $items):?>
+
+	<?php $_product = $block->getProduct($items->getProductId());?>
+    <div class="minicart-items">
+	<div class="product-item">
+		<div class="item-image">
+			<a class="product-item-photo" href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" title="<?php echo $block->escapeHtml($_product->getName()) ?>">
+			    <?php 
+			    $imageBlock =  $block->getLayout()->createBlock('Magento\Catalog\Block\Product\ListProduct');
+	//get product object...
+		    $productImage = $imageBlock->getImage($_product, 'mini_cart_product_thumbnail');
+		    echo $productImage->toHtml()  ?>
+			</a>
+		</div>
+		<div class="product-item-details">
+			<a class="product-item-name" href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" title="<?php echo $block->escapeHtml($_product->getName()) ?>">
+			<?php echo __($_product->getName());?>
+			</a>
+            <div class="item-price">
+			    <span class="hm-price"><?php echo $abstractProductBlock->getProductPrice($_product) ?></span>
+		    </div>
+		</div>
+
+	</div>
+	</div>
+<?php endforeach; ?>
+	<div class="wishlist-btn">
+		<a href="<?php echo $block->getWishlistUrl(); ?>"><?php echo __("go to wishlist");?></a>
+	</div>
+</div>
+

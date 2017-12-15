@@ -1,0 +1,18 @@
+<?php //echo "dsfsdfs";exit;
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+/**
+ * Shopping cart template
+ *
+ * @var $block \Magento\Checkout\Block\Cart
+ */
+
+if ($block->getItemsCount()) {
+    $block->getChildHtml('with-items');
+} else {
+    $block->getChildHtml('no-items');
+}

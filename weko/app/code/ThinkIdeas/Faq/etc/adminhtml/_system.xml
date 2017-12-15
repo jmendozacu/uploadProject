@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * ThinkIdeas
+ *
+ * @category    ThinkIdeas
+ * @package     ThinkIdeas_Faq
+ *
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="thinkideas" translate="label" sortOrder="0">
+            <label>ThinkIdeas</label>
+        </tab>
+        <section id="faq" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1"
+                 showInStore="1">
+            <class>separator-top</class>
+            <label>FAQ</label>
+            <tab>thinkideas</tab>
+            <resource>ThinkIdeas_Faq::config_faq</resource>
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>General Configuration</label>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enable FAQ</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

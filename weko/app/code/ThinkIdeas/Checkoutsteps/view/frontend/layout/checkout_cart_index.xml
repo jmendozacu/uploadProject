@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="checkout_cart_item_renderers"/>
+    <body>
+        <referenceContainer name="checkout.cart.container">
+            <block class="Magento\Checkout\Block\Cart" name="checkout.cart.steps" template="ThinkIdeas_Checkoutsteps::steps.phtml" before="-">
+            </block>
+            <block class="Magento\Checkout\Block\Cart\Coupon" name="checkout.cart.coupon.mobile" as="coupon.mobile" template="cart/coupon.phtml" after="checkout.cart.shipping"/>
+        </referenceContainer>
+        <referenceContainer name="cart.summary">
+            <block class="Magento\Checkout\Block\Cart\Coupon" name="checkout.cart.coupon.mobile" as="coupon.mobile" template="cart/mobile_coupon.phtml" after="checkout.cart.shipping"/>
+        </referenceContainer>
+        <referenceBlock name="checkout.cart.order.actions.gift_options" remove="true" />
+        <referenceBlock name="checkout.cart.item.renderers.default.actions.gift_options" remove="true" />
+        <referenceBlock name="checkout.cart.item.renderers.simple.actions.gift_options" remove="true" />
+        <move element="cart.summary" destination="checkout.cart.container" after="checkout.cart.form" />
+        <referenceBlock name="checkout.cart.summary.title" remove="true" />
+        <!-- Start code - Display cart bottom link and button to cart top  -->
+        <referenceContainer name="checkout.cart.container" >
+            <block class="Magento\Checkout\Block\Cart" name="checkout.cart.methods.top" template="cart/methods_top.phtml">
+                <container name="checkout.cart.methods.top.button" as="methods" label="Payment Methods After Checkout Button">
+                    <block class="Magento\Checkout\Block\Onepage\Link" name="checkout.cart.methods.onepage.top" template="onepage/link.phtml" />
+                    <block class="Magento\Checkout\Block\QuoteShortcutButtons" name="checkout.cart.shortcut.test" />
+                </container>
+            </block>
+        </referenceContainer>
+        <move element="checkout.cart.methods.top" destination="checkout.cart.container" after="checkout.cart.steps"/>
+        <referenceBlock name="checkout.cart.coupon" remove="true"/>
+
+
+        <!-- End Code -->
+    </body>
+</page>

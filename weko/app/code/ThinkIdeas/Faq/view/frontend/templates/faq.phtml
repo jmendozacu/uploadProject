@@ -1,0 +1,211 @@
+<?php
+/**
+ * ThinkIdeas
+ *
+ * @category    ThinkIdeas
+ * @package     ThinkIdeas_Faq
+ *
+ */
+$store_Id = $this->helper('ThinkIdeas\Faq\Helper\Data')->getStoreId();
+$type = $block->getRequest()->getParam('faqType');
+$categories = $block->getAllCategory();
+$page_size = $this->helper('ThinkIdeas\Faq\Helper\Data')->getPageSizeNumber();
+$id = $block->getRequest()->getParam('id');
+
+?>
+<div class="thinkideas-faq">
+    <div class="faq-title form-group">
+        <div class="row">
+            <div class="text-center">
+                <h1><?php echo __("FAQ");?></h1>
+                <div class="titel-below">Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Curabitur blandit tempus porttitor.</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group faq-container">
+        <div class="faq-wrapper">
+            <div id="faq-container"<?php if($block->getRequest()->getParam('id')): ?>class="active"<?php endif;?>>
+
+             <div class="fieldset mar-zero">     
+            <div class="field">
+            <div class="faq-left control">
+                    <select class="form-group" id="faq-select">
+                        <?php $i=1; foreach($categories as $category):?>
+                        <option id="cat-<?php echo $category->getId();?>" 
+                                value="<?php echo $category->getId();?>"
+                                class="faq-link faq-navigator <?php if($i>=count($categories)):?>
+                                    last<?php endif; ?>">
+                                    <span><?php echo $block->stripTags($category->getName());?></span>
+                        </option>
+                        <?php $i++; endforeach;?>
+                    </select>
+                </div>
+                 </div>
+                  </div>
+                <div class="faq-main123" id="faq-main">
+                    <a onclick="moveback()" id="title-back" class="hidden-lg hidden-md hidden-sm form-group text-center">
+                        <span class="glyphicon small glyphicon-chevron-left">&nbsp;</span>
+                        <?php if($block->getRequest()->getParam('id')) echo __("Back");?>
+                    </a>
+                    <div class="form-group" id="faq_listing">
+                        <?php echo $block->getChildHtml('faq.listing'); ?>
+                    </div>
+                    <div class="faq-fade" id="faq-fade" style="display: none;"></div>
+                    <input type="hidden" value='most' id="faqtype" name="type"/>
+                    <input type="hidden" value='' id="faqid" name="categoryId"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function loadpage(el,type,category_id,page){
+        require([
+            'jquery'
+        ], function($){
+            if(!$(el).hasClass('active')){
+                $('#faq-fade').show();
+                $.ajax({
+                    url: '<?php echo $block->getUrl('faq/index/ajaxview'); ?>',
+                    method: 'POST',
+//                    dataType: 'json',
+                    data: {
+                        faqType: type,
+                        faqId: category_id,
+                        page:page
+                    },
+                    success: function (response) {
+                        document.getElementById("faq_listing").innerHTML = response;
+                        $('#faq-fade').hide();
+
+                    }
+                });
+                if(screen.width < 768)
+                    window.scroll(0,$('#faq-container').cumulativeOffset().top)
+            }
+        });
+
+    }
+    
+    function faqOpen(el){
+        require([
+            'jquery'
+        ], function($){
+            if($('#faq-question-'+el).hasClass('active')){
+                $('#faq-question-'+el).removeClass('active');
+            }else{
+                $('#faq-question-'+el).addClass('active');
+            }          
+
+            $(".faq-question").each(function(){
+                var qid = $(this).attr("id");
+                if (qid != 'faq-question-'+el) {
+                    $(this).removeClass("active");
+                }
+            });
+            // $( '#faq-content-'+el ).toggle('blind', { duration: 0.1 });
+        });
+
+    }
+
+    function loadfaq(el,type,category_id,page){
+        require([
+            'jquery'
+        ], function($){
+            
+            $('#faqtype').value= type;
+            $('#faqid').value = category_id;
+            if(!$(el).hasClass('active')){
+                var url = '<?php echo 'faq/index'; ?>';
+                var param = {faqType: type, faqId: category_id,page:page};
+                var link = $('.faq-link');
+                link.each(function(){
+                    $(this).removeClass('active');
+                });
+                console.log(el);
+                $('#'+el).addClass('active');
+                $('#faq-fade').show();
+                $.ajax({
+                    url: '<?php echo $block->getUrl('faq/index/ajaxview'); ?>',
+                    method: 'POST',
+//                    dataType: 'json',
+                    data: {
+                        faqType: type,
+                        faqId: category_id,
+                        page:page
+                    },
+                    success: function (response) {
+                        document.getElementById("faq_listing").innerHTML = response;
+                        $('#faq-fade').hide();
+
+                    }
+                });
+            }
+        });
+    }
+
+
+    require([
+        'jquery'
+    ], function($){
+        $(document).ready(function(){
+            var initCategory = $('#faq-select option:first').val();
+            
+            $(document).on('click', '.faq-question', function(){
+                $(".faq-question").each(function(){
+                    $('.faq-content').css("display", "none");;
+                });
+                var content = $(this).attr("data-content");
+                
+                if ($(this).hasClass('active')) {
+                    //$(this).removeClass('active');
+                    $("#"+content).css("display", "none");
+                }
+                else
+                {
+                    console.log(this);
+                    //$(this).addClass('active');
+                    $("#"+content).css("display", "block");
+                }
+                
+            });
+
+            loadfaq('cat-'+initCategory,'category',initCategory,1)
+        });
+        $('#faq-select').on("change",function() { 
+           loadfaq('cat-'+this.value,'category',this.value,1)
+        });
+    });
+
+    function moveright(el){
+        require([
+            'jquery'
+        ], function($){
+            if(el == null){
+                var title = 'Search results';
+                var $html = '<span class="glyphicon small glyphicon-chevron-left">&nbsp;</span>'+title;
+                document.getElementById("title-back").innerHTML = $html;
+                $('#faq-container').addClass('active');
+            }else{
+                if($(el).attr('title'))
+                    var title = $(el).attr('title');
+                else
+                    var title = $(el).find('a').attr('title');
+                var $html = '<span class="glyphicon small glyphicon-chevron-left">&nbsp;</span>'+title;
+                document.getElementById("title-back").innerHTML = $html;
+                $('#faq-container').addClass('active');
+            }
+        });
+    }
+    function moveback(){
+        require([
+            'jquery'
+        ], function($){
+            $('#faq-container').removeClass('active');
+        });
+    }
+    window.onresize = function(){
+        if(screen.width > 767) moveback();
+    }
+</script>

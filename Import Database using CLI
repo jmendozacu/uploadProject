@@ -1,0 +1,13 @@
+open CLI from your magento folder
+
+>> mysql -u root -p
+
+>> pass :- root
+
+>> create database nameofyourdatabase 
+
+or
+
+>> use nameofyourdatabase
+
+>> source <location_of_your_file>

@@ -1,0 +1,49 @@
+<?php
+/**
+ * ThinkIdeas
+ *
+ * @category    ThinkIdeas
+ * @package     ThinkIdeas_Faq
+ *
+ */
+$tags = $block->getAllTags();
+$store_Id = $this->helper('ThinkIdeas\Faq\Helper\Data')->getStoreId();
+$tag_number = $this->helper('ThinkIdeas\Faq\Helper\Data')->getTagNumber();
+if($tag_number==null || $tag_number==0) {
+    $tag_number = 20;
+}
+$count = 0;
+?>
+<?php if(count($tags)): ?>
+    <div id="thinkideas-box-tags" class="thinkideas-faq-tags">
+        <div class="ms-popular-title">
+            <strong><span><?php echo __('Popular Tags') ?></span></strong>
+        </div>
+        <?php foreach($tags as $tag): ?>
+            <?php if($count<$tag_number){ ?>
+                <a title="<?php echo $tag;?>" onclick="moveright(this);loadfaq(this,'tag','<?php echo $tag ?>',1)"
+                   class="faq-tag faq-link"><?php echo $tag; ?></a>
+            <?php }else{?>
+                <a style="display:none" title="<?php echo $tag;?>" onclick="moveright(this);
+                    loadfaq(this,'tag','<?php echo $tag ?>',1)"
+                   class="faq-tag faq-link ms-extra-tags"><?php echo $tag; ?></a>
+            <?php } ?>
+            <?php $count++; endforeach; ?>
+        <?php if($count>$tag_number){ ?>
+            <div id="ms-action-tags"><a class="ms-view-all-tags" title="View All Tags" onclick="showAllTags()"><?php echo __('View All Tags') ?></a></div>
+        <?php } ?>
+    </div>
+<?php endif; ?>
+<script>
+    function showAllTags(){
+        require([
+            'jquery'
+        ], function($){
+            var msExtraTags = $('.ms-extra-tags');
+            $('#ms-action-tags').hide();
+            for(i=0;i<msExtraTags.length;i++){
+                msExtraTags[i].style.display = 'block';
+            }
+        });
+    }
+</script>

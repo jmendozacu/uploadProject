@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="adminhtml_review_confirmation_email">
+        <observer name="thinkideas_review_confirmation_approved_email_after" instance="ThinkIdeas\Review\Observer\Confirm\Email" />
+    </event>
+</config>

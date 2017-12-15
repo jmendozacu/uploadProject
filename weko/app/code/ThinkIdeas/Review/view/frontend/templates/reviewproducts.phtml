@@ -1,0 +1,273 @@
+<?php
+//$block->getOrderItemsReview();
+$orderItems = $block->getOrderItemsReview();
+$customerName = $block->getCustomerName();
+$reviewedProducts = $block->getReviewedPoducts();
+$product = "";
+$image = 'related_products_list';
+?>
+<?php $isExpired = $block->_isExpired(); ?>
+
+<?php if ($isExpired):?>
+
+<div class="review-slider-main">
+
+<div class="review-title">
+	<h2><?php echo __("Deine Meinung ist uns ganz wichtig!"); ?></h2>
+		<h4><?php echo __("Bitte bewerte deinen Einkauf");?></h4>
+</div>
+<div class="reviewed-products">
+    <input type="hidden" id="reviewedIds" value="<?php echo $reviewedProducts; ?>"/>
+</div>
+
+<div class="owl-main-div">
+<div id="owl-demo" data-mage-init='{
+   "OwlCarousel":{
+        "autoPlay": false,
+        "items" : 3,
+        "navigation":true,
+        "margin" :10
+   }
+}'>
+    <?php $i = 1; ?>
+
+	<?php foreach ($orderItems as $key => $item): ?>
+        <?php $product = $block->getLoadProduct($item->getProductId()); ?>
+        	<div class="item products-review" id="product_<?php echo $item->getProductId()?>" data-item="product_<?php echo $i;?>">
+        		<input type="hidden" class="productid" id="product_<?php echo $i;?>" name="productId" value="<?php echo $product->getId(); ?>" />
+                <input type="hidden" class="product_<?php echo $i;?> productname" name="productName" value="<?php echo __($product->getName()); ?>"/>
+                    <?php $productImage = $block->getImage($product, $image); ?>
+                    <?php echo $productImage->toHtml(); ?>
+        			<h2><?php echo __($product->getName()); ?></h2>
+        	</div>
+            <?php $i++;?>
+
+    <?php endforeach; ?>
+    <?php //exit;?>
+</div>
+<input type="hidden" id="review-product-count" value="<?php echo $i-1;?>" />
+</div>
+
+<div class="review-container-sections">
+    <div class="block review-product-add">
+        <div class="block-title"><strong><?php /* @escapeNotVerified */ echo __('Write Your Own Review') ?></strong></div>
+        <form action="#" class="review-form" method="post" id="review-form"  dataid="test">
+                <?php echo $block->getBlockHtml('formkey'); ?>
+                <input type="hidden" id="actionUrl" value="<?php /* @escapeNotVerified */ echo $block->getAction() ?>"></input>
+                <input type="hidden" id="orderid" name="orderid" value="<?php /* @escapeNotVerified */ echo $this->orderId ?>"></input>
+                 <input type="hidden" id="productid" name="productid"></input>
+                <fieldset class="fieldset review-fieldset" data-hasrequired="<?php __('* Required Fields'); ?>">
+                    <legend class="legend review-legend"><span><?php /* @escapeNotVerified */ echo __("You're reviewing:"); ?></span><strong>
+                        <!-- Product Name -->
+                    </strong></legend><br />
+                    <!-- Rating field -->
+
+                    <?php if ($block->getRatings() && $block->getRatings()->getSize()): ?>
+                            <span id="input-message-box"></span>
+                            <fieldset class="field required review-field-ratings">
+                                <legend class="label"><span><?php /* @escapeNotVerified */ echo __('Your Rating') ?></span></legend><br/>
+                                <div class="control">
+                                    <div class="nested" id="product-review-table">
+                                        <?php foreach ($block->getRatings() as $_rating): ?>
+                                            <div class="field choice review-field-rating">
+                                             <span class="bad-text">Schlecht</span>
+                                                <div class="control review-control-vote">
+                                                <?php $options = $_rating->getOptions();?>
+                                                <?php $iterator = 1; foreach ($options as $_option): ?>
+                                                    <input
+                                                        type="radio"
+                                                        name="ratings[<?php /* @escapeNotVerified */ echo $_rating->getId() ?>]"
+                                                        id="<?php echo $block->escapeHtml($_rating->getRatingCode()) ?>_<?php /* @escapeNotVerified */ echo $_option->getValue() ?>"
+                                                        value="<?php /* @escapeNotVerified */ echo $_option->getId() ?>"
+                                                        class="radio"
+                                                        data-validate="{required:true, messages:{required:'Please select one of each of the ratings above.'}}"
+                                                        aria-labelledby="<?php echo $block->escapeHtml($_rating->getRatingCode()) ?>_rating_label <?php echo $block->escapeHtml($_rating->getRatingCode()) ?>_<?php /* @escapeNotVerified */ echo $_option->getValue() ?>_label" />
+                                                    <label
+                                                        class="rating-<?php /* @escapeNotVerified */ echo $iterator; ?>"
+                                                        for="<?php echo $block->escapeHtml($_rating->getRatingCode()) ?>_<?php /* @escapeNotVerified */ echo $_option->getValue() ?>"
+                                                        title="<?php /* @escapeNotVerified */ echo __('%1 %2', $iterator, $iterator > 1 ? 'stars' : 'star') ?>"
+                                                        id="<?php echo $block->escapeHtml($_rating->getRatingCode()) ?>_<?php /* @escapeNotVerified */ echo $_option->getValue() ?>_label">
+                                                        <span><?php /* @escapeNotVerified */ echo __('%1 %2', $iterator, $iterator > 1 ? 'stars' : 'star') ?></span>
+                                                    </label>
+                                                <?php $iterator++; ?>
+                                                <?php endforeach; ?>
+                                                </div>
+                                                <span class="good-text">Sehr gut</span>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <input type="hidden" name="validate_rating" class="validate-rating" value="" />
+                                </div>
+                            </fieldset>
+                        <?php endif ?>
+
+                    <!-- Review Fields -->
+                    <div class="field review-field-nickname">
+                        <div class="control">
+                            <input type="hidden" name="nickname" id="nickname_field" class="input-text" value="<?php echo __($customerName); ?>" />
+                        </div>
+                    </div>
+                    <div class="field review-field-summary required">
+                        <div class="control">
+                            <input type="hidden" name="title" id="summary_field" class="input-text" value="<?php echo __("Ordered Product Review"); ?>" />
+                        </div>
+                    </div>
+                    <div class="field review-field-text required">
+                        <label for="review_field" class="label"><span><?php /* @escapeNotVerified */ echo __('Review') ?></span></label>
+                        <div class="control">
+                            <textarea name="detail" id="review_field" cols="5" rows="3" data-validate="{required:true}"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="actions-toolbar review-form-actions">
+                    <div class="primary actions-primary">
+                        <button type="submit" class="action submit primary"><span><?php /* @escapeNotVerified */ echo __('ABSENDEN') ?></span></button>
+                    </div>
+                </div>
+            </form>
+    </div>
+
+    <div class="block reviewed-product">
+        <div class="reviewed-product-name">
+            <h3></h3>
+        </div>
+        <div class="reviewed-product-message">
+            <?php echo __("Diese(s) Produkt(e) wurde(n) von Dir bereits bewertet.");?>
+            <span><?php echo __("Vielen Dank!");?></span>
+        </div>
+    </div>
+</div>
+</div>
+<?php else:?>
+<div>
+    <p><?php echo __("Ihr Link ist abgelaufen."); ?></p>
+</div>
+<?php endif; ?>
+<script>
+require([
+    "jquery",
+    "OwlCarousel"
+], function($){
+    $(document).ready(function(){
+        var proids = $('#reviewedIds').val();
+        
+        $("#review-form").submit(function (e) {
+            var review = $("#review_field").val();
+            var validationFailed = false;
+            if (review == "") {
+                var errormsg = "<?php echo __('This is a required field.')?>";
+                $('textarea#review_field').css("border","2px solid red");
+                if ($('#review_field-error').length == 0) {
+                    $('textarea#review_field').after('<div for="review_field" generated="true" class="mage-error" id="review_field-error" style="display: block;">'+errormsg+'</div>');
+                }
+                else
+                {
+                    $('#review_field-error').remove();
+                    $('textarea#review_field').after('<div for="review_field" generated="true" class="mage-error" id="review_field-error" style="display: block;">'+errormsg+'</div>');    
+                }
+                validationFailed =  true;
+                console.log("val " + validationFailed);
+            }
+            console.log("valid " + validationFailed);
+           // do your validation here ...
+           if (validationFailed) {
+              e.preventDefault();
+              return false;
+           }
+        }); 
+
+        if (proids == "") {
+            var pid = $('#product_1').val();
+            var pname = $('.product_1').val();
+
+            $('.review-legend strong').html(pname);
+            var postUrl = $('#actionUrl').val();
+            $('#review-form').attr('action', postUrl+ "id/"+pid);
+            $('#productid').val(pid);
+        }
+        else{
+            if (proids.indexOf(",") >= 0)
+            {
+                var pids = proids.split(",");
+                console.log(pids);
+                var i = 1;
+                $.each(pids, function( index, value ) {
+                    console.log(value);
+                    $("#product_"+value).addClass('reviewed');
+                    i++;             
+                });
+                $('#owl-demo').trigger('OwlCarousel', 4);
+            }
+            else
+            {
+                var pid = $('#product_1').val();
+                var pname = $('.product_1').val();
+                $("#product_"+pid).addClass('reviewed');                 
+            }
+        }
+        $(document).on("click", ".products-review",  function() {
+            $(".products-review").removeClass("select");
+            $(this).addClass("select");
+            if ($(this).hasClass("reviewed")) {
+                $(".review-container-sections .review-product-add").hide();
+            }
+            else
+            {
+                $(".review-container-sections .review-product-add").show();
+            }
+        });
+
+        $(".products-review").each(function() {
+            if(!$(this).hasClass("reviewed"))
+            {   
+                $(this).addClass("select");
+                $(".reviewed-product").addClass("no-display");
+                var pid = $(this).find(".productid").val();
+                var pname = $(this).find(".productname").val();
+                console.log(pname);
+                $('.review-legend strong').html(pname);
+                var postUrl = $('#actionUrl').val();
+                $('#review-form').attr('action', postUrl+ "id/"+pid);
+                $('#productid').val(pid);
+                $(".review-container-sections .review-product-add").show();
+                return false;
+            }
+            else{
+                $(".review-container-sections .review-product-add").hide();
+            }
+        });
+
+        $(document).on('click','.item', function()
+        {         
+            var product = $(this).attr("data-item");
+            var productId = $('#'+product).val();
+            var proname = $('.'+product).val();
+
+            if ($(this).hasClass('reviewed')) {
+                $(".reviewed-product-name h3").html(proname);
+                $(".review-product-add").addClass("no-display"); 
+                $(".reviewed-product").removeClass("no-display"); 
+            }
+            else
+            {
+                $('.review-legend strong').html(proname);
+                var postUrl = $('#actionUrl').val();
+                $('#review-form').attr('action', postUrl+ "id/"+productId);
+                $('#productid').val(productId);
+                $(".review-product-add").removeClass("no-display");
+                $(".reviewed-product").addClass("no-display");  
+            }
+            
+        }); 
+
+        var reviewCount = $("#review-product-count").val();
+        if (reviewCount == 1) {
+            if ($(".products-review").hasClass("reviewed")) {
+                $(".review-container-sections .review-product-add").hide();
+            }
+        }
+
+    });
+});
+</script>
+

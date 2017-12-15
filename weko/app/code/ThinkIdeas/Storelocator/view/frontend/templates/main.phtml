@@ -1,0 +1,878 @@
+<?php
+declare(strict_types=1);
+/**
+ * ThinkIdeas_Storelocator extension
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ *
+ * @category  ThinkIdeas
+ * @package   ThinkIdeas_Storelocator
+ * @copyright 2016 Claudiu Creanga
+ * @license   http://opensource.org/licenses/mit-license.php MIT License
+ * @author    Claudiu Creanga
+ */
+ ?>
+ <?php 
+ $_product = array();
+/* Product Data for further checkout process */
+$_product = $block->getReservedProduct();
+// echo"<pre/>"; print_r($_product);exit;
+$productInfo = $block->getLoadProduct($_product['product']);
+
+
+?>
+<?php /** @var \ThinkIdeas\Storelocator\Block\Storelocator $block */?>
+<?php $_store = $block->getCurrentStore();?>
+<?php $data = $block->getStoresForFrontend(); ?>
+<?php $countryList = $block->getCountries(); ?>
+<?php $modulePath = "thinkideas_storelocator/stockist/image/"; ?>
+<?php $templateSetting = $block->getTemplateSettings(); ?>
+<?php
+	if($block->getMapPin()){ 
+		
+		$mapPin = $block->getMediaUrl()."thinkideas_storelocator/".$block->getMapPin();
+		
+	} else {
+		
+		$mapPin = $block->getViewFileUrl('ThinkIdeas_Storelocator::images/map_pin.png');
+	
+	}
+?>
+
+<div class="container">
+
+	<div class="stepwizard col-md-offset-3">
+		<div class="stepwizard-row setup-panel">
+			<div class="stepwizard-step store-tab">
+				<a href="#step-1" type="button" class="btn btn-primary btn-circle"><h5>1</h5><span>Filiale zur Abholung wählen</span></a>
+			</div>
+			<div class="stepwizard-step checkout-tab">
+				<a href="#step-2" type="button" class="btn checkout-step btn-default btn-circle" disabled="disabled"><h5>2</h5><span>Deine Daten</span></a>
+			</div>
+			<div class="stepwizard-step summary-tab">
+				<a href="#step-3" type="button" class="btn summary-step btn-default btn-circle" disabled="disabled"><h5>3</h5><span>Prüfen und Bestätigen</span></a>
+			</div>
+		</div>
+	</div>
+
+	<form id="form-storelocator" class="form-group" role="form" action="<?php echo $block->getActionUrl();?>" method="post" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>" data-mage-init='{"validation":{}}'>
+		<!-- Product Information -->
+		<?php if(isset($_product)):?>
+			<input type="hidden" name="product" value="<?php echo $_product['product'] ?>" />
+			<input type="hidden" name="qty" value="<?php echo $_product['qty'] ?>" />
+		<?php endif; ?>
+		<input type="hidden" id="stockist_id" name="stockist_id" value="" />
+		<input type="hidden" id="stockist_name" name="stockist_name" value="" />
+		<div class="row setup-content step2-main" id="step-1">
+			<div class="col-xs-6 col-md-offset-3">
+				<div class="col-md-12">
+				<!--	<h3> Step 1</h3> -->
+
+					<!-- Store Information and Select Store -->
+					<div class="parent-storelocator <?php echo $templateSetting; ?>">
+						<div class="directions-panel">
+							<p>Your directions: </p>
+							<p class="change-directions">Change to <span class="walking get-directions" data-directions="WALKING">walking, </span><span class="cycle get-directions" data-directions="BICYCLING">cycling</span>, <span class="transit get-directions" data-directions="TRANSIT">public transport</span> or <span class="driving get-directions" data-directions="DRIVING">driving</span>.</p>
+							<div class="close"></div>
+						</div> 
+						<div class="search-storelocator">
+					    <div class="storelocator-results">
+
+                        <p class="top-text">Sie konnen das Produkt in einer der folgenden Weko-Filialen abholen</p>
+                        <?php $storecount = 0; ?>
+					        <div class="results-store">
+					            <?php $productid = $_product['product']; ?>
+					            <?php foreach ($data as $item): ?>
+					            	<?php 
+					            	//echo"<pre/>"; print_r($item);exit;
+					            	 $reserved = "";
+					            	 $reservedeProduct = $block->_getSelectedProducts($item->getStockistId());?>
+									<?php foreach ($reservedeProduct as $key => $reserve):?>
+										<?php 
+										// echo"<pre/>"; print_r($reserve);exit;
+										if ($reserve == (int)$productid):?>
+											<?php $reserved = 1; ?>
+											<?php $storecount = 1; ?>
+										<?php endif; ?>
+									<?php endforeach; ?>
+					                <?php $data_marker = $item["latitude"].$item["longitude"]; ?>
+					            	<?php if ($reserved):?>  
+					              
+
+					                <div class="results-content loaded-results address" data-marker="<?php echo $block->escapeHtml($data_marker); ?>">
+
+                                           <p class="results-title1"><?php echo $block->escapeHtml($item["name"]); ?></p>
+
+					                    <?php if ($item["image"]): ?>
+
+					                        <div class="image">
+					                            <img src="<?php echo $block->getBaseImageUrl().$modulePath.$block->escapeHtml($item["image"]) ?>"
+					                                 alt="<?php echo $block->escapeHtml($item["name"]) ?>" />
+					                        </div>
+
+					                    <?php endif; ?>
+
+					                    <div class="results-item-data img-below-address">
+
+
+
+						                    <?php if ($item["address"]): ?>
+						                        <p class="results-address"><?php echo $block->escapeHtml($item["address"]); ?></p>
+						                    <?php endif; ?>
+
+						                    <?php if ($item["city"]): ?>
+						                        <p class="results-phone">
+							                        <?php
+								                        echo $block->escapeHtml($item["city"]);
+								                        echo $block->escapeHtml($item["postcode"]) ? ", " . $block->escapeHtml($item["postcode"]) : "";
+								                    ?>
+							                    </p>
+						                    <?php endif; ?>
+
+						                    <?php if ($item["country"] && $countryList[$item["country"]]): ?>
+						                        <p class="results-miles"><?php echo $block->escapeHtml($countryList[$item["country"]]) ?></p>
+						                    <?php endif; ?>
+
+					                    </div>
+
+					                    <div class="results-item-data">
+						                    <p class="results-title"><?php /* @escapeNotVerified */ echo __("Our opening times") ?></p>
+						                    <?php if ($item["mondaytofriday"]): ?>
+						                        <p class="results-address"><?php /* @escapeNotVerified */ echo __("Monday to Friday  ") ?><?php echo $block->escapeHtml($item["mondaytofriday"]); ?></p>
+						                    <?php endif; ?>
+						                    <?php if ($item["saturday"]): ?>
+						                        <p class="results-address"><?php /* @escapeNotVerified */ echo __("Saturday  ") ?><?php echo $block->escapeHtml($item["saturday"]); ?></p>
+						                    <?php endif; ?>
+						                    <?php if ($item["holiday"]): ?>
+						                        <p class="results-address"><?php /* @escapeNotVerified */ echo __("Holiday  ") ?><?php echo $block->escapeHtml($item["holiday"]); ?></p>
+						                    <?php endif; ?>
+						                    <?php if ($item["newyear"]): ?>
+						                        <p class="results-address"><?php /* @escapeNotVerified */ echo __("New Year  ") ?><?php echo $block->escapeHtml($item["newyear"]); ?></p>
+						                    <?php endif; ?>
+					                    </div>
+					                    <div class="results-item-data">
+						                    <p class="results-title"><?php /* @escapeNotVerified */ echo __("Contact") ?></p>
+						                    
+						                    <?php if ($item["phone"]): ?>
+						                        <p class="results-address"><?php /* @escapeNotVerified */ echo __("Tel: ") ?><?php echo $block->escapeHtml($item["phone"]); ?></p>
+						                    <?php endif; ?>
+						                    <?php if ($item["link"]): ?>
+						                        <p class="results-address"><?php /* @escapeNotVerified */ echo __("Fax: ") ?><?php echo $block->escapeHtml($item["link"]); ?></p>
+						                    <?php endif; ?>
+						                    <?php if ($item["email"]): ?>
+						                        <p class="results-address"><?php /* @escapeNotVerified */ echo __("E-Mail: ") ?><?php echo $block->escapeHtml($item["email"]); ?></p>
+						                    <?php endif; ?>
+						                    <br>
+						                    <?php if ($item["iln_number"]): ?>
+						                        <p class="results-address"><?php /* @escapeNotVerified */ echo __("ILN-Number: ") ?><?php echo $block->escapeHtml($item['name'] .": ". $item["iln_number"]); ?></p>
+						                    <?php endif; ?>
+					                    </div>
+					                	<div>
+
+<button type="button" class="store_button store_form_submit btn btn-primary nextBtn btn-lg pull-right store_submit" name="store_form_submit" id="" data-store-id="<?php echo $item['stockist_id']?>" data-store-name="<?php echo $item['name']?>"><?php /* @escapeNotVerified */ echo __("OPTIONS AND CONTINUE"); ?></button>
+					                	</div>
+					                </div>					            		
+					         		<?php endif; ?>
+					        <?php endforeach;?>
+					        </div>
+					    </div>
+					</div>
+				</div>
+				<?php if ($storecount == 0):?>
+					<div class="no-store-available">
+						<h3><?php echo __("Dieses Produkt wurde keiner Weko Filiale zugewiesen."); ?>
+						</h3>
+					</div>
+				 <?php endif;?>
+				</div>
+			</div>
+		</div>
+		<div class="row setup-content" id="step-2">
+			<div class="col-xs-6 col-md-offset-3">
+				<div class="col-md-9 frm-left">
+					<fieldset class="fieldset create info">
+					<h3 class="step-ttl"> Als Neukunde bestellen</h3>
+					 <input type="hidden" name="success_url" value="<?php /* @escapeNotVerified */ echo $block->getSuccessUrl() ?>">
+        			<input type="hidden" name="error_url" value="<?php /* @escapeNotVerified */ echo $block->getErrorUrl() ?>">
+					 <?php $_gender = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Gender') ?>
+			        <?php if ($_gender->isEnabled()): ?>
+			            <?php echo $_gender->setGender($block->getFormData()->getGender())->toHtml() ?>
+			        <?php endif ?>
+			        <?php echo $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($block->getFormData())->setForceUseCustomerAttributes(true)->toHtml() ?>
+		        	
+		        	<div class="field company">
+		                <label for="company" class="label"><span><?php /* @escapeNotVerified */ echo __('Company') ?></span></label>
+		                <div class="control">
+		                    <input type="text" name="company" id="company" value="<?php echo $block->escapeHtml($block->getFormData()->getCompany()) ?>" title="<?php /* @escapeNotVerified */ echo __('Company') ?>" class="input-text <?php /* @escapeNotVerified */ echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('company') ?>">
+		                </div>
+		            </div>
+
+		            <?php $_streetValidationClass = $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('street'); ?>
+
+		            <div class="field street required">
+		                <label for="street_1" class="label"><span><?php /* @escapeNotVerified */ echo __('Street Address') ?></span></label>
+		                <div class="control">
+		                    <input type="text" name="street[]" value="<?php echo $block->escapeHtml($block->getFormData()->getStreet(0)) ?>" title="<?php /* @escapeNotVerified */ echo __('Street Address') ?>" id="street_1" class="input-text <?php /* @escapeNotVerified */ echo $_streetValidationClass ?>">
+		                    <div class="nested">
+		                        <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
+		                        <?php for ($_i = 2, $_n = $this->helper('Magento\Customer\Helper\Address')->getStreetLines(); $_i <= $_n; $_i++): ?>
+		                            <div class="field additional">
+		                                <label class="label" for="street_<?php /* @escapeNotVerified */ echo $_i ?>">
+		                                    <span><?php /* @escapeNotVerified */ echo __('Adresszusatz') ?></span>
+		                                </label>
+		                                <div class="control">
+		                                    <input type="text" name="street[]" value="<?php echo $block->escapeHtml($block->getFormData()->getStreetLine($_i - 1)) ?>" title="<?php /* @escapeNotVerified */ echo __('Street Address %1', $_i) ?>" id="street_<?php /* @escapeNotVerified */ echo $_i ?>" class="input-text <?php /* @escapeNotVerified */ echo $_streetValidationClass ?>">
+		                                </div>
+		                            </div>
+		                        <?php endfor; ?>
+		                    </div>
+		                </div>
+		            </div>
+	    			<div class="field zip required">
+		                <label for="zip" class="label"><span><?php /* @escapeNotVerified */ echo __('Zip & City') ?></span></label>
+		                <div class="control">
+		                    <input type="text" name="postcode" value="<?php echo $block->escapeHtml($block->getFormData()->getPostcode()) ?>" title="<?php /* @escapeNotVerified */ echo __('Zip/Postal Code') ?>" id="zip" class="input-text validate-zip-international <?php /* @escapeNotVerified */ echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('postcode') ?>" data-validate="{required:true}">
+		                    <input type="text" name="city" value="<?php echo $block->escapeHtml($block->getFormData()->getCity()) ?>" title="<?php /* @escapeNotVerified */ echo __('City') ?>" class="input-text <?php /* @escapeNotVerified */ echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('city') ?>" id="city">
+		                </div>
+		            </div>
+	                <input type="hidden" name="country_id" id="country_id" value="DE">
+	                <div class="field required">
+			            <label for="email_address" class="label"><span><?php /* @escapeNotVerified */ echo __('Email') ?></span></label>
+			            <div class="control">
+			                <input type="email" name="email" autocomplete="email" id="email_address" value="<?php echo $block->escapeHtml($block->getFormData()->getEmail()) ?>" title="<?php /* @escapeNotVerified */ echo __('Email') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}">
+			            </div>
+			        </div>
+
+	            	<div class="field telephone required">
+		                <label for="telephone" class="label"><span><?php /* @escapeNotVerified */ echo __('Area Code / Phone No') ?></span></label>
+		                <div class="control">
+		                    <input placeholder="Vorwahl+Nummer (zusammen geschrieben)" type="text" name="telephone" id="telephone" value="<?php echo $block->escapeHtml($block->getFormData()->getTelephone()) ?>" title="<?php /* @escapeNotVerified */ echo __('Phone Number') ?>" class="input-text <?php /* @escapeNotVerified */ echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('telephone') ?>" data-validate="{required:true}">
+		                </div>
+		            </div>
+	            	
+	            	<?php $_dob = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Dob') ?>
+			            <?php echo $_dob->setDate($block->getFormData()->getDob())->toHtml() ?>
+
+					<?php if(!$block->isUserLoggedIn()):?>
+					<div class="field password required" data-mage-init='{"passwordStrengthIndicator": {}}'>
+			            <label for="password" class="label"><span><?php /* @escapeNotVerified */ echo __('Password') ?></span></label>
+			            <div class="control">
+			                <input type="password" name="password" id="password"
+			                       title="<?php /* @escapeNotVerified */ echo __('Password') ?>"
+			                       class="input-text"
+			                       data-password-min-length="<?php echo $block->escapeHtml($block->getMinimumPasswordLength()) ?>"
+			                       data-password-min-character-sets="<?php echo $block->escapeHtml($block->getRequiredCharacterClassesNumber()) ?>"
+			                       data-validate="{required:true, 'validate-customer-password':true}"
+			                       autocomplete="off">
+			                <div id="password-strength-meter-container" data-role="password-strength-meter" >
+			                    <div id="password-strength-meter" class="password-strength-meter">
+			                        <?php /* @escapeNotVerified */ echo __('Password Strength'); ?>:
+			                        <span id="password-strength-meter-label" data-role="password-strength-meter-label" >
+			                            <?php /* @escapeNotVerified */ echo __('No Password'); ?>
+			                        </span>
+			                    </div>
+			                </div>
+			            </div>
+
+			        </div>
+			        <div class="field confirmation required">
+			            <label for="password-confirmation" class="label"><span><?php /* @escapeNotVerified */ echo __('Confirm Password') ?></span></label>
+			            <div class="control">
+			                <input type="password" name="password_confirmation" title="<?php /* @escapeNotVerified */ echo __('Confirm Password') ?>" id="password-confirmation" class="input-text" data-validate="{required:true, equalTo:'#password'}" autocomplete="off">
+			            </div>
+			        </div>
+			    <?php endif;?>
+			        <div class="field wekocard-number">
+		                <label for="cardnumber" class="label"><span><?php /* @escapeNotVerified */ echo __('WEKO Card Number') ?></span></label>
+		                <div class="control">
+		                    <input type="text" name="cardnumber" id="cardnumber" value="" title="<?php /* @escapeNotVerified */ echo __('WEKO Card Number') ?>" class="input-text">
+		                </div>
+		            </div>
+                    <div class="tearms-cond">
+					        <?php
+					             /* Terms & Conditions agreement */
+
+					            if ($block->getAgreements()):
+
+					            /** @var \Magento\CheckoutAgreements\Model\ResourceModel\Agreement\Collection $argeementsCollection */
+					            $argeementsCollection = $block->getAgreements();
+					            $agreementMappedArray = [];
+					            /** @var \Magento\CheckoutAgreements\Model\Agreement $agreement */
+					            foreach ($argeementsCollection as $agreement) {
+					                if ($agreement->getIsActive()) {
+					                    $agreementMappedArray[] = [
+					                        'mode' => $agreement->getMode(),
+					                        'agreementId' => $agreement->getAgreementId(),
+					                        'checkboxText' => __($agreement->getCheckboxText()),
+					                        'content' => $agreement->getContent()
+					                    ];
+					                }
+					            }
+					            $agreementJson = json_encode($agreementMappedArray);
+					            ?>
+					           <div class="control"> <div data-bind="scope: 'checkout-agreements-component-scope'" class="checkout-agreements-block">
+					            <!-- ko template: getTemplate() --><!-- /ko -->
+					            </div>
+					            </div>
+					        <?php endif;  ?>
+					        <?php if ($block->isNewsletterEnabled()): ?>
+					                <div class="field choice newsletter">
+					                    <input type="checkbox" name="is_subscribed" title="<?php /* @escapeNotVerified */ echo __('Yes, inform me about trends, promotions 8, vouchers by e-mail. Cancellation possible at any time') ?>" value="1" id="is_subscribed"<?php if ($block->getFormData()->getIsSubscribed()): ?> checked="checked"<?php endif; ?> class="checkbox">
+					                    <label for="is_subscribed" class="label"><span><?php /* @escapeNotVerified */ echo __('Ja, informiert mich über Trends, Aktionen & Gutscheine per E-Mail. Abmeldung jederzeit möglich.') ?></span></label>
+					                </div>
+					                <?php /* Extensions placeholder */ ?>
+					                <?php echo $block->getChildHtml('customer.form.register.newsletter')?>
+					        <?php endif ?>
+					    </div>
+                    <div class="actions-toolbar">
+                    	<div class="primary cont-btn">
+                    		<button class="action primary btn btn-primary nextBtn btn-lg pull-right checkoutset" type="button" ><span><?php /* @escapeNotVerified */ echo __('WEITER') ?></span></button>
+                    	</div>
+
+				    </div>
+
+                       <label class="reqd"><span><?php /* @escapeNotVerified */ echo __('= Pflichtfeld') ?></span></label>
+
+				</div>
+				<?php if(!$block->isUserLoggedIn()):?>
+					<div class="col-md-3 frm-right">				
+						<input type="hidden" id="loginUrl" value="<?php echo __($block->getLoginActionUrl()); ?>" />
+						<?php echo $block->getChildHtml();?>
+					</div>
+				<?php else:?>
+					<input type="hidden" id="loginUrl" value="<?php echo __($block->getLoggedInActionUrl()); ?>" />
+				<?php endif;?>
+			</div>
+			</fieldset>
+		</div>
+		<div class="row setup-content" id="step-3">
+			<div class="col-xs-6 col-md-offset-3">
+				<div class="col-md-12 third-stepsmain">
+					<div class="address-row">
+						<div class="payment-box setup-panel">
+							<div class="add-ttl"><h3><?php /* @escapeNotVerified */ echo __("Zahlungsart"); ?></h3><a href="#step-1" type="button" class="btn"><span><?php echo __("Andern"); ?></span></a></div>
+
+                          	<div class="add-box-cont">
+      							<div class="branch-title"><?php echo __("Abholung"); ?></div>
+      						    <div class="branch-main"><span class="branch-name-text"><?php echo __("Filiale: ");?></span><span class="pickup-branch"></span></div>
+                            </div>
+
+						</div>
+						<div class="delivery-box">
+							<div class="add-ttl"><h3><?php /* @escapeNotVerified */ echo __("Lieferadresse"); ?></h3></div>
+
+                              <div class="add-box-cont">
+  							<div><?php echo __("Abholung"); ?></div>
+  					    	</div>
+
+						</div>
+						<div class="customer-box setup-panel">
+							<div class="add-ttl"><h3><?php /* @escapeNotVerified */ echo __("Kundendaten"); ?></h3><a href="#step-2" type="button" class="btn"><span><?php echo __("Andern"); ?></span></a>
+							</div>
+							<div class="customer-data-content">
+								<p></p>
+							</div>
+						</div>
+						<div class="checkout-submit">
+		        			<button class="btn btn-success btn-lg pull-right storelocator_form_submit" type="submit"><?php echo __("PRODUKT JETZT RESERVIREN");?></button>
+		        		</div>
+					</div>
+					<div class="product-data">
+						<div class="product-info">
+								<div class="show-detail-main">
+                                <h3 class="ck-conf">Prüfen und Bestätigen</h3>
+									<input type="hidden" class="product_id" id="product_id"  value="<?php echo $productInfo->getId(); ?>" />
+					                <input type="hidden" class="product_name" name="productName" value="<?php echo __($productInfo->getName()); ?>"/>
+					                <input type="hidden" class="sex" id="sex" name="sex" />	
+					        		<table class="product-info-content">
+					        			<tr>
+					        				<th>
+					        					<?php  echo __("PRODUKTINFORMATIONEN")?>
+					        				</th>
+					        				<th>
+					        					<?php echo __("ANZAHL")?>
+					        				</th>
+					        				<th>
+					        					<?php echo __("GESAMTPREIS");?>
+					        				</th>
+					        				
+					        			</tr>
+					        			<tr>
+					        				<td>
+					        					<div class="product-image">
+					        						<img class="product-review-slide" src="<?php echo $block->getUrl('pub/media/catalog').'product'.$productInfo->getImage(); ?>" alt="Owl Image">
+					        					</div>
+					        					<div class="product-name-detail">
+					        						<div class="product-name"><h2><?php echo __($productInfo->getName()); ?></h2> </div>
+
+                                                    <div class="product-description">
+							        				<p><?php echo __($productInfo->getDescription()); ?></p>
+							        				<p class="sku"><span><?php echo __("Artikel-nr.:"); ?></span><?php echo __($productInfo->getSku()); ?></p>
+                                                    <p class="colt">Nur Abholung möglich</p>
+                                                    </div>
+
+					        					</div>
+
+					        				</td>
+					        				<td class="product-qty">
+					        					<?php echo $_product['qty']; ?>
+					        				</td>
+					        				<td class="product-price">
+					        					<?php 
+					        					$priceformate = $block->getPriceFormate();
+					        					$price = (int)$productInfo->getPrice() * (int)$_product['qty'];
+					        					echo  $priceformate->currency($price, true, false); 
+					        					
+					        					?>
+					        				</td>
+					        			</tr>
+					        			<tr class="mob-class">
+					        				<td class="no-mobile"></td>
+					        				<td class="total-main-left">
+						        				<div class="subtotal-title">
+						        					<?php echo __("Zwischensumme");?>
+						        					<p>
+						        						<?php echo __("Versandkosten");?>
+						        					</p>
+						        				</div>
+						        				<div class="grandtotal-title">
+						        					<?php echo __("Gesamtbetrag");?>
+						        					<p>
+						        					<?php 
+						        					$vat = (int)($price * 19)/100; 
+						        					$tax = $priceformate->currency($vat, true, false);
+						        						echo __("inkl. 19% MwSt(" . $tax . ")");
+						        					?>
+						        					</p>
+						        				</div>
+					        				</td>
+					        				<td class="total-main-right">
+					        					<div class="subtotal">
+					        						<?php 
+					        						echo  $priceformate->currency($price, true, false); 
+					        						?>
+					        						<p>
+					        						<?php echo __("Abholung"); 
+					        						?></p>
+					        					</div>
+					        					<div class="grand-total">
+					        						<?php 
+						        						$grandtotal = (int)($price * 19)/100 + (int) $price;
+						        						echo  $priceformate->currency($grandtotal, true, false); 
+					        						?>
+					        					</div>
+					        				</td>
+					        			</tr>
+					        		</table>
+					        		<div class="order-confirm-text">
+										<?php echo __("Mit dem Klick auf") ;?> <span> <?php echo __ ("„Produkt reservieren\"");?> </span> <?php echo __("schließt Du");?>  <span> <?php echo __("keinen");?> </span> <?php echo __("Kauf ab. Wir reservieren das Produkt 5 Werktage unverbindlich für dich. Danach kann die Verfügbarkeit des Produktes nicht gewährleistet werden.");?>
+									</div>
+					        		<div class="checkout-submit">
+					        			<button class="btn btn-success btn-lg pull-right storelocator_form_submit" type="submit"><?php echo __("PRODUKT JETZT RESERVIREN");?></button>
+					        		</div>	
+								</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<!-- <div class="payment-box back-to-shop setup-panel">
+		<div class="stepwizard-step">
+			<a href="#step-1" type="button" class="btn"><span><?php //echo __("Zurück zur Bezahlmethode");?></span></a>
+		</div>
+	</div> -->
+</div>
+<div id="loading" style="display: none">
+    <img src=""
+         alt="<?php /* @escapeNotVerified */ echo __('Loading...'); ?>"
+         style="position: absolute;">
+</div>
+<style type="text/css">
+/*.back-to-shop{
+	display: none;
+}	*/
+</style>
+<?php if ($block->getAgreements()): ?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "checkout-agreements-component-scope": {
+                        "component": "Magento_CheckoutAgreements/js/view/checkout-agreements",
+                        "agreements": <?php /* @noEscape */ echo $agreementJson; ?>,
+                        "isVisible": true
+                    }
+                }
+            }
+        }
+    }
+</script>
+<?php endif; ?>
+<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
+<!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
+
+<script>
+require([
+    "jquery",
+    "jquery_bootstrap",
+    "mage/mage",
+    "mage/validation"
+], function($){
+	$(document).ready(function () {
+		$('html, body').scrollTop(0);
+
+		$( document ).ajaxStart(function() {
+		  	var image = "<?php echo $block->getViewFileUrl('images/loader-1.gif'); ?>";
+			$('#loading').html("<img src='"+image+"' />");
+			$('#loading').show();
+		});
+
+		var paramLog = {"isAjax":true}
+		var loginUrl = $('#loginUrl').val();
+		$.ajax({
+                url: loginUrl,
+                data: paramLog,
+                type: "POST",
+                dataType: 'json'
+            }).done(function (data) {
+            	console.log(data);
+
+                if (data.firstname) {
+                	$("#firstname").val(data.firstname);
+                }
+                if (data.lastname) {
+                	$("#lastname").val(data.lastname);
+                }
+                if (data.street) {
+                	$("#street_1").val(data.street);
+                }
+                if (data.postcode) {
+                	$("#zip").val(data.postcode);
+                }
+                if (data.city) {
+                	$("#city").val(data.city);
+                }                
+                if (data.telephone) {
+                	$("#telephone").val(data.telephone);
+                }
+                if (data.company) {
+                	$("#company").val(data.company);
+                }
+                if (data.dbo) {
+                	var dt = data.dbo;
+                	var dbofrom = dt.split("-");
+					var dboto = dbofrom[2] +"."+ dbofrom[1] +"."+ dbofrom[0];
+                	$("#dob").val(dboto);
+                }
+                if (data.gender) {
+					var val = data.gender;
+                	$("input[value='" + val + "']").prop('checked', true);
+                	if (val == 1) {
+                		$("#prefix").val("Herr");
+                	}
+                	else{
+                		$("#prefix").val("Frau");	
+                	}
+                }
+                if (data.email) {
+                	$("#email_address").val(data.email);
+                }
+            });
+
+		$( document ).ajaxStop(function() {
+		  $('#loading').hide();
+		});
+
+		$(document).on("click", ".stepwizard-step a", function(){
+			// if ($(this).hasClass("checkout-step") == true || $(this).hasClass("summary-step") == true) {
+			// 	$(".back-to-shop").css("display","block");
+			// }
+			// else
+			// {
+			// 	$(".back-to-shop").css("display","none");
+			// }
+		});
+
+		$(document).on('click', '#send2', function(){
+			var loginUrl = $('#loginUrl').val();
+			var loginEmail =  $('#email').val();
+			var loginPass = $('#pass').val();
+			var param = {"username":loginEmail, "password":loginPass, "isAjax":true}
+
+			if( !validateEmail(loginEmail))
+			{	
+				$('input#email').css("border","2px solid red");
+				var errorMsg = "<?php echo __("Please enter a valid email address (Ex: johndoe@domain.com).");?>";
+				console.log($('#email-error').length );
+				if ($('#email-error').length == 0) {
+					$('input#email').after('<div for="email" generated="true" class="mage-error" id="email-error" style="display: block;">'+errorMsg+'</div>');
+				}
+				else
+				{
+					$('#email-error').remove();
+					$('input#email').after('<div for="email" generated="true" class="mage-error" id="email-error" style="display: block;">'+errorMsg+'</div>');
+					
+				}
+				return false;
+			}
+
+			if( loginEmail =='' || loginPass ==''){
+				var errormsg = "<?php echo __('This is a required field.')?>";
+				
+				if (loginEmail =='' && loginPass !='') {
+					$('input#email').css("border","2px solid red");
+					$('input#pass').val("");
+
+					if ($('#email-error').length == 0) {
+						$('input#email').after('<div for="email" generated="true" class="mage-error" id="email-error" style="display: block;">'+errormsg+'</div>');	
+					}
+					else
+					{	
+						$('#email-error').remove();
+						$('input#email').after('<div for="email" generated="true" class="mage-error" id="email-error" style="display: block;">'+errormsg+'</div>');	
+					}
+					if ($('#pass-error').length == 0) {
+						$('input#pass').after('<div for="pass" generated="true" class="mage-error" id="pass-error" style="display: block;">'+errormsg+'</div>');
+					}
+					else
+					{
+						$('#pass-error').remove();
+						$('input#pass').after('<div for="pass" generated="true" class="mage-error" id="pass-error" style="display: block;">'+errormsg+'</div>');	
+					}
+				}
+				else if(loginEmail !='')
+				{
+					$('input#pass').css("border","2px solid red");
+					$('input#pass').css("box-shadow","0 0 3px red");
+					
+					if ($('#pass-error').length == 0) {
+						$('input#pass').after('<div for="pass" generated="true" class="mage-error" id="pass-error" style="display: block;">'+errormsg+'</div>');
+					}
+					else
+					{
+						$('#pass-error').remove();
+						$('input#pass').after('<div for="pass" generated="true" class="mage-error" id="pass-error" style="display: block;">'+errormsg+'</div>');	
+					}
+				}
+				else
+				{
+					$('input#email').css("border","2px solid red");
+					$('input#pass').css("box-shadow","0 0 3px red");
+					$('input#pass').val("");
+					
+					if ($('#email-error').length == 0) {
+						$('input#email').after('<div for="email" generated="true" class="mage-error" id="email-error" style="display: block;">'+errormsg+'</div>');	
+					}
+					else
+					{
+						$('#email-error').remove();
+						$('input#email').after('<div for="email" generated="true" class="mage-error" id="email-error" style="display: block;">'+errormsg+'</div>');		
+					}
+					if ($('#pass-error').length == 0) {
+						$('input#pass').after('<div for="pass" generated="true" class="mage-error" id="pass-error" style="display: block;">'+errormsg+'</div>');
+					}
+					else
+					{
+						$('#pass-error').remove();
+						$('input#pass').after('<div for="pass" generated="true" class="mage-error" id="pass-error" style="display: block;">'+errormsg+'</div>');	
+					}
+				}
+				return false;
+			}
+
+			$.ajax({
+                url: loginUrl,
+                data: param,
+                type: "POST",
+                dataType: 'json'
+            }).done(function (data) {
+
+                if (data.firstname) {
+                	$("#firstname").val(data.firstname);
+                }
+                if (data.lastname) {
+                	$("#lastname").val(data.lastname);
+                }
+                if (data.street) {
+                	$("#street_1").val(data.street);
+                }
+                if (data.postcode) {
+                	$("#zip").val(data.postcode);
+                }
+                if (data.city) {
+                	$("#city").val(data.city);
+                }                
+                if (data.telephone) {
+                	$("#telephone").val(data.telephone);
+                }
+                if (data.company) {
+                	$("#company").val(data.company);
+                }
+                if (data.dbo) {
+                	var dt = data.dbo;
+                	var dbofrom = dt.split("-");
+					var dboto = dbofrom[2] +"."+ dbofrom[1] +"."+ dbofrom[0];
+                	$("#dob").val(dboto);
+                }
+                if (data.gender) {
+					var val = data.gender;
+                	$("input[value='" + val + "']").prop('checked', true);
+                	if (val == 1) {
+                		$("#prefix").val("Herr");
+                	}
+                	else{
+                		$("#prefix").val("Frau");	
+                	}
+                }
+                if (data.email) {
+                	$("#email_address").val(data.email);
+                	$('.frm-right').hide();
+                	$('.block-customer-login').hide();
+                	$('.password').hide();
+                	$('.confirmation').hide();
+                }
+            });
+            $('html, body').scrollTop(0);
+		});	
+		function validateEmail($email) {
+		  var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+		  return emailReg.test( $email );
+		}
+		var navListItems = $('div.setup-panel div a'),
+			allWells = $('.setup-content'),
+			allNextBtn = $('.nextBtn');
+
+		allWells.hide();
+
+		navListItems.click(function (e) {
+			e.preventDefault();
+			var $target = $($(this).attr('href')),
+				$item = $(this);
+
+			if (!$item.hasClass('disabled')) {
+				navListItems.removeClass('btn-primary').addClass('btn-default');
+				$item.addClass('btn-primary');
+				allWells.hide();
+				$target.show();
+				$target.find('input:eq(0)').focus();
+			}
+		});
+
+		allNextBtn.click(function(){
+
+			if ($(this).hasClass("checkoutset")) {
+				
+				if($('input#email').attr("data-validate"))
+				{
+					$('input#email').removeAttr("data-validate");
+				}
+				if($('input#pass').attr("data-validate"))
+				{
+					$('input#pass').removeAttr("data-validate");
+				}
+
+				var dataForm = $('#form-storelocator');
+				var ignore = null;
+
+			    dataForm.mage('validation', {
+			            ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+			        }).find('input:text').attr('autocomplete', 'off');
+			    if (dataForm.validation('isValid') == false) {
+			    	return false;
+			    }
+			    			    
+			    /* Checkout form summery as cart set */
+  				var cust= [];
+  				var storename = $("#stockist_name").val();
+  				var gender = $("#prefix").val();
+  				var sex = "";
+  				console.log(gender + "check1");
+  				if (gender == "Herr") {
+  					sex = "Herr";
+  				}
+  				else
+  				{
+  					sex = "Frau";
+  				}
+  				$('#sex').val(sex);
+  				console.log(sex + " check");
+  				cust[0] = sex + " " + $("#firstname").val() + " " + $("#lastname").val();
+  				cust[1] = $("#street_1").val() + " " +  $("#street_2").val();
+  				cust[2] = $("#zip").val() + " " +  $("#city").val();
+  				cust[3] = "Germany";
+  				var customerData = cust.join("<br>") ;
+  				$(".pickup-branch").html(storename);
+  				$(".customer-data-content p").html(customerData);
+  				console.log(customerData);
+  				$('.customer-box div a').addClass('btn-primary');
+  				$('.payment-box div a').addClass('btn-primary');
+		  		/* Cart End */
+		  		// $('.back-to-shop').css("display", "block");
+		  		$('.checkout-tab a').addClass("cmtl");
+		  		$('html, body').scrollTop(0);
+			}
+			
+			var curStep = $(this).closest(".setup-content"),
+				curStepBtn = curStep.attr("id"),
+				nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+				curInputs = curStep.find("input[type='text'],input[type='url']"),
+				isValid = true;
+
+			$(".form-group").removeClass("has-error");
+			for(var i=0; i<curInputs.length; i++){
+				if (!curInputs[i].validity.valid){
+					isValid = false;
+					$(curInputs[i]).closest(".form-group").addClass("has-error");
+				}
+			}
+
+			if (isValid)
+				nextStepWizard.removeAttr('disabled').trigger('click');
+		});
+
+		$('div.setup-panel div a.btn-primary').trigger('click');
+	});
+
+	$(document).on("click", ".store_form_submit", function(){
+		var currentstore = $(this).attr("data-store-id");
+    	var currentstoreName = $(this).attr("data-store-name");
+    	$("#stockist_id").val(currentstore);    	
+    	$("#stockist_name").val(currentstoreName);
+    	// $('.back-to-shop').css("display", "block");
+    	$('.store-tab a').addClass("cmtl");
+    	$('html, body').scrollTop(0);
+	}); 
+    
+
+    $(document).on('change', '#region_id', function(){
+    	console.log($(this).val());
+    	$('#region').val($(this).val());
+    });
+});
+</script>
+<?php //if ($block->getShowAddressFields()): ?>
+<script type="text/x-magento-init">
+    {
+        "#country": {
+            "regionUpdater": {
+                "optionalRegionAllowed": <?php /* @escapeNotVerified */ echo($block->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
+                "regionListId": "#region_id",
+                "regionInputId": "#region",
+                "postcodeId": "#zip",
+                "form": "#form-validate",
+                "regionJson": <?php /* @escapeNotVerified */ echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson() ?>,
+                "defaultRegion": "<?php /* @escapeNotVerified */ echo $block->getFormData()->getRegionId() ?>",
+                "countriesWithOptionalZip": <?php /* @escapeNotVerified */ echo $this->helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip(true) ?>
+            }
+        }
+    }
+</script>
+<?php //endif; ?>

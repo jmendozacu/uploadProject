@@ -1,0 +1,35 @@
+<?php 
+$item = $block->getProductData();
+$finalPrice = $item->getFinalPrice();
+$normalPrice = $item->getPrice();
+?>
+
+<?php if ($finalPrice != $normalPrice):?>
+	<?php 
+		$percentage = 0;
+	    
+	    if ($normalPrice > $finalPrice) {
+	        $percentage = number_format(($normalPrice - $finalPrice) * 100 / $normalPrice,0);
+	    }
+	?>
+	<?php if ($percentage):?>
+		<div class="detail-label">
+			<div class="img-label">
+				<span class="on-sale-label"><?php echo $percentage. "% GESPART"; ?></span>
+			</div>
+		</div>
+	<?php endif;?>
+<?php else:?>
+	<?php 
+        $qty = 0;
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $StockState = $objectManager->get('\Magento\CatalogInventory\Api\StockStateInterface');
+        $totalqty =  $StockState->getStockQty($item->getId(), $item->getStore()->getWebsiteId());
+        if($totalqty < 2 && $totalqty != 0):?>
+	        <div class="detail-label">
+				<div class="img-label">
+					<span class="few-left-label"><?php echo __("Wenige verfügbar"); ?></span>
+				</div>
+			</div>
+		<?php endif; ?>
+<?php endif;?>

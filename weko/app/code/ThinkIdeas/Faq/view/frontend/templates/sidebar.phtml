@@ -1,0 +1,36 @@
+<?php
+/**
+ * ThinkIdeas
+ *
+ * @category    ThinkIdeas
+ * @package     ThinkIdeas_Faq
+ *
+ */
+$most_frequently = $block->getMostFrequently();
+$store_Id = $this->helper('ThinkIdeas\Faq\Helper\Data')->getStoreId();
+?>
+<?php if($most_frequently->getsize() && $this->helper('ThinkIdeas\Faq\Helper\Data')->isEnableConfig()): ?>
+    <div class="thinkideas-faq">
+        <div class="faq-sidebar">
+            <div class="sidebar-title col-xs-12 form-group">
+                <h3><?php echo __('FAQs'); ?></h3>
+            </div>
+            <div class="col-xs-12">
+                <?php  foreach($most_frequently as $question): ?>
+                    <?php
+                    if ($question->getUrlKey()) {
+                        $refUrl = $block->getBaseUrl() . $question->getUrlKey();
+                    } else {
+                        $refUrl = $block->getFaqUrl().'id/'.$question->getFaqId();
+                    }
+                    ?>
+                    <a class="col-xs-12 form-group" href="<?php echo $refUrl;?>"
+                       title="<?php echo $block->stripTags($question->getTitle());?>">
+                        <span class="glyphicon glyphicon-question-sign" style="margin-right: 5px;"></span>
+                        <?php echo $block->stripTags($question->getTitle());?>
+                    </a>
+                <?php endforeach;?>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>

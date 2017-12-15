@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+
+    <body>
+    	<referenceContainer name="page.wrapper">
+	        <!-- <block class="Magento\Framework\View\Element\Template" name="rd.custom" template="Magento_Theme::html/rd_marchendise.phtml" after="main.content" /> -->
+	    </referenceContainer>
+
+
+         <referenceContainer name="content">
+         <block class="Magento\Cms\Block\Block" name="device-static-banner" after="bannerhotspot_home_content_top">
+                    <arguments>
+                         <argument name="block_id" xsi:type="string">device-static-banner</argument>
+                    </arguments>
+               </block>
+         	</referenceContainer>
+
+           <referenceContainer name="footer-container">
+                 <container name="shopping_experience_main" htmlTag="div" htmlClass="shopping_experience_main" before="footer">
+                     <container name="shopping_experience" htmlTag="div" htmlClass="footer content">
+              			<block class="Magento\Cms\Block\Block" name="shopping-experience">
+              				<arguments>
+              					<argument name="block_id" xsi:type="string">shopping-experience</argument>
+              				</arguments>
+              			</block>
+                     </container>
+               </container>
+		</referenceContainer>
+
+	</body>
+</page>

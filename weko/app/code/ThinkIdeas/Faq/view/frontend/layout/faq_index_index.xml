@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * ThinkIdeas
+ *
+ * @category    ThinkIdeas
+ * @package     ThinkIdeas_Faq
+ *
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd"
+      layout="1column" >
+    <head>
+        <title>Frequently Asked Question</title>
+    </head>
+    <body>
+        <referenceBlock name="page.main.title" remove="true"/>
+        <referenceBlock name="root">
+            <action method="setHeaderTitle">
+                <argument translate="true" name="title" xsi:type="string">FAQ</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="ThinkIdeas\Faq\Block\Overview" name="faq" template="faq.phtml" cacheable="false">
+                <block class="ThinkIdeas\Faq\Block\Tag" name="faq.tags" template="tags.phtml" />
+                <block class="ThinkIdeas\Faq\Block\Listfaq" name="faq.listing" template="list.phtml" />
+            </block>
+        </referenceContainer>
+
+    </body>
+</page>
